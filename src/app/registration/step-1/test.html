@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    form, fieldset{
+      width:100%;
+    }
+
+    fieldset{
+      display: flex;
+    }
+
+    label{
+      width: 250px;
+      white-space: nowrap;
+    }
+
+    input{
+      flex: 1 1 0;
+    }
+  </style>
+</head>
+<body>
+
+
+<form>
+  <fieldset>
+    <label for="username1">Username</label>
+    <input type="text" id="username1" required/>
+  </fieldset>
+  <fieldset>
+    <label for="text1">This is some long text</label>
+    <input type="text" id="text1" required/>
+  </fieldset>
+  <fieldset>
+    <label for="text2">This text is longer than the max width asd</label>
+    <input type="text" id="text2" required/>
+    <span>12345678946546546546546546546</span>
+  </fieldset>
+</form>
+
+</body>
+</html>

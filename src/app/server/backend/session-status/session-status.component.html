@@ -1,0 +1,14 @@
+<div class="btn-group" data-toggle="buttons">
+
+  <label *ngFor="let buttonModel of buttonModels"
+         class="btn btn-success btn-sm"
+         [class.active]="buttonModel.index==model">
+
+    <input type="radio"
+           [(ngModel)]="model" [name]="buttonModel.name"
+           [value]="buttonModel.index"
+           #radio>
+    {{buttonModel.name}}
+  </label>
+
+</div>

@@ -1,0 +1,29 @@
+.ui-slider, .ui-slider-range, .ui-slider-handle {
+  border-radius: 9px;
+}
+
+.ui-slider {
+  border: none !important;
+  background-color: rgb(236, 239, 243);
+}
+
+.ui-slider-horizontal {
+  width: 100%;
+  height: 12px;
+}
+
+.ui-slider-handle {
+  height: 24px !important;
+  width: 24px !important;
+  border: solid 2px rgb(50, 169, 56) !important;
+  border-radius: 12px;
+  top: -6px !important;
+  background-color: white !important;
+}
+.ui-slider-handle:focus {
+  outline: none;
+}
+
+.ui-slider-range {
+  background: rgb(50, 169, 56);
+}

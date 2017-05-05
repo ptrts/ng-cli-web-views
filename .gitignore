@@ -8,6 +8,8 @@
 # dependencies
 /node_modules
 
+yarn.lock
+
 # IDEs and editors
 /.idea
 .project
@@ -40,3 +42,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+src/**/*.js
+*.js.map

@@ -1,0 +1,63 @@
+<div class="container">
+
+  <div class="row justify-content-around">
+
+    <div class="col-3">
+
+      <app-range-slider
+        [name]="'Сумма'"
+        [unit]="'руб.'"
+        [min]="2000"
+        [max]="30000"
+        [step]="1000"
+        [value]="amount"
+        (onValueChanged)="onAmountChanged($event)"></app-range-slider>
+
+    </div>
+
+    <div class="col-3">
+
+      <app-range-slider
+        [name]="'Срок'"
+        [unit]="'д.'"
+        [min]="7"
+        [max]="20"
+        [step]="1"
+        [value]="period"
+        (onValueChanged)="onPeriodChanged($event)"></app-range-slider>
+
+    </div>
+
+    <div class="col-3">
+      <div class="h2 text-center mb-1">{{amountToReturn | decimalGroupsSeparator}} руб.</div>
+      <div class="our-darker-green text-center">
+        <strong>Вернуть до {{dueDate | date: 'dd.MM.yyyy'}}</strong>
+      </div>
+    </div>
+
+    <div class="col-3">
+
+      <button
+        role="button"
+        class="btn btn-warning btn-lg btn-block active py-3"
+        (click)="onGetLoanClicked()">Получить заём</button>
+
+    </div>
+
+  </div>
+
+  <div class="row mt-5">
+    <div class="col">
+      Как бы ответ сервера по статусу сессии посетителя:
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col">
+
+      <app-session-status></app-session-status>
+
+    </div>
+  </div>
+
+</div>

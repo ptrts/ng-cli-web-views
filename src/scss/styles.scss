@@ -1,0 +1,62 @@
+$our-green: rgb(50, 169, 56);
+$out-darker-green: rgb(1, 135, 77);
+
+.our-green {
+  color: $our-green
+}
+
+.our-bg-green {
+  background-color: $our-green
+}
+
+.our-darker-green {
+  color: $out-darker-green
+}
+
+.our-bg-darker-green {
+  background-color: $out-darker-green
+}
+
+.our-border-darker-green {
+  border-color: $out-darker-green
+}
+
+.flex-width-rest {
+  flex: 1 1 0;
+}
+
+$enable-shadows: true;
+
+@import 'node_modules/bootstrap/scss/bootstrap.scss';
+//@import '~bootstrap/scss/bootstrap.scss';
+
+@mixin our-form-control-validation($brand-color) {
+  border-color: $brand-color;
+  &:focus {
+    @include box-shadow($input-box-shadow, 0 0 6px lighten($brand-color, 20%));
+  }
+  padding-right: ($input-padding-x * 3);
+  background-repeat: no-repeat;
+  background-position: center right ($input-height / 4);
+  background-size: ($input-height / 2) ($input-height / 2);
+}
+
+input:not([type="radio"]).form-control {
+
+  &.ng-touched {
+
+    &.ng-valid {
+      @include our-form-control-validation($brand-success);
+      background-image: $form-icon-success;
+    }
+
+    &.ng-invalid {
+      @include our-form-control-validation($brand-danger);
+      background-image: $form-icon-danger;
+    }
+  }
+
+  &.ng-untouched {
+    @include our-form-control-validation($brand-primary);
+  }
+}
