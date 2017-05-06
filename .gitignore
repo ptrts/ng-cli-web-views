@@ -12,6 +12,7 @@ yarn.lock
 
 # IDEs and editors
 /.idea
+*.iml
 .project
 .classpath
 .c9/
