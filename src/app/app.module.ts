@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule, Routes} from '@angular/router';
 import {CookieService} from 'angular2-cookie/core';
@@ -14,8 +14,20 @@ import {SessionStatusComponent} from './server/backend/session-status/session-st
 import {OurServerApi} from './server/our-server-api';
 import {DecimalGroupsSeparatorPipe} from './utils/decimal-groups-separator.pipe';
 import {TextMaskModule} from 'angular2-text-mask';
+import {ReactiveFormComponent} from './reactive-form/reactive-form.component';
+import {DateTextMaskService} from './date-text-mask.service';
+import {DefaultEmptyCheckerDirective} from './default-empty-checker.directive';
+import {DateEmptyCheckerDirective} from './date-empty-checker.directive';
+import {PhoneTextMaskService} from './phone-text-mask.service';
+import {PhoneEmptyCheckerDirective} from './phone-empty-checker.directive';
+import { DateValidator } from './date-validator.directive';
 
 const ROUTES: Routes = [
+  {
+    path: '',
+    pathMatch: 'full',
+    component: RegistrationStep1Component
+  },
   {
     path: 'home',
     component: HomeComponent
@@ -39,6 +51,7 @@ const ROUTES: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(ROUTES),
     TextMaskModule
   ],
@@ -50,12 +63,19 @@ const ROUTES: Routes = [
     RegistrationStep1Component,
     MainComponent,
     ErrorComponent,
-    OurCheckboxComponent
+    OurCheckboxComponent,
+    ReactiveFormComponent,
+    DefaultEmptyCheckerDirective,
+    DateEmptyCheckerDirective,
+    PhoneEmptyCheckerDirective,
+    DateValidator
   ],
   providers: [
     CookieService,
     OurBackend,
-    OurServerApi
+    OurServerApi,
+    DateTextMaskService,
+    PhoneTextMaskService
   ],
   bootstrap: [MainComponent]
 })

@@ -1,0 +1,28 @@
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-4">
+
+      <form [formGroup]="form">
+
+        <div class="form-group">
+
+          <label for="birthDate" class="form-control-label">Дата рождения:</label>
+
+          <input id="birthDate" type="text"
+                    class="form-control"
+                    formControlName="birthDate"
+                    app-date
+                    [textMask]="dateTextMaskService.conf"
+          >
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>

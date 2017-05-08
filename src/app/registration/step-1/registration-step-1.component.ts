@@ -1,6 +1,6 @@
-import {Component} from '@angular/core';
-
-import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrectedDatePipe';
+import {Component, OnInit} from '@angular/core';
+import {DateTextMaskService} from '../../date-text-mask.service';
+import {PhoneTextMaskService} from '../../phone-text-mask.service';
 
 @Component({
   selector: 'app-registration-step-1',
@@ -9,58 +9,34 @@ import createAutoCorrectedDatePipe from 'text-mask-addons/dist/createAutoCorrect
     './registration-step-1.component.css'
   ]
 })
-export class RegistrationStep1Component {
+export class RegistrationStep1Component implements OnInit {
 
-  lastName: string;
+  lastName: string = 'Иванов';
 
   firstName: string;
 
   middleName: string;
 
-  birthDate: Date;
+  birthDate: Date = new Date(1980, 12 - 1, 31);
+
+  birthDateInputValue: string;
 
   sex: string;
 
-  phoneNumber: string;
+  phoneNumber: string = '9139077844';
+
+  phoneNumberInputValue: string;
 
   consentToEverything: boolean;
 
   consentToReceivingInfo: boolean;
 
-  autoCorrectedDatePipe = createAutoCorrectedDatePipe('dd/mm/yyyy');
+  constructor(public dateTextMaskService: DateTextMaskService, public phoneTextMaskService: PhoneTextMaskService) {}
 
-  dateMask =
-    [
-      /[0-3]/,
-      /\d/,
-      '.',
-      /[0-1]/,
-      /\d/,
-      '.',
-      /[1-2]/,
-      /\d/,
-      /\d/,
-      /\d/
-    ];
-
-  phoneMask =
-    [
-      '(',
-      /\d/,
-      /\d/,
-      /\d/,
-      ')',
-      ' ',
-      /\d/,
-      /\d/,
-      /\d/,
-      '-',
-      /\d/,
-      /\d/,
-      '-',
-      /\d/,
-      /\d/,
-    ];
+  ngOnInit(): void {
+    this.birthDateInputValue = this.dateTextMaskService.toInputValue(this.birthDate);
+    this.phoneNumberInputValue = this.phoneTextMaskService.toInputValue(this.phoneNumber);
+  }
 
   onConsentToEverythingChanged(value: boolean) {
     console.log('RegistrationStep1Component.onConsentToEverythingChanged()');

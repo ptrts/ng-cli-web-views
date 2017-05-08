@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-4">
+    <div class="col-5">
       <form>
 
         <div class="form-group">
@@ -43,11 +43,11 @@
 
           <label class="form-control-label" for="birthDate">Дата рождения*</label>
 
-          <input
-            type="date" class="form-control" id="birthDate"
-            required
-            [textMask]="{mask: dateMask, keepCharPositions: true, showMask: true, pipe: autoCorrectedDatePipe}"
-            [(ngModel)]="birthDate" name="birthDate">
+          <input type="text" class="form-control" id="birthDate"
+                 required
+                 app-date
+                 [textMask]="dateTextMaskService.conf"
+                 [(ngModel)]="birthDateInputValue" name="birthDate">
 
           <p>{{birthDate}}</p>
 
@@ -90,8 +90,9 @@
             <input type="text" class="form-control ml-2 flex-width-rest" id="phoneNumber"
                    size="1"
                    required minlength="10"
-                   [textMask]="{mask: phoneMask, showMask: true}"
-                   [(ngModel)]="phoneNumber" name="phoneNumber">
+                   app-phone
+                   [textMask]="phoneTextMaskService.conf"
+                   [(ngModel)]="phoneNumberInputValue" name="phoneNumber">
 
             <button class="btn btn-success ml-2">Подтвердить</button>
 

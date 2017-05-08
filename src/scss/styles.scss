@@ -27,8 +27,8 @@ $out-darker-green: rgb(1, 135, 77);
 
 $enable-shadows: true;
 
-@import 'node_modules/bootstrap/scss/bootstrap.scss';
-//@import '~bootstrap/scss/bootstrap.scss';
+//@import 'node_modules/bootstrap/scss/bootstrap.scss';
+@import '~bootstrap/scss/bootstrap.scss';
 
 @mixin our-form-control-validation($brand-color) {
   border-color: $brand-color;
@@ -43,7 +43,7 @@ $enable-shadows: true;
 
 input:not([type="radio"]).form-control {
 
-  &.ng-touched {
+  &.ng-touched, &.ng-dirty, &.app-not-empty {
 
     &.ng-valid {
       @include our-form-control-validation($brand-success);
@@ -56,7 +56,7 @@ input:not([type="radio"]).form-control {
     }
   }
 
-  &.ng-untouched {
+  &.ng-untouched.ng-pristine.app-empty {
     @include our-form-control-validation($brand-primary);
   }
 }
