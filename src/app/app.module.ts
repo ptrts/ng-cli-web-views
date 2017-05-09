@@ -20,7 +20,9 @@ import {DefaultEmptyCheckerDirective} from './default-empty-checker.directive';
 import {DateEmptyCheckerDirective} from './date-empty-checker.directive';
 import {PhoneTextMaskService} from './phone-text-mask.service';
 import {PhoneEmptyCheckerDirective} from './phone-empty-checker.directive';
-import { DateValidator } from './date-validator.directive';
+import {DateValidatorModule} from './date-validator.directive';
+import {ValidationMessageServiceModule} from './validation-message.service';
+import {ValidationMessageComponent} from './validation-message/validation-message.component';
 
 const ROUTES: Routes = [
   {
@@ -53,7 +55,9 @@ const ROUTES: Routes = [
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES),
-    TextMaskModule
+    TextMaskModule,
+    ValidationMessageServiceModule,
+    DateValidatorModule,
   ],
   declarations: [
     HomeComponent,
@@ -68,7 +72,7 @@ const ROUTES: Routes = [
     DefaultEmptyCheckerDirective,
     DateEmptyCheckerDirective,
     PhoneEmptyCheckerDirective,
-    DateValidator
+    ValidationMessageComponent,
   ],
   providers: [
     CookieService,

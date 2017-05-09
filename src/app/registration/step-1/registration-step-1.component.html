@@ -13,6 +13,8 @@
                  [(ngModel)]="lastName" name="lastName"
                  #lastNameNgModel="ngModel">
 
+          <app-validation-message [errors]="lastNameNgModel.errors"></app-validation-message>
+
         </div>
 
         <div class="form-group">
@@ -47,9 +49,10 @@
                  required
                  app-date
                  [textMask]="dateTextMaskService.conf"
-                 [(ngModel)]="birthDateInputValue" name="birthDate">
+                 [(ngModel)]="birthDateInputValue" name="birthDate"
+                 #birthDateNgMode="ngModel">
 
-          <p>{{birthDate}}</p>
+          <app-validation-message [errors]="birthDateNgMode.errors"></app-validation-message>
 
         </div>
 

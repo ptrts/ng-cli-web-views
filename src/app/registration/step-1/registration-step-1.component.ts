@@ -31,7 +31,28 @@ export class RegistrationStep1Component implements OnInit {
 
   consentToReceivingInfo: boolean;
 
-  constructor(public dateTextMaskService: DateTextMaskService, public phoneTextMaskService: PhoneTextMaskService) {}
+  validationMessages: {
+    lastName: {
+      required: 'Фамилия не указана'
+    },
+    firstName: {
+      required: 'Имя не указано'
+    },
+    middleName: {
+
+    },
+    birthDate: {
+
+    },
+    phoneNumber: {
+
+    }
+  };
+
+  constructor(
+    public dateTextMaskService: DateTextMaskService,
+    public phoneTextMaskService: PhoneTextMaskService
+  ) {}
 
   ngOnInit(): void {
     this.birthDateInputValue = this.dateTextMaskService.toInputValue(this.birthDate);

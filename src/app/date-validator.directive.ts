@@ -1,9 +1,10 @@
-import {Directive, forwardRef} from '@angular/core';
-import {FormControl, NG_VALIDATORS} from '@angular/forms';
+import {Directive, forwardRef, NgModule} from '@angular/core';
+import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angular/forms';
 import {DateTextMaskService} from './date-text-mask.service';
 import * as moment from 'moment';
+import {buildValidationMessageBuilderProvider, ValidationMessageBuilder} from './validation-message.service';
 
-const TOO_EARLY = new Date(1910, 0, 1);
+const TOO_EARLY = moment().subtract(80, 'year').toDate();
 
 const TOO_LATE = moment().subtract(18, 'year').toDate();
 
@@ -17,12 +18,12 @@ const TOO_LATE = moment().subtract(18, 'year').toDate();
     }
   ]
 })
-export class DateValidator {
+export class DateValidator implements Validator {
 
-  constructor(private dateTextMaskService: DateTextMaskService) { }
+  constructor(private dateTextMaskService: DateTextMaskService) {
+  }
 
-
-  validate(c: FormControl) {
+  validate(c: AbstractControl): ValidationErrors {
 
     let inputValue = c.value;
 
@@ -56,7 +57,7 @@ export class DateValidator {
 
         let flags = thisMoment.parsingFlags();
 
-        if (flags.overflow == -1) {
+        if (flags.overflow == -1 || flags.unusedInput.length ) {
 
           return {dateNotCorrect: {}}
 
@@ -76,4 +77,81 @@ export class DateValidator {
       }
     }
   }
+}
+
+export class DateMonthOverflowMessageBuilder extends ValidationMessageBuilder {
+
+  readonly key = 'dateMonthOverflow';
+
+  buildMessage(parameters: any): string {
+    return `Слишком большой номер месяца (${parameters.month + 1})`;
+  }
+}
+
+export class DateDayOfMonthOverflowMessageBuilder extends ValidationMessageBuilder {
+
+  readonly key = 'dateDayOfMonthOverflow';
+
+  buildMessage(parameters: any): string {
+    return `Слишком большой номер дня месяца (${parameters.dayOfMonth})`;
+  }
+}
+
+export class DateNotCorrectMessageBuilder extends ValidationMessageBuilder {
+
+  readonly key = 'dateNotCorrect';
+
+  buildMessage(parameters: any): string {
+    return 'Не корректная дата';
+  }
+}
+
+export class DateEmptyMessageBuilder extends ValidationMessageBuilder {
+
+  readonly key = 'dateEmpty';
+
+  buildMessage(parameters: any): string {
+    return 'Пустая дата';
+  }
+}
+
+export class DateTooLateMessageBuilder extends ValidationMessageBuilder {
+
+  readonly key = 'dateTooLate';
+
+  buildMessage(parameters: any): string {
+    return 'Займы предоставляются гражданам старше 18 лет';
+  }
+}
+
+export class DateTooEarlyMessageBuilder extends ValidationMessageBuilder {
+
+  readonly key = 'dateTooEarly';
+
+  buildMessage(parameters: any): string {
+    return 'Займы предоставляются гражданам возрастом до 80 лет';
+  }
+}
+
+@NgModule({
+
+  providers: [
+
+    DateMonthOverflowMessageBuilder,
+    DateNotCorrectMessageBuilder,
+    DateDayOfMonthOverflowMessageBuilder,
+    DateEmptyMessageBuilder,
+    DateTooLateMessageBuilder,
+    DateTooEarlyMessageBuilder
+
+  ].map(buildValidationMessageBuilderProvider),
+
+  declarations: [
+    DateValidator
+  ],
+  exports: [
+    DateValidator
+  ]
+})
+export class DateValidatorModule {
 }
