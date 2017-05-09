@@ -1,12 +1,6 @@
-import {Directive, forwardRef, NgModule} from '@angular/core';
+import {Directive, forwardRef, Input} from '@angular/core';
 import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angular/forms';
 import {DateTextMaskService} from './date-text-mask.service';
-import * as moment from 'moment';
-import {buildValidationMessageBuilderProvider, ValidationMessageBuilder} from './validation-message.service';
-
-const TOO_EARLY = moment().subtract(80, 'year').toDate();
-
-const TOO_LATE = moment().subtract(18, 'year').toDate();
 
 @Directive({
   selector: 'input[type="text"][app-date][textMask]',
@@ -20,6 +14,15 @@ const TOO_LATE = moment().subtract(18, 'year').toDate();
 })
 export class DateValidator implements Validator {
 
+  @Input('app-min')
+  min: Date;
+
+  @Input('app-max')
+  max: Date;
+
+  @Input('required')
+  required: Boolean;
+
   constructor(private dateTextMaskService: DateTextMaskService) {
   }
 
@@ -29,7 +32,13 @@ export class DateValidator implements Validator {
 
     if (this.dateTextMaskService.isEmpty(inputValue)) {
 
-      return { dateEmpty: {}}
+      console.log('this.required = ' + this.required);
+
+      if (this.required === undefined) {
+        return null
+      } else {
+        return { dateEmpty: 'Пустая дата'}
+      }
 
     } else {
 
@@ -41,12 +50,12 @@ export class DateValidator implements Validator {
 
         let date = thisMoment.toDate();
 
-        if (date < TOO_EARLY) {
-          return {dateTooEarly: {min: TOO_EARLY}}
+        if (date < this.min) {
+          return {dateTooEarly: true}
         }
 
-        if (date > TOO_LATE) {
-          return {dateTooLate: {max: TOO_LATE}}
+        if (date > this.max) {
+          return {dateTooLate: true}
         }
 
         return null;
@@ -57,101 +66,23 @@ export class DateValidator implements Validator {
 
         let flags = thisMoment.parsingFlags();
 
-        if (flags.overflow == -1 || flags.unusedInput.length ) {
-
-          return {dateNotCorrect: {}}
-
-        } else {
+        // Если дата в принципе вся распарсилась, но в некоторых полях стоят слишком большие цифры
+        if (flags.unusedTokens.length == 0 && flags.unusedInput.length == 0 && flags.overflow > -1) {
 
           let datePart = flags.parsedDateParts[flags.overflow];
 
           switch (flags.overflow) {
             case 0:
-              return {dateYearOverflow: {year: datePart}};
+              return {dateYearOverflow: `Год ${datePart + 1} находится слишком далеко в будущем`};
             case 1:
-              return {dateMonthOverflow: {month: datePart}};
+              return {dateMonthOverflow: `Слишком большой номер месяца (${datePart + 1})`};
             case 2:
-              return {dateDayOfMonthOverflow: {dayOfMonth: datePart}};
+              return {dateDayOfMonthOverflow: `Слишком большой номер дня месяца (${datePart})`};
           }
         }
+
+        return {dateNotCorrect: 'Не корректная дата'}
       }
     }
   }
-}
-
-export class DateMonthOverflowMessageBuilder extends ValidationMessageBuilder {
-
-  readonly key = 'dateMonthOverflow';
-
-  buildMessage(parameters: any): string {
-    return `Слишком большой номер месяца (${parameters.month + 1})`;
-  }
-}
-
-export class DateDayOfMonthOverflowMessageBuilder extends ValidationMessageBuilder {
-
-  readonly key = 'dateDayOfMonthOverflow';
-
-  buildMessage(parameters: any): string {
-    return `Слишком большой номер дня месяца (${parameters.dayOfMonth})`;
-  }
-}
-
-export class DateNotCorrectMessageBuilder extends ValidationMessageBuilder {
-
-  readonly key = 'dateNotCorrect';
-
-  buildMessage(parameters: any): string {
-    return 'Не корректная дата';
-  }
-}
-
-export class DateEmptyMessageBuilder extends ValidationMessageBuilder {
-
-  readonly key = 'dateEmpty';
-
-  buildMessage(parameters: any): string {
-    return 'Пустая дата';
-  }
-}
-
-export class DateTooLateMessageBuilder extends ValidationMessageBuilder {
-
-  readonly key = 'dateTooLate';
-
-  buildMessage(parameters: any): string {
-    return 'Займы предоставляются гражданам старше 18 лет';
-  }
-}
-
-export class DateTooEarlyMessageBuilder extends ValidationMessageBuilder {
-
-  readonly key = 'dateTooEarly';
-
-  buildMessage(parameters: any): string {
-    return 'Займы предоставляются гражданам возрастом до 80 лет';
-  }
-}
-
-@NgModule({
-
-  providers: [
-
-    DateMonthOverflowMessageBuilder,
-    DateNotCorrectMessageBuilder,
-    DateDayOfMonthOverflowMessageBuilder,
-    DateEmptyMessageBuilder,
-    DateTooLateMessageBuilder,
-    DateTooEarlyMessageBuilder
-
-  ].map(buildValidationMessageBuilderProvider),
-
-  declarations: [
-    DateValidator
-  ],
-  exports: [
-    DateValidator
-  ]
-})
-export class DateValidatorModule {
 }

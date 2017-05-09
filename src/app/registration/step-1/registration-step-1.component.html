@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-5">
-      <form>
+      <form ngForm #ngForm="ngForm">
 
         <div class="form-group">
 
@@ -9,11 +9,10 @@
 
           <input type="text" class="form-control" id="lastName"
                  placeholder="Фамилия"
-                 required maxlength="75"
-                 [(ngModel)]="lastName" name="lastName"
-                 #lastNameNgModel="ngModel">
+                 required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+                 [(ngModel)]="lastName" name="lastName">
 
-          <app-validation-message [errors]="lastNameNgModel.errors"></app-validation-message>
+          <app-validation-message></app-validation-message>
 
         </div>
 
@@ -24,7 +23,7 @@
           <input
             type="text" class="form-control" id="firstName"
             placeholder="Имя"
-            required maxlength="75"
+            required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
             [(ngModel)]="firstName" name="firstName">
 
         </div>
@@ -36,7 +35,7 @@
           <input
             type="text" class="form-control" id="middleName"
             placeholder="Отчество"
-            maxlength="75"
+            maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
             [(ngModel)]="middleName" name="middleName">
 
         </div>
@@ -47,12 +46,11 @@
 
           <input type="text" class="form-control" id="birthDate"
                  required
-                 app-date
+                 app-date [app-min]="BIRTH_DATE_MIN" [app-max]="BIRTH_DATE_MAX"
                  [textMask]="dateTextMaskService.conf"
-                 [(ngModel)]="birthDateInputValue" name="birthDate"
-                 #birthDateNgMode="ngModel">
+                 [(ngModel)]="birthDateInputValue" name="birthDate">
 
-          <app-validation-message [errors]="birthDateNgMode.errors"></app-validation-message>
+          <app-validation-message></app-validation-message>
 
         </div>
 
@@ -101,12 +99,10 @@
 
           </div>
 
-          <p>{{phoneNumber}}</p>
-
         </div>
 
         <div class="d-flex mt-4">
-          <app-checkbox [value]="false" (onChanged)="onConsentToEverythingChanged($event)"></app-checkbox>
+          <app-checkbox [ngModel]="consentToEverything" name="consentToEverything"></app-checkbox>
           <div class="flex-width-rest ml-2 text-justify">
             Подтверждаю свое согласие с Правилами предоставления
             и обслуживания микрозаймов, предоставляю согласие с
@@ -117,7 +113,7 @@
         </div>
 
         <div class="d-flex mt-4">
-          <app-checkbox [value]="false" (onChanged)="onConsentToReceivingInfo($event)"></app-checkbox>
+          <app-checkbox [ngModel]="consentToReceivingInfo" name="consentToReceivingInfo"></app-checkbox>
           <div class="flex-width-rest ml-2 text-justify">
             Подтверждаю свое согласие на получение информации
           </div>
@@ -128,6 +124,11 @@
         </div>
 
       </form>
+
+      <p>
+        {{JSON.stringify(ngForm.value)}}
+      </p>
+
     </div>
   </div>
 </div>
