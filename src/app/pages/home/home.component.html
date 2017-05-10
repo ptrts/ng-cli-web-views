@@ -39,7 +39,7 @@
 
       <button
         role="button"
-        class="btn btn-warning btn-lg btn-block active py-3"
+        class="btn btn-warning btn-lg btn-block py-3"
         (click)="onGetLoanClicked()">Получить заём</button>
 
     </div>
@@ -55,7 +55,8 @@
   <div class="row justify-content-center">
     <div class="col">
 
-      <app-session-status></app-session-status>
+      <app-enum-radio-group [enum]="SessionStatus"
+                            [(ngModel)]="ourBackend.sessionStatus" name="sessionStatus"></app-enum-radio-group>
 
     </div>
   </div>

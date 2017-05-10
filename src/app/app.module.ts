@@ -3,39 +3,41 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule, Routes} from '@angular/router';
 import {CookieService} from 'angular2-cookie/core';
+import {TextMaskModule} from 'angular2-text-mask';
+import {CacheModule} from './common/cache/cache.module';
+import {RangeSliderComponent} from './common/components/range-slider/range-slider.component';
 import {OurCheckboxComponent} from './common/forms/inputs/checkbox/checkbox.component';
+import {DateEmptyCheckerDirective} from './common/forms/inputs/date/date-empty-checker.directive';
+import {DateTextMaskService} from './common/forms/inputs/date/date-text-mask.service';
+import {DateValidatorDirective} from './common/forms/inputs/date/date-validator.directive';
+import {PhoneEmptyCheckerDirective} from './common/forms/inputs/phone/phone-empty-checker.directive';
+import {PhoneTextMaskService} from './common/forms/inputs/phone/phone-text-mask.service';
+import {DefaultEmptyCheckerDirective} from './common/forms/inputs/text/default-empty-checker.directive';
+import {EnumRadioGroupComponent} from './common/forms/radio/enum-radio-group.component';
+import {ValidationMessageComponentModule} from './common/forms/validation/validation-message-component/validation-message.component';
+import {ValidationMessageService} from './common/forms/validation/validation-message.service';
+import {DecimalGroupsSeparatorPipe} from './common/utils/decimal-groups-separator.pipe';
 import {ErrorComponent} from './pages/error/error.component';
 import {HomeComponent} from './pages/home/home.component';
 import {MainComponent} from './pages/main/main.component';
-import {RangeSliderComponent} from './common/components/range-slider/range-slider.component';
 import {RegistrationStep1Component} from './pages/registration/step-1/registration-step-1.component';
 import {OurBackend} from './server/backend/our-backend';
-import {SessionStatusComponent} from './server/backend/session-status/session-status.component';
 import {OurServerApi} from './server/our-server-api';
-import {DecimalGroupsSeparatorPipe} from './common/utils/decimal-groups-separator.pipe';
-import {TextMaskModule} from 'angular2-text-mask';
-import {DateTextMaskService} from './common/forms/inputs/date/date-text-mask.service';
-import {DefaultEmptyCheckerDirective} from './common/forms/inputs/text/default-empty-checker.directive';
-import {DateEmptyCheckerDirective} from './common/forms/inputs/date/date-empty-checker.directive';
-import {PhoneTextMaskService} from './common/forms/inputs/phone/phone-text-mask.service';
-import {PhoneEmptyCheckerDirective} from './common/forms/inputs/phone/phone-empty-checker.directive';
-import {ValidationMessageService} from './common/forms/validation/validation-message.service';
-import {DateValidatorDirective} from './common/forms/inputs/date/date-validator.directive';
-import {ValidationMessageComponentModule} from './common/forms/validation/validation-message-component/validation-message.component';
+import {RegistrationStep1CanActivateGuard} from './pages/registration/step-1/registration-step-1-can-activate.guard';
 
 const ROUTES: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    component: RegistrationStep1Component
-  },
   {
     path: 'home',
     component: HomeComponent
   },
   {
     path: 'reg1',
-    component: RegistrationStep1Component
+    component: RegistrationStep1Component,
+    canActivate: [RegistrationStep1CanActivateGuard]
+  },
+  {
+    path: 'error',
+    component: ErrorComponent
   },
   {
     path: '',
@@ -44,7 +46,7 @@ const ROUTES: Routes = [
   },
   {
     path: '**',
-    component: ErrorComponent
+    redirectTo: 'error'
   }
 ];
 
@@ -55,13 +57,13 @@ const ROUTES: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(ROUTES),
     TextMaskModule,
-    ValidationMessageComponentModule
+    ValidationMessageComponentModule,
+    CacheModule
   ],
   declarations: [
     HomeComponent,
     RangeSliderComponent,
     DecimalGroupsSeparatorPipe,
-    SessionStatusComponent,
     RegistrationStep1Component,
     MainComponent,
     ErrorComponent,
@@ -70,6 +72,7 @@ const ROUTES: Routes = [
     DateEmptyCheckerDirective,
     PhoneEmptyCheckerDirective,
     DateValidatorDirective,
+    EnumRadioGroupComponent,
   ],
   providers: [
     CookieService,
@@ -78,6 +81,7 @@ const ROUTES: Routes = [
     DateTextMaskService,
     PhoneTextMaskService,
     ValidationMessageService,
+    RegistrationStep1CanActivateGuard,
   ],
   bootstrap: [MainComponent]
 })

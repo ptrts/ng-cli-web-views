@@ -1,0 +1,16 @@
+<div class="btn-group" data-toggle="buttons">
+
+  <label *ngFor="let enumValueModel of enumValuesModel"
+         class="btn btn-success btn-sm"
+         [class.active]="enumValueModel.value===value"
+         (click)="onClick($event)">
+
+    <input type="radio"
+           [name]="name"
+           [value]="enumValueModel.value">
+
+    {{enumValueModel.name}}
+
+  </label>
+
+</div>

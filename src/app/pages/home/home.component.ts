@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {CookieService} from 'angular2-cookie/core';
+import {DateUtils} from '../../common/utils/date-utils';
+import {OurBackend} from '../../server/backend/our-backend';
 import {OurServerApi} from '../../server/our-server-api';
 import {SessionStatus} from '../../server/session-status/session-status';
-import {DateUtils} from '../../common/utils/date-utils';
 
 @Component({
   selector: 'app-home',
@@ -15,7 +16,13 @@ export class HomeComponent {
 
   period = 12;
 
-  constructor(private cookieService: CookieService, private router: Router, private ourServer: OurServerApi) {
+  SessionStatus = SessionStatus;
+
+  constructor(private cookieService: CookieService,
+              private router: Router,
+              private ourServer: OurServerApi,
+              public ourBackend: OurBackend
+      ) {
   }
 
   get amountToReturn(): number {
@@ -36,8 +43,6 @@ export class HomeComponent {
 
   onGetLoanClicked() {
 
-    console.log('onGetLoanClicked');
-
     let sessionId = this.cookieService.get('JSESSIONID');
 
     // todo Кука пускай пока что как бы всегда будет
@@ -46,12 +51,16 @@ export class HomeComponent {
     if (sessionId) {
       this.ourServer.getSessionStatus().subscribe(
         (sessionStatus: SessionStatus) => {
-
-          // todo Сделать навигацию куда надо, в зависимости от того, какой у нас статус у сессии
-
-          this.router.navigate(['reg1']);
-
-          console.log('sessionStatus = ' + sessionStatus);
+          switch (sessionStatus) {
+            case SessionStatus.NOT_REGISTERED:
+              this.router.navigate(['reg1']);
+              break;
+            case SessionStatus.REGISTRATION_STEP_1:
+            case SessionStatus.REGISTRATION_STEP_2:
+            case SessionStatus.LOGGED_IN:
+            case SessionStatus.LOGGED_OUT:
+              this.router.navigate(['error']);
+          }
         }
       );
     }
