@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
 import {CookieService} from 'angular2-cookie/core';
-import {OurServerApi} from '../server/our-server-api';
-import {SessionStatus} from '../server/session-status/session-status';
-import {DateUtils} from '../utils/date-utils';
+import {OurServerApi} from '../../server/our-server-api';
+import {SessionStatus} from '../../server/session-status/session-status';
+import {DateUtils} from '../../common/utils/date-utils';
 
 @Component({
   selector: 'app-home',
@@ -46,14 +46,12 @@ export class HomeComponent {
     if (sessionId) {
       this.ourServer.getSessionStatus().subscribe(
         (sessionStatus: SessionStatus) => {
+
           // todo Сделать навигацию куда надо, в зависимости от того, какой у нас статус у сессии
 
           this.router.navigate(['reg1']);
 
           console.log('sessionStatus = ' + sessionStatus);
-        },
-        (error: any) => {
-          console.error('Error while getting the session status from the server');
         }
       );
     }

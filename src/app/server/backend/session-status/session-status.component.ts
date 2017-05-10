@@ -30,15 +30,6 @@ export class SessionStatusComponent implements OnInit {
 
     this.model = this.ourBackend.sessionStatus;
   }
-
-  onChanged(sessionStatus: SessionStatus) {
-
-    console.log('before: ' + this.ourBackend.sessionStatus);
-
-    this.ourBackend.sessionStatus = this.model;
-
-    console.log('after: ' + this.ourBackend.sessionStatus);
-  }
 }
 
 class ButtonModel {

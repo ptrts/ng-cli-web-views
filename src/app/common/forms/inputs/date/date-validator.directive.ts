@@ -7,12 +7,12 @@ import {DateTextMaskService} from './date-text-mask.service';
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => DateValidator),
+      useExisting: forwardRef(() => DateValidatorDirective),
       multi: true
     }
   ]
 })
-export class DateValidator implements Validator {
+export class DateValidatorDirective implements Validator {
 
   @Input('app-min')
   min: Date;
@@ -28,34 +28,34 @@ export class DateValidator implements Validator {
 
   validate(c: AbstractControl): ValidationErrors {
 
-    let inputValue = c.value;
+    const inputValue = c.value;
 
     if (this.dateTextMaskService.isEmpty(inputValue)) {
 
       console.log('this.required = ' + this.required);
 
       if (this.required === undefined) {
-        return null
+        return null;
       } else {
-        return { dateEmpty: 'Пустая дата'}
+        return { dateEmpty: 'Пустая дата'};
       }
 
     } else {
 
-      let thisMoment = this.dateTextMaskService.parseInputValue(inputValue);
+      const thisMoment = this.dateTextMaskService.parseInputValue(inputValue);
 
       if (thisMoment.isValid()) {
 
         // Moment хорошо распарсился. Проверяем получившуюся дату, насколько она адекватная
 
-        let date = thisMoment.toDate();
+        const date = thisMoment.toDate();
 
         if (date < this.min) {
-          return {dateTooEarly: true}
+          return {dateTooEarly: true};
         }
 
         if (date > this.max) {
-          return {dateTooLate: true}
+          return {dateTooLate: true};
         }
 
         return null;
@@ -64,12 +64,12 @@ export class DateValidator implements Validator {
 
         // Moment плохо распарсился. Сообщаем об ошибках парсинга
 
-        let flags = thisMoment.parsingFlags();
+        const flags = thisMoment.parsingFlags();
 
         // Если дата в принципе вся распарсилась, но в некоторых полях стоят слишком большие цифры
-        if (flags.unusedTokens.length == 0 && flags.unusedInput.length == 0 && flags.overflow > -1) {
+        if (flags.unusedTokens.length === 0 && flags.unusedInput.length === 0 && flags.overflow > -1) {
 
-          let datePart = flags.parsedDateParts[flags.overflow];
+          const datePart = flags.parsedDateParts[flags.overflow];
 
           switch (flags.overflow) {
             case 0:
@@ -81,7 +81,7 @@ export class DateValidator implements Validator {
           }
         }
 
-        return {dateNotCorrect: 'Не корректная дата'}
+        return {dateNotCorrect: 'Не корректная дата'};
       }
     }
   }

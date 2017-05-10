@@ -1,6 +1,6 @@
 import {Directive, ElementRef} from '@angular/core';
 import {DateTextMaskService} from './date-text-mask.service';
-import {AbstractEmptyCheckerDirective} from './abstract-empty-checker.directive';
+import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-checker.directive';
 
 @Directive({
   selector: 'input[type="text"][app-date][textMask]'

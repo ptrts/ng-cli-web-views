@@ -13,9 +13,9 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
 
   ngOnInit(): void {
 
-    let that = this;
+    const that = this;
 
-    this._element.addEventListener('input', (event: any) => {
+    this._element.addEventListener('input', () => {
       that.onInput();
     });
 
@@ -31,7 +31,7 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
   private set empty(empty: boolean) {
 
     // Если старое не равное новому
-    if (empty != this._empty) {
+    if (empty !== this._empty) {
 
       // Если старое было true, то убрать класс, т.к. оно уже не true
       if (this._empty) {

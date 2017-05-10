@@ -1,10 +1,10 @@
-import {Component, Directive, Inject, InjectionToken, Input, NgModule, OnInit, Optional} from '@angular/core';
-import {ValidationMessageService} from '../validation-message.service';
+import {Component, Directive, Inject, InjectionToken, NgModule, OnInit, Optional} from '@angular/core';
 import {NgModel} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
+import {ValidationMessageService} from '../validation-message.service';
 
 export interface ValidationMessages {
-  [key: string]: string
+  [key: string]: string;
 }
 
 export interface ValidationMessagesProvider {

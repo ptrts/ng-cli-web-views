@@ -39,13 +39,13 @@ export class RangeSliderComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    let rangeSliderJQuery = $(this.rangeSliderElement.nativeElement);
+    const rangeSliderJQuery = $(this.rangeSliderElement.nativeElement);
 
-    let that = this;
+    const that = this;
 
     rangeSliderJQuery.slider({
-      orientation: "horizontal",
-      range: "min",
+      orientation: 'horizontal',
+      range: 'min',
       min: this.min,
       max: this.max,
       step: this.step,

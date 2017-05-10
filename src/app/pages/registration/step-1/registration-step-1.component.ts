@@ -1,12 +1,12 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
-import {DateTextMaskService} from '../../date-text-mask.service';
-import {PhoneTextMaskService} from '../../phone-text-mask.service';
 import * as moment from 'moment';
+import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
+import {PhoneTextMaskService} from '../../../common/forms/inputs/phone/phone-text-mask.service';
 import {
   APP_VALIDATION_MESSAGES_PROVIDER,
   ValidationMessages,
   ValidationMessagesProvider
-} from '../../validation-message/validation-message.component';
+} from '../../../common/forms/validation/validation-message-component/validation-message.component';
 
 @Component({
   selector: 'app-registration-step-1',
@@ -25,17 +25,6 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
 
   JSON = JSON;
 
-  getMessages(formControlName: string): ValidationMessages {
-
-    let validationMessages = this.validationMessages[formControlName];
-
-    if (validationMessages === null) {
-      throw new Error(`В компоненте не нашлось ValidationMessages по ключу ${formControlName}`);
-    }
-
-    return validationMessages;
-  }
-
   readonly AGE_MIN = 18;
 
   readonly AGE_MAX = 80;
@@ -44,7 +33,7 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
 
   readonly BIRTH_DATE_MAX = moment().subtract(this.AGE_MIN, 'year').toDate();
 
-  lastName: string = 'Иванов';
+  lastName = 'Иванов';
 
   firstName: string;
 
@@ -56,7 +45,7 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
 
   sex: string;
 
-  phoneNumber: string = '9139077844';
+  phoneNumber = '9139077844';
 
   phoneNumberInputValue: string;
 
@@ -92,18 +81,19 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
     public phoneTextMaskService: PhoneTextMaskService
   ) {}
 
+  getMessages(formControlName: string): ValidationMessages {
+
+    const validationMessages = this.validationMessages[formControlName];
+
+    if (validationMessages === null) {
+      throw new Error(`В компоненте не нашлось ValidationMessages по ключу ${formControlName}`);
+    }
+
+    return validationMessages;
+  }
+
   ngOnInit(): void {
     this.birthDateInputValue = this.dateTextMaskService.toInputValue(this.birthDate);
     this.phoneNumberInputValue = this.phoneTextMaskService.toInputValue(this.phoneNumber);
-  }
-
-  onConsentToEverythingChanged(value: boolean) {
-    console.log('RegistrationStep1Component.onConsentToEverythingChanged()');
-    this.consentToEverything = value;
-  }
-
-  onConsentToReceivingInfo(value: boolean) {
-    console.log('RegistrationStep1Component.onConsentToReceivingInfo()');
-    this.consentToReceivingInfo = value;
   }
 }

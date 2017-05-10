@@ -37,7 +37,7 @@ export class DateTextMaskService {
   }
 
   fromInputValue(inputValue: string) {
-    let theMoment = this.parseInputValue(inputValue);
+    const theMoment = this.parseInputValue(inputValue);
     if (theMoment.isValid()) {
       return theMoment.toDate();
     } else {
@@ -54,6 +54,6 @@ export class DateTextMaskService {
   }
 
   isEmpty(inputValue: string) {
-    return inputValue == this.emptyDateConformed || inputValue == '';
+    return inputValue === this.emptyDateConformed || inputValue === '';
   }
 }

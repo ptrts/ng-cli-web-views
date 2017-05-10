@@ -44,6 +44,6 @@ export class PhoneTextMaskService {
   }
 
   isEmpty(inputValue: string) {
-    return inputValue == this.emptyInputValue || inputValue == '';
+    return inputValue === this.emptyInputValue || inputValue === '';
   }
 }

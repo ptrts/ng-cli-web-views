@@ -1,5 +1,5 @@
 import {Directive, ElementRef} from '@angular/core';
-import {AbstractEmptyCheckerDirective} from './abstract-empty-checker.directive';
+import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-checker.directive';
 
 @Directive({
   selector: 'input[type="text"]:not([app-date][textMask])'

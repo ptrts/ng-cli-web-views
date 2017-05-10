@@ -1,4 +1,4 @@
-import {Component, EventEmitter, forwardRef, Input, Output} from '@angular/core';
+import {Component, EventEmitter, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 @Component({
@@ -41,9 +41,9 @@ import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 })
 export class OurCheckboxComponent implements ControlValueAccessor {
 
-  value: boolean = false;
+  value = false;
 
-  disabled: boolean = false;
+  disabled = false;
 
   onChanged = new EventEmitter<boolean>();
 
@@ -59,7 +59,7 @@ export class OurCheckboxComponent implements ControlValueAccessor {
   }
 
   registerOnChange(fn: any): void {
-    this.onChanged.subscribe(fn)
+    this.onChanged.subscribe(fn);
   }
 
   registerOnTouched(fn: any): void {

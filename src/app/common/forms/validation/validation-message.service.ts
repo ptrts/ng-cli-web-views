@@ -6,16 +6,16 @@ export class ValidationMessageService {
 
   buildMessages(errors: ValidationErrors, messages: { [key: string]: string }): string[] {
 
-    let keys = Object.getOwnPropertyNames(errors);
+    const keys = Object.getOwnPropertyNames(errors);
 
     return keys.map((key: string) => {
 
-      let message = messages[key];
+      const message = messages[key];
 
       if (message) {
         return message;
       } else {
-        let errorParameters = errors[key];
+        const errorParameters = errors[key];
         if (typeof errorParameters === 'string') {
           return errorParameters;
         }
