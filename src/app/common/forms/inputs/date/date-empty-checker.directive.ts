@@ -1,6 +1,7 @@
-import {Directive, ElementRef, forwardRef} from '@angular/core';
+import {Directive, ElementRef, forwardRef, Optional} from '@angular/core';
 import {DateTextMaskService} from './date-text-mask.service';
 import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-checker.directive';
+import {NgControl} from '@angular/forms';
 
 @Directive({
   selector: 'input[type="text"][app-date][textMask]',
@@ -10,8 +11,8 @@ import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-
 })
 export class DateEmptyCheckerDirective extends AbstractEmptyCheckerDirective {
 
-  constructor(hostElementRef: ElementRef, private dateTextMaskService: DateTextMaskService) {
-    super(hostElementRef);
+  constructor(hostElementRef: ElementRef, @Optional() ngControl: NgControl, private dateTextMaskService: DateTextMaskService) {
+    super(hostElementRef, ngControl);
   }
 
   protected isElementValueEmpty(element: any) {

@@ -1,5 +1,5 @@
 import {ElementRef, OnInit} from '@angular/core';
-import {nextTick} from 'q';
+import {NgControl} from '@angular/forms';
 
 export abstract class AbstractEmptyCheckerDirective implements OnInit {
 
@@ -7,7 +7,7 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
 
   private _empty: boolean = null;
 
-  protected constructor(hostElementRef: ElementRef) {
+  protected constructor(hostElementRef: ElementRef, private ngControl: NgControl) {
     this._element = hostElementRef.nativeElement;
   }
 
@@ -19,13 +19,11 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
       that.onInput();
     });
 
-    // Если мы как директива висим на input, на котором уже висит NgModel, то
-    // в нашем личном вызове ngOnInit() это не факт, что NgModel уже успела положить
-    // в элемент его первоначальное значение. Нам надо сделать тик, чтобы она успела, а мы уже после нее.
-    // Тогда мы уже можем это значение проверять, и всяко-разно реагировать.
-    nextTick(
-      () => that.updateEmpty()
-    );
+    that.updateEmpty();
+
+    if (this.ngControl) {
+      this.ngControl.valueChanges.subscribe(() => that.updateEmpty());
+    }
   }
 
   private setEmpty(empty: boolean) {

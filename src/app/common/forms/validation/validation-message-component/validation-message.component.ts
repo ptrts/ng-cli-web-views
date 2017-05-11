@@ -1,8 +1,8 @@
 import {Component, Directive, Inject, InjectionToken, NgModule, OnInit, Optional} from '@angular/core';
-import {FormControl, FormControlName, NgModel} from '@angular/forms';
+import {AbstractControl, NgControl} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
-import {ValidationMessageService} from '../validation-message.service';
 import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-checker.directive';
+import {ValidationMessageService} from '../validation-message.service';
 
 export interface ValidationMessages {
   [key: string]: string;
@@ -18,39 +18,24 @@ export const APP_VALIDATION_MESSAGES_PROVIDER = new InjectionToken<ValidationMes
   selector: '.form-group'
 })
 export class BootstrapFormGroupDirective {
-  formControlName: string;
-  formControl: FormControl;
+  controlName: string;
+  control: AbstractControl;
   emptyChecker: AbstractEmptyCheckerDirective;
 }
 
 @Directive({
   selector: '[ngModel],[formControlName]'
 })
-export class SpyFormControlNameDirective implements OnInit {
+export class SpyControlDirective implements OnInit {
 
-  constructor(@Optional() private ngModel: NgModel,
-              @Optional() private formControlName: FormControlName,
+  constructor(private ngControl: NgControl,
               @Optional() private bootstrapFormGroupDirective: BootstrapFormGroupDirective) {
   }
 
   ngOnInit(): void {
-
-    let formControlName: string;
-    let formControl: FormControl;
-
-    if (this.ngModel != null) {
-      formControlName = this.ngModel.name;
-      formControl = this.ngModel.control;
-    } else if (this.formControlName != null) {
-      formControlName = this.formControlName.name;
-      formControl = this.formControlName.control;
-    } else {
-      throw new Error('Что-то не так. Если мы здесь, то либо ngModel, либо formControlName должно быть не null');
-    }
-
     if (this.bootstrapFormGroupDirective != null) {
-      this.bootstrapFormGroupDirective.formControlName = formControlName;
-      this.bootstrapFormGroupDirective.formControl = formControl;
+      this.bootstrapFormGroupDirective.controlName = this.ngControl.name;
+      this.bootstrapFormGroupDirective.control = this.ngControl.control;
     }
   }
 }
@@ -82,8 +67,8 @@ export class ValidationMessageComponent implements OnInit {
     [key: string]: string
   };
 
-  formControlName: string;
-  formControl: FormControl;
+  controlName: string;
+  control: AbstractControl;
   emptyChecker: AbstractEmptyCheckerDirective;
 
   constructor(public validationMessageService: ValidationMessageService,
@@ -92,16 +77,19 @@ export class ValidationMessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.formControlName = this.bootstrapFormGroupDirective.formControlName;
-    this.formControl = this.bootstrapFormGroupDirective.formControl;
+    this.controlName = this.bootstrapFormGroupDirective.controlName;
+    this.control = this.bootstrapFormGroupDirective.control;
     this.emptyChecker = this.bootstrapFormGroupDirective.emptyChecker;
-    this.messages = this.validationMessagesProvider.getMessages(this.formControlName);
+    this.messages = this.validationMessagesProvider.getMessages(this.controlName);
   }
 
   get show() {
-    let c = this.formControl;
-    let empty = this.emptyChecker ? this.emptyChecker.empty : true;
-    return c.invalid && (c.touched || c.dirty || !empty);
+    let c = this.control;
+    return c.invalid && (
+        c.touched ||
+        c.dirty ||
+        this.emptyChecker && this.emptyChecker.notEmpty
+      );
   }
 }
 
@@ -111,13 +99,13 @@ export class ValidationMessageComponent implements OnInit {
   ],
   declarations: [
     BootstrapFormGroupDirective,
-    SpyFormControlNameDirective,
+    SpyControlDirective,
     SpyEmptyCheckerDirective,
     ValidationMessageComponent
   ],
   exports: [
     BootstrapFormGroupDirective,
-    SpyFormControlNameDirective,
+    SpyControlDirective,
     SpyEmptyCheckerDirective,
     ValidationMessageComponent
   ]
