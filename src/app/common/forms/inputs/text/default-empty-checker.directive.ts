@@ -1,8 +1,11 @@
-import {Directive, ElementRef} from '@angular/core';
+import {Directive, ElementRef, forwardRef} from '@angular/core';
 import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-checker.directive';
 
 @Directive({
-  selector: 'input[type="text"]:not([app-date][textMask])'
+  selector: 'input[type="text"]:not([app-date][textMask])',
+  providers: [
+    {provide: AbstractEmptyCheckerDirective, useExisting: forwardRef(() => DefaultEmptyCheckerDirective)}
+  ]
 })
 export class DefaultEmptyCheckerDirective extends AbstractEmptyCheckerDirective {
 

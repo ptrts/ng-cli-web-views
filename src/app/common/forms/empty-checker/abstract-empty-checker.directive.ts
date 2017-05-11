@@ -28,7 +28,7 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
     );
   }
 
-  private set empty(empty: boolean) {
+  private setEmpty(empty: boolean) {
 
     // Если старое не равное новому
     if (empty !== this._empty) {
@@ -57,12 +57,20 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
     }
   }
 
+  get empty() {
+    return this._empty;
+  }
+
+  get notEmpty() {
+    return !this._empty;
+  }
+
   private onInput() {
     this.updateEmpty();
   }
 
   private updateEmpty() {
-    this.empty = this.isElementValueEmpty(this._element);
+    this.setEmpty(this.isElementValueEmpty(this._element));
   }
 
   protected abstract isElementValueEmpty(element: any): boolean;

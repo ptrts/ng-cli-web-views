@@ -1,9 +1,12 @@
-import {Directive, ElementRef} from '@angular/core';
+import {Directive, ElementRef, forwardRef} from '@angular/core';
 import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-checker.directive';
 import {PhoneTextMaskService} from './phone-text-mask.service';
 
 @Directive({
-  selector: 'input[type="text"][app-phone][textMask]'
+  selector: 'input[type="text"][app-phone][textMask]',
+  providers: [
+    {provide: AbstractEmptyCheckerDirective, useExisting: forwardRef(() => PhoneEmptyCheckerDirective)}
+  ]
 })
 export class PhoneEmptyCheckerDirective extends AbstractEmptyCheckerDirective {
 

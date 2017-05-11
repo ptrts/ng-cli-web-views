@@ -1,4 +1,4 @@
-<div *ngIf="formControl.invalid" class="form-control-feedback">
+<div *ngIf="formControl.invalid && (formControl.touched || formControl.dirty || emptyChecker.notEmpty)" class="form-control-feedback">
   <p *ngFor="let message of validationMessageService.buildMessages(formControl.errors, messages)" class="text-danger">
     {{message}}
   </p>

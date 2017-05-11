@@ -1,9 +1,12 @@
-import {Directive, ElementRef} from '@angular/core';
+import {Directive, ElementRef, forwardRef} from '@angular/core';
 import {DateTextMaskService} from './date-text-mask.service';
 import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-checker.directive';
 
 @Directive({
-  selector: 'input[type="text"][app-date][textMask]'
+  selector: 'input[type="text"][app-date][textMask]',
+  providers: [
+    {provide: AbstractEmptyCheckerDirective, useExisting: forwardRef(() => DateEmptyCheckerDirective)}
+  ]
 })
 export class DateEmptyCheckerDirective extends AbstractEmptyCheckerDirective {
 

@@ -2,6 +2,7 @@ import {Component, Directive, Inject, InjectionToken, NgModule, OnInit, Optional
 import {FormControl, FormControlName, NgModel} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {ValidationMessageService} from '../validation-message.service';
+import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-checker.directive';
 
 export interface ValidationMessages {
   [key: string]: string;
@@ -19,6 +20,7 @@ export const APP_VALIDATION_MESSAGES_PROVIDER = new InjectionToken<ValidationMes
 export class BootstrapFormGroupDirective {
   formControlName: string;
   formControl: FormControl;
+  emptyChecker: AbstractEmptyCheckerDirective;
 }
 
 @Directive({
@@ -53,6 +55,22 @@ export class SpyFormControlNameDirective implements OnInit {
   }
 }
 
+@Directive({
+  selector: 'input[type="text"]'
+})
+export class SpyEmptyCheckerDirective implements OnInit {
+
+  constructor(@Optional() private emptyChecker: AbstractEmptyCheckerDirective,
+              @Optional() private bootstrapFormGroupDirective: BootstrapFormGroupDirective) {
+  }
+
+  ngOnInit(): void {
+    if (this.bootstrapFormGroupDirective !== null) {
+      this.bootstrapFormGroupDirective.emptyChecker = this.emptyChecker;
+    }
+  }
+}
+
 @Component({
   selector: 'app-validation-message',
   templateUrl: './validation-message.component.html',
@@ -66,6 +84,7 @@ export class ValidationMessageComponent implements OnInit {
 
   formControlName: string;
   formControl: FormControl;
+  emptyChecker: AbstractEmptyCheckerDirective;
 
   constructor(public validationMessageService: ValidationMessageService,
               @Inject(APP_VALIDATION_MESSAGES_PROVIDER) private validationMessagesProvider: ValidationMessagesProvider,
@@ -75,6 +94,7 @@ export class ValidationMessageComponent implements OnInit {
   ngOnInit() {
     this.formControlName = this.bootstrapFormGroupDirective.formControlName;
     this.formControl = this.bootstrapFormGroupDirective.formControl;
+    this.emptyChecker = this.bootstrapFormGroupDirective.emptyChecker;
     this.messages = this.validationMessagesProvider.getMessages(this.formControlName);
   }
 }
@@ -86,11 +106,13 @@ export class ValidationMessageComponent implements OnInit {
   declarations: [
     BootstrapFormGroupDirective,
     SpyFormControlNameDirective,
+    SpyEmptyCheckerDirective,
     ValidationMessageComponent
   ],
   exports: [
     BootstrapFormGroupDirective,
     SpyFormControlNameDirective,
+    SpyEmptyCheckerDirective,
     ValidationMessageComponent
   ]
 })
