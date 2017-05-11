@@ -25,6 +25,7 @@ import {OurBackend} from './server/backend/our-backend';
 import {OurServerApi} from './server/our-server-api';
 import {RegistrationStep1CanActivateGuard} from './pages/registration/step-1/registration-step-1-can-activate.guard';
 import {AccessRestrictedComponent} from './pages/access-denied/access-restricted.component';
+import {PhoneValidatorDirective} from './common/forms/inputs/phone/phone-validator.directive';
 
 const ROUTES: Routes = [
   {
@@ -79,6 +80,7 @@ const ROUTES: Routes = [
     DateValidatorDirective,
     EnumRadioGroupComponent,
     AccessRestrictedComponent,
+    PhoneValidatorDirective
   ],
   providers: [
     CookieService,
