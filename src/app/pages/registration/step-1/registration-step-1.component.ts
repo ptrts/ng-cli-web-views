@@ -58,6 +58,12 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
     },
     phoneNumber: {
 
+    },
+    consentToEverything: {
+      required: 'Для получения займа необходимо ваше согласие'
+    },
+    consentToReceivingInfo: {
+      required: 'Для получения займа необходимо ваше согласие'
     }
   };
 
@@ -68,14 +74,7 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
   ) {}
 
   getMessages(formControlName: string): ValidationMessages {
-
-    const validationMessages = this.validationMessages[formControlName];
-
-    if (validationMessages === null) {
-      throw new Error(`В компоненте не нашлось ValidationMessages по ключу ${formControlName}`);
-    }
-
-    return validationMessages;
+    return this.validationMessages[formControlName];
   }
 
   ngOnInit(): void {

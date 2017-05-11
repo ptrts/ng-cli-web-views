@@ -97,6 +97,12 @@ export class ValidationMessageComponent implements OnInit {
     this.emptyChecker = this.bootstrapFormGroupDirective.emptyChecker;
     this.messages = this.validationMessagesProvider.getMessages(this.formControlName);
   }
+
+  get show() {
+    let c = this.formControl;
+    let empty = this.emptyChecker ? this.emptyChecker.empty : true;
+    return c.invalid && (c.touched || c.dirty || !empty);
+  }
 }
 
 @NgModule({

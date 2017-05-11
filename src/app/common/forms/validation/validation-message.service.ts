@@ -10,7 +10,7 @@ export class ValidationMessageService {
 
     return keys.map((key: string) => {
 
-      const message = messages[key];
+      const message = messages && messages[key];
 
       if (message) {
         return message;

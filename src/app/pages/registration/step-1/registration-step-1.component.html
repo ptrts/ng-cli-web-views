@@ -109,22 +109,34 @@
 
         </div>
 
-        <div class="d-flex mt-4">
-          <app-checkbox formControlName="consentToEverything" required></app-checkbox>
-          <div class="flex-width-rest ml-2 text-justify">
-            Подтверждаю свое согласие с Правилами предоставления
-            и обслуживания микрозаймов, предоставляю согласие с
-            Договором принятия на обслуживание, согласие на обработку
-            персональных данных и согласие на раскрытие информации,
-            содержащейся в основной части кредитной истории.
+        <div class="form-group">
+
+          <div class="d-flex mt-4">
+            <app-checkbox formControlName="consentToEverything" required></app-checkbox>
+            <div class="flex-width-rest ml-2 text-justify">
+              Подтверждаю свое согласие с Правилами предоставления
+              и обслуживания микрозаймов, предоставляю согласие с
+              Договором принятия на обслуживание, согласие на обработку
+              персональных данных и согласие на раскрытие информации,
+              содержащейся в основной части кредитной истории.
+            </div>
           </div>
+
+          <app-validation-message></app-validation-message>
+
         </div>
 
-        <div class="d-flex mt-4">
-          <app-checkbox formControlName="consentToReceivingInfo" required></app-checkbox>
-          <div class="flex-width-rest ml-2 text-justify">
-            Подтверждаю свое согласие на получение информации
+        <div class="form-group">
+
+          <div class="d-flex mt-4">
+            <app-checkbox formControlName="consentToReceivingInfo" required></app-checkbox>
+            <div class="flex-width-rest ml-2 text-justify">
+              Подтверждаю свое согласие на получение информации
+            </div>
           </div>
+
+          <app-validation-message></app-validation-message>
+
         </div>
 
         <div class="d-inline-flex mt-5 justify-content-center" [class.disbled]="form.valid">
