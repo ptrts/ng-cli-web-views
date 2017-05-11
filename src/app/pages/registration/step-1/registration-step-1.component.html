@@ -10,7 +10,7 @@
           <input type="text" class="form-control" id="lastName"
                  placeholder="Фамилия"
                  required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-                 [(ngModel)]="lastName" name="lastName">
+                 [(ngModel)]="model.lastName" name="lastName">
 
           <app-validation-message></app-validation-message>
 
@@ -24,7 +24,7 @@
             type="text" class="form-control" id="firstName"
             placeholder="Имя"
             required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-            [(ngModel)]="firstName" name="firstName">
+            [(ngModel)]="model.firstName" name="firstName">
 
         </div>
 
@@ -36,7 +36,7 @@
             type="text" class="form-control" id="middleName"
             placeholder="Отчество"
             maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-            [(ngModel)]="middleName" name="middleName">
+            [(ngModel)]="model.middleName" name="middleName">
 
         </div>
 
@@ -64,7 +64,7 @@
             <label class="form-check-label">
               <input type="radio" class="form-check-input" id="sexMale"
                      name="sex" value="MALE"
-                     [(ngModel)]="sex">
+                     [(ngModel)]="model.sex">
               Мужской
             </label>
           </div>
@@ -73,7 +73,7 @@
             <label class="form-check-label">
               <input type="radio" class="form-check-input" id="sexFemale"
                      name="sex" value="FEMALE"
-                     [(ngModel)]="sex">
+                     [(ngModel)]="model.sex">
               Женский
             </label>
           </div>
@@ -102,7 +102,7 @@
         </div>
 
         <div class="d-flex mt-4">
-          <app-checkbox [ngModel]="consentToEverything" name="consentToEverything"></app-checkbox>
+          <app-checkbox [(ngModel)]="model.consentToEverything" name="consentToEverything"></app-checkbox>
           <div class="flex-width-rest ml-2 text-justify">
             Подтверждаю свое согласие с Правилами предоставления
             и обслуживания микрозаймов, предоставляю согласие с
@@ -113,7 +113,7 @@
         </div>
 
         <div class="d-flex mt-4">
-          <app-checkbox [ngModel]="consentToReceivingInfo" name="consentToReceivingInfo"></app-checkbox>
+          <app-checkbox [(ngModel)]="model.consentToReceivingInfo" name="consentToReceivingInfo"></app-checkbox>
           <div class="flex-width-rest ml-2 text-justify">
             Подтверждаю свое согласие на получение информации
           </div>

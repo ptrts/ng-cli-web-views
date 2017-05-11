@@ -33,27 +33,13 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
 
   readonly BIRTH_DATE_MAX = moment().subtract(this.AGE_MIN, 'year').toDate();
 
-  lastName = 'Иванов';
-
-  firstName: string;
-
-  middleName: string;
-
-  birthDate: Date = new Date(1980, 12 - 1, 31);
+  model = new RegistrationStep1();
 
   birthDateInputValue: string;
 
-  sex: string;
-
-  phoneNumber = '9139077844';
-
   phoneNumberInputValue: string;
 
-  consentToEverything: boolean;
-
-  consentToReceivingInfo: boolean;
-
-  validationMessages = {
+  private validationMessages = {
     lastName: {
       required: 'Фамилия не указана',
       pattern: 'Можно использовать только русские буквы'
@@ -93,7 +79,26 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
   }
 
   ngOnInit(): void {
-    this.birthDateInputValue = this.dateTextMaskService.toInputValue(this.birthDate);
-    this.phoneNumberInputValue = this.phoneTextMaskService.toInputValue(this.phoneNumber);
+    this.birthDateInputValue = this.dateTextMaskService.toInputValue(this.model.birthDate);
+    this.phoneNumberInputValue = this.phoneTextMaskService.toInputValue(this.model.phoneNumber);
   }
+}
+
+export class RegistrationStep1 {
+
+  lastName = 'Иванов';
+
+  firstName: string;
+
+  middleName: string;
+
+  birthDate: Date = new Date(1980, 12 - 1, 31);
+
+  sex: string;
+
+  phoneNumber = '9139077844';
+
+  consentToEverything: boolean;
+
+  consentToReceivingInfo: boolean;
 }
