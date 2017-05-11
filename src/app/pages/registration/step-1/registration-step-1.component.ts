@@ -8,6 +8,7 @@ import {
   ValidationMessages,
   ValidationMessagesProvider
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
+import {ModalService} from '../../../common/components/modal/modal.service';
 
 @Component({
   selector: 'app-registration-step-1',
@@ -70,7 +71,8 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
   constructor(
     private fb: FormBuilder,
     public dateTextMaskService: DateTextMaskService,
-    public phoneTextMaskService: PhoneTextMaskService
+    public phoneTextMaskService: PhoneTextMaskService,
+    private modalService: ModalService
   ) {}
 
   getMessages(formControlName: string): ValidationMessages {
@@ -87,6 +89,22 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
       birthDate: this.dateTextMaskService.toInputValue(this.model.birthDate),
       phoneNumber: this.phoneTextMaskService.toInputValue(this.model.phoneNumber)
     });
+  }
+
+  onNextClick() {
+
+    this.form.markAsTouched();
+
+    if (this.form.invalid) {
+
+      Object.keys(this.form.controls)
+        .forEach(formControlName => this.form.controls[formControlName].markAsTouched(), this);
+
+      this.modalService.waring(`
+        При заполнении формы были допущены ошибки. 
+        Обратите внимание на пояснения красным цветом под полями формы.
+      `);
+    }
   }
 }
 
