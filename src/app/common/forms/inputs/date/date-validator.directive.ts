@@ -21,7 +21,7 @@ export class DateValidatorDirective implements Validator {
   max: Date;
 
   @Input('required')
-  required: Boolean;
+  required: string;
 
   constructor(private dateTextMaskService: DateTextMaskService) {
   }
@@ -32,12 +32,10 @@ export class DateValidatorDirective implements Validator {
 
     if (this.dateTextMaskService.isEmpty(inputValue)) {
 
-      console.log('this.required = ' + this.required);
-
       if (this.required === undefined) {
         return null;
       } else {
-        return { dateEmpty: 'Пустая дата'};
+        return {dateEmpty: 'Пустая дата'};
       }
 
     } else {

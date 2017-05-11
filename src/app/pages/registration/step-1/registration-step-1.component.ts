@@ -1,4 +1,5 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import * as moment from 'moment';
 import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
 import {PhoneTextMaskService} from '../../../common/forms/inputs/phone/phone-text-mask.service';
@@ -35,9 +36,7 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
 
   model = new RegistrationStep1();
 
-  birthDateInputValue: string;
-
-  phoneNumberInputValue: string;
+  form: FormGroup;
 
   private validationMessages = {
     lastName: {
@@ -63,6 +62,7 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
   };
 
   constructor(
+    private fb: FormBuilder,
     public dateTextMaskService: DateTextMaskService,
     public phoneTextMaskService: PhoneTextMaskService
   ) {}
@@ -79,8 +79,15 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
   }
 
   ngOnInit(): void {
-    this.birthDateInputValue = this.dateTextMaskService.toInputValue(this.model.birthDate);
-    this.phoneNumberInputValue = this.phoneTextMaskService.toInputValue(this.model.phoneNumber);
+
+    this.form = this.fb.group(
+      this.model
+    );
+
+    this.form.patchValue({
+      birthDate: this.dateTextMaskService.toInputValue(this.model.birthDate),
+      phoneNumber: this.phoneTextMaskService.toInputValue(this.model.phoneNumber)
+    });
   }
 }
 
@@ -88,17 +95,17 @@ export class RegistrationStep1 {
 
   lastName = 'Иванов';
 
-  firstName: string;
+  firstName = '';
 
-  middleName: string;
+  middleName = '';
 
   birthDate: Date = new Date(1980, 12 - 1, 31);
 
-  sex: string;
+  sex = '';
 
   phoneNumber = '9139077844';
 
-  consentToEverything: boolean;
+  consentToEverything = false;
 
-  consentToReceivingInfo: boolean;
+  consentToReceivingInfo = false;
 }

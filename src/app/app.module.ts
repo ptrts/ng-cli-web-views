@@ -24,6 +24,7 @@ import {RegistrationStep1Component} from './pages/registration/step-1/registrati
 import {OurBackend} from './server/backend/our-backend';
 import {OurServerApi} from './server/our-server-api';
 import {RegistrationStep1CanActivateGuard} from './pages/registration/step-1/registration-step-1-can-activate.guard';
+import {AccessRestrictedComponent} from './pages/access-denied/access-restricted.component';
 
 const ROUTES: Routes = [
   {
@@ -38,6 +39,10 @@ const ROUTES: Routes = [
   {
     path: 'error',
     component: ErrorComponent
+  },
+  {
+    path: 'restricted',
+    component: AccessRestrictedComponent
   },
   {
     path: '',
@@ -73,6 +78,7 @@ const ROUTES: Routes = [
     PhoneEmptyCheckerDirective,
     DateValidatorDirective,
     EnumRadioGroupComponent,
+    AccessRestrictedComponent,
   ],
   providers: [
     CookieService,

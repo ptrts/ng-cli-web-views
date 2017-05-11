@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-5">
-      <form ngForm #ngForm="ngForm">
+      <form [formGroup]="form">
 
         <div class="form-group">
 
@@ -10,7 +10,7 @@
           <input type="text" class="form-control" id="lastName"
                  placeholder="Фамилия"
                  required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-                 [(ngModel)]="model.lastName" name="lastName">
+                 formControlName="lastName">
 
           <app-validation-message></app-validation-message>
 
@@ -24,7 +24,7 @@
             type="text" class="form-control" id="firstName"
             placeholder="Имя"
             required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-            [(ngModel)]="model.firstName" name="firstName">
+            formControlName="firstName">
 
         </div>
 
@@ -36,7 +36,7 @@
             type="text" class="form-control" id="middleName"
             placeholder="Отчество"
             maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-            [(ngModel)]="model.middleName" name="middleName">
+            formControlName="middleName">
 
         </div>
 
@@ -48,7 +48,7 @@
                  required
                  app-date [app-min]="BIRTH_DATE_MIN" [app-max]="BIRTH_DATE_MAX"
                  [textMask]="dateTextMaskService.conf"
-                 [(ngModel)]="birthDateInputValue" name="birthDate">
+                 formControlName="birthDate">
 
           <app-validation-message></app-validation-message>
 
@@ -64,7 +64,7 @@
             <label class="form-check-label">
               <input type="radio" class="form-check-input" id="sexMale"
                      name="sex" value="MALE"
-                     [(ngModel)]="model.sex">
+                     formControlName="sex">
               Мужской
             </label>
           </div>
@@ -73,7 +73,7 @@
             <label class="form-check-label">
               <input type="radio" class="form-check-input" id="sexFemale"
                      name="sex" value="FEMALE"
-                     [(ngModel)]="model.sex">
+                     formControlName="sex">
               Женский
             </label>
           </div>
@@ -93,7 +93,7 @@
                    required minlength="10"
                    app-phone
                    [textMask]="phoneTextMaskService.conf"
-                   [(ngModel)]="phoneNumberInputValue" name="phoneNumber">
+                   formControlName="phoneNumber">
 
             <button class="btn btn-success ml-2">Подтвердить</button>
 
@@ -102,7 +102,7 @@
         </div>
 
         <div class="d-flex mt-4">
-          <app-checkbox [(ngModel)]="model.consentToEverything" name="consentToEverything"></app-checkbox>
+          <app-checkbox formControlName="consentToEverything"></app-checkbox>
           <div class="flex-width-rest ml-2 text-justify">
             Подтверждаю свое согласие с Правилами предоставления
             и обслуживания микрозаймов, предоставляю согласие с
@@ -113,7 +113,7 @@
         </div>
 
         <div class="d-flex mt-4">
-          <app-checkbox [(ngModel)]="model.consentToReceivingInfo" name="consentToReceivingInfo"></app-checkbox>
+          <app-checkbox formControlName="consentToReceivingInfo"></app-checkbox>
           <div class="flex-width-rest ml-2 text-justify">
             Подтверждаю свое согласие на получение информации
           </div>
@@ -126,7 +126,7 @@
       </form>
 
       <p>
-        {{JSON.stringify(ngForm.value)}}
+        {{JSON.stringify(form.value)}}
       </p>
 
     </div>

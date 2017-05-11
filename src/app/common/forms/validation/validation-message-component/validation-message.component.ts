@@ -29,16 +29,12 @@ export class SpyFormControlNameDirective implements OnInit {
   constructor(@Optional() private ngModel: NgModel,
               @Optional() private formControlName: FormControlName,
               @Optional() private bootstrapFormGroupDirective: BootstrapFormGroupDirective) {
-
-    console.log('SpyFormControlNameDirective.constructor');
   }
 
   ngOnInit(): void {
 
     let formControlName: string;
     let formControl: FormControl;
-
-    console.log('SpyFormControlNameDirective.ngOnInit, begin');
 
     if (this.ngModel != null) {
       formControlName = this.ngModel.name;
@@ -50,15 +46,10 @@ export class SpyFormControlNameDirective implements OnInit {
       throw new Error('Что-то не так. Если мы здесь, то либо ngModel, либо formControlName должно быть не null');
     }
 
-    console.log('SpyFormControlNameDirective.ngOnInit, formControlName = ' + formControlName);
-    console.log('SpyFormControlNameDirective.ngOnInit, formControl = ' + formControl);
-
     if (this.bootstrapFormGroupDirective != null) {
       this.bootstrapFormGroupDirective.formControlName = formControlName;
       this.bootstrapFormGroupDirective.formControl = formControl;
     }
-
-    console.log('SpyFormControlNameDirective.ngOnInit, end');
   }
 }
 
