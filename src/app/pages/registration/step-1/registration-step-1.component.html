@@ -110,7 +110,7 @@
         </div>
 
         <div class="d-flex mt-4">
-          <app-checkbox formControlName="consentToEverything"></app-checkbox>
+          <app-checkbox formControlName="consentToEverything" required></app-checkbox>
           <div class="flex-width-rest ml-2 text-justify">
             Подтверждаю свое согласие с Правилами предоставления
             и обслуживания микрозаймов, предоставляю согласие с
@@ -121,7 +121,7 @@
         </div>
 
         <div class="d-flex mt-4">
-          <app-checkbox formControlName="consentToReceivingInfo"></app-checkbox>
+          <app-checkbox formControlName="consentToReceivingInfo" required></app-checkbox>
           <div class="flex-width-rest ml-2 text-justify">
             Подтверждаю свое согласие на получение информации
           </div>
@@ -133,6 +133,9 @@
 
       </form>
 
+    </div>
+
+    <div class="col-5 align-self-center">
       <p>
         Статус формы: {{form.status}}
       </p>
@@ -140,7 +143,6 @@
       <p>
         Значение формы: {{JSON.stringify(form.value)}}
       </p>
-
     </div>
   </div>
 </div>
