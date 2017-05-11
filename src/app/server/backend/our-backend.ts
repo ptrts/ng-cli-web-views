@@ -5,4 +5,5 @@ import {SessionStatus} from '../session-status/session-status';
 @Injectable()
 export class OurBackend {
   sessionStatus: SessionStatus = SessionStatus.REGISTRATION_STEP_1;
+  utcOffset = 3;
 }

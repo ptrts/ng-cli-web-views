@@ -65,6 +65,9 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
     },
     consentToReceivingInfo: {
       required: 'Для получения займа необходимо ваше согласие'
+    },
+    sex: {
+      required: 'Не указан пол'
     }
   };
 
@@ -104,6 +107,28 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
         При заполнении формы были допущены ошибки. 
         Обратите внимание на пояснения красным цветом под полями формы.
       `);
+    } else {
+
+      let step = new RegistrationStep1();
+
+      let formValue = this.form.value;
+
+      for(let key in formValue) {
+
+        let value = formValue[key];
+
+        if (key === 'phoneNumber') {
+          value = this.phoneTextMaskService.fromInputValue(value);
+        }
+
+        if (key === 'birthDate') {
+          value = this.dateTextMaskService.fromInputValue(value);
+        }
+
+        step[key] = value;
+      }
+
+      console.log(JSON.stringify(step));
     }
   }
 }
@@ -116,7 +141,7 @@ export class RegistrationStep1 {
 
   middleName = '';
 
-  birthDate: Date = new Date(1980, 12 - 1, 31);
+  birthDate: Date = moment.utc([1980, 12 - 1, 31]).toDate();
 
   sex = '';
 

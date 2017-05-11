@@ -28,6 +28,7 @@ import {RegistrationStep1CanActivateGuard} from './pages/registration/step-1/reg
 import {RegistrationStep1Component} from './pages/registration/step-1/registration-step-1.component';
 import {OurBackend} from './server/backend/our-backend';
 import {OurServerApi} from './server/our-server-api';
+import * as moment from 'moment';
 
 const ROUTES: Routes = [
   {
@@ -99,3 +100,19 @@ const ROUTES: Routes = [
 })
 export class AppModule {
 }
+
+console.log(`
+=========================================================================
+moment.utc([1980, 12 - 1, 31]).toDate()            = ${moment.utc([1980, 12 - 1, 31]).toDate()}
+moment.utc([1980, 12 - 1, 31]).utc().toDate()      = ${moment.utc([1980, 12 - 1, 31]).utc().toDate()}
+moment.utc([1980, 12 - 1, 31]).utc(true).toDate()  = ${moment.utc([1980, 12 - 1, 31]).utc(true).toDate()}
+moment.utc([1980, 12 - 1, 31]).utc(false).toDate() = ${moment.utc([1980, 12 - 1, 31]).utc(false).toDate()}
+
+moment([1980, 12 - 1, 31]).toDate()            = ${moment([1980, 12 - 1, 31]).toDate()}
+moment([1980, 12 - 1, 31]).utc().toDate()      = ${moment([1980, 12 - 1, 31]).utc().toDate()}
+moment([1980, 12 - 1, 31]).utc(true).toDate()  = ${moment([1980, 12 - 1, 31]).utc(true).toDate()}
+moment([1980, 12 - 1, 31]).utc(false).toDate() = ${moment([1980, 12 - 1, 31]).utc(false).toDate()}
+
+moment([1980, 12 - 1, 31]).utcOffset(3, true).toDate() = ${moment([1980, 12 - 1, 31]).utcOffset(3, true).toDate()}
+=========================================================================
+`);

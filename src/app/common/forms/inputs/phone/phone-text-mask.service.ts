@@ -36,7 +36,7 @@ export class PhoneTextMaskService {
   }
 
   fromInputValue(inputValue: string) {
-    return inputValue.replace(/^\d/, '');
+    return inputValue.replace(/[^\d]/g, '');
   }
 
   toInputValue(value: string) {

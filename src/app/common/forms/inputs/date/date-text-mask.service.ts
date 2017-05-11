@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {createAutoCorrectedDatePipe} from 'text-mask-addons/dist/textMaskAddons';
 import {conformToMask} from 'angular2-text-mask';
 import * as moment from 'moment';
+import {OurServerApi} from '../../../../server/our-server-api';
 
 const MOMENT_FORMAT = 'DD.MM.YYYY';
 
@@ -28,7 +29,7 @@ export class DateTextMaskService {
 
   private emptyDateConformed: string;
 
-  constructor() {
+  constructor(private ourServerApi: OurServerApi) {
     this.emptyDateConformed = conformToMask('', this.conf.mask, {}).conformedValue;
   }
 
@@ -37,7 +38,20 @@ export class DateTextMaskService {
   }
 
   fromInputValue(inputValue: string) {
-    const theMoment = this.parseInputValue(inputValue);
+
+    let utcOffset = this.ourServerApi.getUtcOffset();
+
+    console.log('utcOffset = ' + utcOffset);
+
+    let theMoment = this.parseInputValue(inputValue);
+
+    console.log('theMoment = ' + theMoment.toDate());
+    console.log('currentUtcOffset = ' + theMoment.utcOffset());
+
+    theMoment = theMoment.utcOffset(utcOffset, true);
+
+    console.log('theMoment = ' + theMoment.toDate());
+
     if (theMoment.isValid()) {
       return theMoment.toDate();
     } else {
@@ -49,7 +63,7 @@ export class DateTextMaskService {
     if (date == null) {
       return this.emptyDateConformed;
     } else {
-      return moment(date).format(MOMENT_FORMAT);
+      return moment.utc(date).format(MOMENT_FORMAT);
     }
   }
 

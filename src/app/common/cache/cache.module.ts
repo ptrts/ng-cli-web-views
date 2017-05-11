@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CacheMemoryStorage, CacheService, CacheStorageAbstract} from 'ng2-cache';
-import {CacheObservableService} from './cache-observable.service';
+import {OurCacheService} from './cache.service';
 
 @NgModule({
   providers: [
@@ -9,7 +9,7 @@ import {CacheObservableService} from './cache-observable.service';
       useClass: CacheMemoryStorage
     },
     CacheService,
-    CacheObservableService
+    OurCacheService
   ]
 })
 export class CacheModule {
