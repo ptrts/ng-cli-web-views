@@ -1,5 +1,5 @@
-<div *ngIf="ngModel.invalid" class="form-control-feedback">
-  <p *ngFor="let message of validationMessageService.buildMessages(ngModel.errors, messages)" class="text-danger">
+<div *ngIf="formControl.invalid" class="form-control-feedback">
+  <p *ngFor="let message of validationMessageService.buildMessages(formControl.errors, messages)" class="text-danger">
     {{message}}
   </p>
 </div>
