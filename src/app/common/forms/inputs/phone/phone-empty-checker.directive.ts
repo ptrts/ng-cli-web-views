@@ -13,9 +13,14 @@ export class PhoneEmptyCheckerDirective extends AbstractEmptyCheckerDirective {
 
   constructor(hostElementRef: ElementRef, @Optional() ngControl: NgControl, private phoneTextMaskService: PhoneTextMaskService) {
     super(hostElementRef, ngControl);
+    console.log('PhoneEmptyCheckerDirective.constructor, name = ' + ngControl.name);
   }
 
   protected isElementValueEmpty(element: any) {
     return this.phoneTextMaskService.isEmpty(element.value);
   }
+
+  protected get name() {
+    return 'PhoneEmptyCheckerDirective';
+  };
 }

@@ -18,4 +18,8 @@ export class DateEmptyCheckerDirective extends AbstractEmptyCheckerDirective {
   protected isElementValueEmpty(element: any) {
     return this.dateTextMaskService.isEmpty(element.value);
   }
+
+  protected get name() {
+    return 'DateEmptyCheckerDirective';
+  };
 }

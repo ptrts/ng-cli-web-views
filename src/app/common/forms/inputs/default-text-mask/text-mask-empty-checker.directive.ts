@@ -16,9 +16,14 @@ export class DefaultTextMaskEmptyCheckerDirective extends AbstractEmptyCheckerDi
 
   constructor(hostElementRef: ElementRef, @Optional() ngControl: NgControl, private defaultTextMaskService: DefaultTextMaskService) {
     super(hostElementRef, ngControl);
+    console.log('DefaultTextMaskEmptyCheckerDirective.constructor, name = ' + ngControl.name);
   }
 
   protected isElementValueEmpty(element: any) {
     return this.defaultTextMaskService.isEmpty(element.value, this.textMaskConf);
   }
+
+  protected get name() {
+    return 'DefaultTextMaskEmptyCheckerDirective';
+  };
 }

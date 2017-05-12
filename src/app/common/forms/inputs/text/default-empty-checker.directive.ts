@@ -3,7 +3,7 @@ import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-
 import {NgControl} from '@angular/forms';
 
 @Directive({
-  selector: 'input[type="text"]:not([app-date][textMask])',
+  selector: 'input[type="text"]:not([textMask]):not([app-date]):not([app-phone])',
   providers: [
     {provide: AbstractEmptyCheckerDirective, useExisting: forwardRef(() => DefaultEmptyCheckerDirective)}
   ]
@@ -17,4 +17,8 @@ export class DefaultEmptyCheckerDirective extends AbstractEmptyCheckerDirective 
   protected isElementValueEmpty(element: any) {
     return element.value === '' || element.value === undefined;
   }
+
+  protected get name() {
+    return 'DefaultEmptyCheckerDirective';
+  };
 }

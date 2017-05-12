@@ -11,7 +11,13 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
     this._element = hostElementRef.nativeElement;
   }
 
+  protected get name() {
+    return 'AbstractEmptyCheckerDirective';
+  };
+
   ngOnInit(): void {
+
+    console.log('ngOnInit(), this.ngControl.name = ' + this.ngControl.name);
 
     const that = this;
 
@@ -19,10 +25,14 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
       that.onInput();
     });
 
+    console.log('Обновление empty в конструкторе');
     that.updateEmpty();
 
     if (this.ngControl) {
-      this.ngControl.valueChanges.subscribe(() => that.updateEmpty());
+      this.ngControl.valueChanges.subscribe(() => {
+        console.log('Обновление empty по событию от NgControl');
+        that.updateEmpty();
+      });
     }
   }
 

@@ -12,7 +12,7 @@
 
             <input type="text" class="form-control" id="series"
                    placeholder="0000"
-                   required minLength="4" maxlength="4" pattern="\d*"
+                   required minLength="4" maxlength="4" pattern="\d{4}"
                    formControlName="series">
 
             <app-validation-message></app-validation-message>
@@ -25,7 +25,7 @@
 
             <input type="text" class="form-control" id="number"
                    placeholder="000000"
-                   required minLength="6" maxlength="6" pattern="\d*"
+                   required minLength="6" maxlength="6" pattern="\d{6}"
                    formControlName="number">
 
             <app-validation-message></app-validation-message>
@@ -61,18 +61,18 @@
 
         </div>
 
-        <!--<div class="form-group">
+        <div class="form-group">
 
           <label class="form-control-label" for="snils">Номер СНИЛС*</label>
 
           <input type="text" class="form-control" id="snils"
-                 required minLength="14" maxlength="14"
+                 required minLength="14"
                  [textMask]="snilsTextMaskConf"
                  formControlName="snils">
 
           <app-validation-message></app-validation-message>
 
-        </div>-->
+        </div>
 
         <div class="d-inline-flex mt-5 justify-content-center" [class.disbled]="form.valid">
           <button class="btn btn-success btn-lg text-center mb-3" (click)="onNextClick()">Далее</button>
