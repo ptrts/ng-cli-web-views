@@ -79,7 +79,7 @@ export class DateValidatorDirective implements Validator {
           }
         }
 
-        return {dateNotCorrect: 'Не корректная дата'};
+        return {dateNotCorrect: 'Некорректная дата'};
       }
     }
   }

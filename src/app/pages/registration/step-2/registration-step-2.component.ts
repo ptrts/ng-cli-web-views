@@ -33,10 +33,38 @@ export class RegistrationStep2Component implements OnInit, ValidationMessagesPro
   form: FormGroup;
 
   private validationMessages = {
-    field: {
-      required: 'Все плохо',
-      pattern: 'Можно использовать только русские буквы'
+    region: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
     },
+    city: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    },
+    street: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    },
+    house: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    },
+    building: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    },
+    subBuilding: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    },
+    flat: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    },
+    email: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    }
   };
 
   constructor(
@@ -133,5 +161,5 @@ let address1 = {
 export class RegistrationStep2 {
   registrationAddress = new Address;
   livingAddress = new Address;
-  email = 'me@mail.ru';
+  email = '';
 }

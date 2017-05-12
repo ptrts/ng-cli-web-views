@@ -155,17 +155,17 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
 
 export class RegistrationStep1 {
 
-  lastName = 'Иванов';
+  lastName = '';
 
   firstName = '';
 
   middleName = '';
 
-  birthDate: Date = moment.utc([1980, 12 - 1, 31]).toDate();
+  birthDate: Date = null;
 
   sex = '';
 
-  phoneNumber = '9139077844';
+  phoneNumber = '';
 
   consentToEverything = false;
 

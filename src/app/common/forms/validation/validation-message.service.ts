@@ -19,7 +19,7 @@ export class ValidationMessageService {
         if (typeof errorParameters === 'string') {
           return errorParameters;
         }
-        return `Наружено правило валидации ${key}`;
+        return `Нарушено правило валидации ${key}`;
       }
     });
   }

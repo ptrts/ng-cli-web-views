@@ -40,9 +40,27 @@ export class RegistrationStep3Component implements OnInit, ValidationMessagesPro
   form: FormGroup;
 
   private validationMessages = {
-    field: {
-      required: 'Все плохо',
-      pattern: 'Все плохо'
+    series: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    },
+    number: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    },
+    issueDate: {
+      required: 'Значение не заполнено',
+      dateTooEarly: 'Слишком старый паспорт',
+      dateTooLate: 'Дата выдачи не должна быть в будущем',
+      pattern: 'Некорректное значение'
+    },
+    whereIssued: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
+    },
+    snils: {
+      required: 'Значение не заполнено',
+      pattern: 'Некорректное значение'
     },
   };
 
