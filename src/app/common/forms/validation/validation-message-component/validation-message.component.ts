@@ -103,6 +103,9 @@ export class ValidationMessageComponent implements OnInit {
     SpyEmptyCheckerDirective,
     ValidationMessageComponent
   ],
+  providers: [
+    ValidationMessageService
+  ],
   exports: [
     BootstrapFormGroupDirective,
     SpyControlDirective,

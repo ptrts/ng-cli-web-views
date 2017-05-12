@@ -26,7 +26,7 @@ export class ModalService {
     $('#modal').modal();
   }
 
-  waring(text: string) {
+  warning(text: string) {
     this.show('Внимание!', text);
   }
 }

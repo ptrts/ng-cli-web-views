@@ -7,7 +7,9 @@ export class OurCacheService {
 
   constructor(private cacheService: CacheService) { }
 
-  getCachedObservable<T>(key: string, maxAgeSeconds: number, getObservableMethod: (...any) => Observable<T>, thisArg: any, ...argArray: any[]) {
+  getCachedObservable<T>(key: string, maxAgeSeconds: number,
+                         getObservableMethod: (...any) => Observable<T>,
+                         thisArg: any, ...argArray: any[]) {
 
     console.log('thisArg = ' + thisArg);
 

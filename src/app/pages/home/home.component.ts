@@ -56,7 +56,11 @@ export class HomeComponent {
               this.router.navigate(['reg1']);
               break;
             case SessionStatus.REGISTRATION_STEP_1:
+              this.router.navigate(['reg2']);
+              break;
             case SessionStatus.REGISTRATION_STEP_2:
+              this.router.navigate(['reg3']);
+              break;
             case SessionStatus.LOGGED_IN:
             case SessionStatus.LOGGED_OUT:
               this.router.navigate(['error']);

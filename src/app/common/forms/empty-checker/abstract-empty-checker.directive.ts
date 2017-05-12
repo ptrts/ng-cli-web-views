@@ -28,22 +28,21 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
 
   private setEmpty(empty: boolean) {
 
+    console.log(`
+=====================================================================================
+Control Name: ${this.ngControl.name}
+empty: ${empty}
+this._empty: ${this._empty}`);
+
     // Если старое не равное новому
     if (empty !== this._empty) {
 
-      // Если старое было true, то убрать класс, т.к. оно уже не true
-      if (this._empty) {
-        this._element.classList.remove('app-empty');
-      }
+      this._element.classList.remove('app-empty');
+      this._element.classList.remove('app-not-empty');
 
       // Если новое true, то добавить класс, это логично
-      if (empty) {
+      if (empty === true) {
         this._element.classList.add('app-empty');
-      }
-
-      // Если старое было false
-      if (this._empty === false) {
-        this._element.classList.remove('app-not-empty');
       }
 
       // Если новое стало false, добавить класс
@@ -52,6 +51,9 @@ export abstract class AbstractEmptyCheckerDirective implements OnInit {
       }
 
       this._empty = empty;
+
+      console.log('this._empty = ' + this._empty);
+      console.log('');
     }
   }
 

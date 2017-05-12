@@ -1,6 +1,7 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import * as moment from 'moment';
+import {ModalService} from '../../../common/components/modal/modal.service';
 import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
 import {PhoneTextMaskService} from '../../../common/forms/inputs/phone/phone-text-mask.service';
 import {
@@ -8,7 +9,8 @@ import {
   ValidationMessages,
   ValidationMessagesProvider
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
-import {ModalService} from '../../../common/components/modal/modal.service';
+import {OurServerApi} from '../../../server/our-server-api';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration-step-1',
@@ -75,7 +77,9 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
     private fb: FormBuilder,
     public dateTextMaskService: DateTextMaskService,
     public phoneTextMaskService: PhoneTextMaskService,
-    private modalService: ModalService
+    private modalService: ModalService,
+    private ourServerApi: OurServerApi,
+    private router: Router
   ) {}
 
   getMessages(formControlName: string): ValidationMessages {
@@ -103,7 +107,7 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
       Object.keys(this.form.controls)
         .forEach(formControlName => this.form.controls[formControlName].markAsTouched(), this);
 
-      this.modalService.waring(`
+      this.modalService.warning(`
         При заполнении формы были допущены ошибки. 
         Обратите внимание на пояснения красным цветом под полями формы.
       `);
@@ -113,7 +117,7 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
 
       let formValue = this.form.value;
 
-      for(let key in formValue) {
+      Object.keys(formValue).forEach(key => {
 
         let value = formValue[key];
 
@@ -126,9 +130,25 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
         }
 
         step[key] = value;
-      }
+      });
 
       console.log(JSON.stringify(step));
+
+      this.ourServerApi.submitRegistrationStep1(step).subscribe(
+        () => {
+          console.log('OK');
+          this.router.navigate(['reg2']);
+        },
+        () => {
+
+          console.log('Error 1');
+
+          this.modalService.warning('Что-то не так, сервер ругается');
+
+          console.log('Error 2');
+        }
+      );
+
     }
   }
 }
