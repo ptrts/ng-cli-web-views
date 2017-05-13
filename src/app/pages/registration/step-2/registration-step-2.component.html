@@ -41,50 +41,70 @@
 
           </div>
 
+          <div class="formGroup">
 
+            <div formGroupName="numbers">
 
+              <div class="form-group">
 
-          <div class="form-group">
+                <input type="text" class="form-control"
+                       placeholder="Дом*"
+                       required maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                       formControlName="house">
 
-            <input type="text" class="form-control"
-                   placeholder="Дом*"
-                   required maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                   formControlName="house">
+              </div>
+
+              <div class="form-group">
+
+                <input type="text" class="form-control"
+                       placeholder="Корпус"
+                       maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                       formControlName="building">
+
+              </div>
+
+              <div class="form-group">
+
+                <input type="text" class="form-control"
+                       placeholder="Строение"
+                       maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                       formControlName="subBuilding">
+
+              </div>
+
+              <div class="form-group">
+
+                <input type="text" class="form-control"
+                       placeholder="Квартира"
+                       maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                       formControlName="flat">
+
+              </div>
+
+            </div>
 
             <app-validation-message></app-validation-message>
 
           </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           <div class="form-group">
-
-            <input type="text" class="form-control"
-                   placeholder="Корпус"
-                   maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                   formControlName="building">
-
-          </div>
-
-          <div class="form-group">
-
-            <input type="text" class="form-control"
-                   placeholder="Строение"
-                   maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                   formControlName="subBuilding">
-
-          </div>
-
-          <div class="form-group">
-
-            <input type="text" class="form-control"
-                   placeholder="Квартира"
-                   maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                   formControlName="flat">
-
-          </div>
-
-        </div>
-
-        <div class="form-group">
 
           <input type="text" class="form-control"
                  placeholder="address@mail.ru"

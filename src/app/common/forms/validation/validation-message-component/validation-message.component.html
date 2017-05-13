@@ -1,5 +1,6 @@
 <div *ngIf="show" class="form-control-feedback">
-  <div *ngFor="let message of validationMessageService.buildMessages(control.errors, messages)" class="text-danger">
+  <div *ngFor="let message of validationMessageService.buildMessages(controlDirective.errors, messagesConfiguration)"
+       class="text-danger">
     {{message}}
   </div>
 </div>

@@ -84,10 +84,24 @@ export class RegistrationStep2Component implements OnInit, ValidationMessagesPro
     return this.fb.group(address);
   }
 
+  addressFormGroup(address: Address) {
+    return this.fb.group({
+        region: address.region,
+        city: address.city,
+        street: address.street,
+        numbers: this.fb.group({
+          house: address.house,
+          building: address.building,
+          subBuilding: address.subBuilding,
+          flat: address.flat,
+        })
+    });
+  }
+
   ngOnInit(): void {
     this.form = this.fb.group({
-      registrationAddress: this.fb.group(this.model.registrationAddress),
-      livingAddress: this.fb.group(this.model.livingAddress),
+      registrationAddress: this.addressFormGroup(this.model.registrationAddress),
+      livingAddress: this.addressFormGroup(this.model.livingAddress),
       email: this.model.email
     });
   }

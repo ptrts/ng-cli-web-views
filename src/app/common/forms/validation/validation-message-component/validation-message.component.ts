@@ -1,8 +1,8 @@
-import {Component, Directive, Inject, InjectionToken, NgModule, OnInit, Optional} from '@angular/core';
-import {AbstractControl, NgControl} from '@angular/forms';
+import {Component, Directive, forwardRef, Inject, InjectionToken, NgModule, OnInit, Optional} from '@angular/core';
+import {NgControl} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
-import {AbstractEmptyCheckerDirective} from '../../empty-checker/abstract-empty-checker.directive';
 import {ValidationMessageService} from '../validation-message.service';
+import {AbstractEmptyCheckerWorker} from '../../empty-checker/abstract-empty-checker-worker.directive';
 
 export interface ValidationMessages {
   [key: string]: string;
@@ -12,46 +12,49 @@ export interface ValidationMessagesProvider {
   getMessages(formControlName: string): ValidationMessages;
 }
 
-export const APP_VALIDATION_MESSAGES_PROVIDER = new InjectionToken<ValidationMessagesProvider>('APP_VALIDATION_MESSAGES_PROVIDER');
+export interface ControlsAggregator {
+  addControl(ngControl: NgControl, emptyChecker: AbstractEmptyCheckerWorker);
+}
+
+export const APP_VALIDATION_MESSAGES_PROVIDER
+  = new InjectionToken<ValidationMessagesProvider>('APP_VALIDATION_MESSAGES_PROVIDER');
+
+export const APP_CONTROLS_AGGREGATOR
+  = new InjectionToken<ValidationMessagesProvider>('APP_CONTROLS_AGGREGATOR');
 
 @Directive({
-  selector: '.form-group'
+  selector: '.form-group',
+  providers: [
+    {
+      provide: APP_CONTROLS_AGGREGATOR,
+      useExisting: forwardRef(() => BootstrapFormGroupDirective)
+    }
+  ]
 })
-export class BootstrapFormGroupDirective {
-  controlName: string;
-  control: AbstractControl;
-  emptyChecker: AbstractEmptyCheckerDirective;
+export class BootstrapFormGroupDirective implements ControlsAggregator {
+
+  ngControl: NgControl;
+  emptyChecker: AbstractEmptyCheckerWorker;
+
+  addControl(ngControl: NgControl, emptyChecker: AbstractEmptyCheckerWorker) {
+    this.ngControl = ngControl;
+    this.emptyChecker = emptyChecker;
+  }
 }
 
 @Directive({
-  selector: '[ngModel],[formControlName]'
+  selector: '[ngModel],[formControlName],[formGroup],[formGroupName]'
 })
-export class SpyControlDirective implements OnInit {
+export class ControlSpy implements OnInit {
 
   constructor(private ngControl: NgControl,
-              @Optional() private bootstrapFormGroupDirective: BootstrapFormGroupDirective) {
+              @Optional() private emptyChecker: AbstractEmptyCheckerWorker,
+              @Optional() @Inject(APP_CONTROLS_AGGREGATOR) private controlsAggregator: ControlsAggregator) {
   }
 
   ngOnInit(): void {
-    if (this.bootstrapFormGroupDirective != null) {
-      this.bootstrapFormGroupDirective.controlName = this.ngControl.name;
-      this.bootstrapFormGroupDirective.control = this.ngControl.control;
-    }
-  }
-}
-
-@Directive({
-  selector: 'input[type="text"]'
-})
-export class SpyEmptyCheckerDirective implements OnInit {
-
-  constructor(@Optional() private emptyChecker: AbstractEmptyCheckerDirective,
-              @Optional() private bootstrapFormGroupDirective: BootstrapFormGroupDirective) {
-  }
-
-  ngOnInit(): void {
-    if (this.bootstrapFormGroupDirective !== null) {
-      this.bootstrapFormGroupDirective.emptyChecker = this.emptyChecker;
+    if (this.controlsAggregator != null) {
+      this.controlsAggregator.addControl(this.ngControl, this.emptyChecker);
     }
   }
 }
@@ -63,13 +66,12 @@ export class SpyEmptyCheckerDirective implements OnInit {
 })
 export class ValidationMessageComponent implements OnInit {
 
-  messages: {
+  messagesConfiguration: {
     [key: string]: string
   };
 
-  controlName: string;
-  control: AbstractControl;
-  emptyChecker: AbstractEmptyCheckerDirective;
+  ngControl: NgControl;
+  emptyChecker: AbstractEmptyCheckerWorker;
 
   constructor(public validationMessageService: ValidationMessageService,
               @Inject(APP_VALIDATION_MESSAGES_PROVIDER) private validationMessagesProvider: ValidationMessagesProvider,
@@ -77,14 +79,13 @@ export class ValidationMessageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.controlName = this.bootstrapFormGroupDirective.controlName;
-    this.control = this.bootstrapFormGroupDirective.control;
+    this.ngControl = this.bootstrapFormGroupDirective.ngControl;
     this.emptyChecker = this.bootstrapFormGroupDirective.emptyChecker;
-    this.messages = this.validationMessagesProvider.getMessages(this.controlName);
+    this.messagesConfiguration = this.validationMessagesProvider.getMessages(this.ngControl.name);
   }
 
   get show() {
-    let c = this.control;
+    let c = this.ngControl;
     return c.invalid && (
         c.touched ||
         c.dirty ||
@@ -99,8 +100,7 @@ export class ValidationMessageComponent implements OnInit {
   ],
   declarations: [
     BootstrapFormGroupDirective,
-    SpyControlDirective,
-    SpyEmptyCheckerDirective,
+    ControlSpy,
     ValidationMessageComponent
   ],
   providers: [
@@ -108,8 +108,7 @@ export class ValidationMessageComponent implements OnInit {
   ],
   exports: [
     BootstrapFormGroupDirective,
-    SpyControlDirective,
-    SpyEmptyCheckerDirective,
+    ControlSpy,
     ValidationMessageComponent
   ]
 })

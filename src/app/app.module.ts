@@ -10,13 +10,10 @@ import {ModalModule} from './common/components/modal/modal.module';
 import {RangeSliderComponent} from './common/components/range-slider/range-slider.component';
 import {AppCheckboxRequiredValidator} from './common/forms/inputs/checkbox/checkbox-required-validator.directive';
 import {OurCheckboxComponent} from './common/forms/inputs/checkbox/checkbox.component';
-import {DateEmptyCheckerDirective} from './common/forms/inputs/date/date-empty-checker.directive';
 import {DateTextMaskService} from './common/forms/inputs/date/date-text-mask.service';
 import {DateValidatorDirective} from './common/forms/inputs/date/date-validator.directive';
-import {PhoneEmptyCheckerDirective} from './common/forms/inputs/phone/phone-empty-checker.directive';
 import {PhoneTextMaskService} from './common/forms/inputs/phone/phone-text-mask.service';
 import {PhoneValidatorDirective} from './common/forms/inputs/phone/phone-validator.directive';
-import {DefaultEmptyCheckerDirective} from './common/forms/inputs/text/default-empty-checker.directive';
 import {EnumRadioGroupComponent} from './common/forms/radio/enum-radio-group.component';
 import {ValidationMessageComponentModule} from './common/forms/validation/validation-message-component/validation-message.component';
 import {DecimalGroupsSeparatorPipe} from './common/utils/decimal-groups-separator.pipe';
@@ -35,8 +32,11 @@ import {OurServerApi} from './server/our-server-api';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {ProfileCanActivateGuard} from './pages/profile/profile-can-activate.guard';
 import {DefaultTextMaskService} from './common/forms/inputs/default-text-mask/text-mask.service';
-import {DefaultTextMaskEmptyCheckerDirective} from './common/forms/inputs/default-text-mask/text-mask-empty-checker.directive';
 import {DefaultTextMaskValidatorDirective} from './common/forms/inputs/default-text-mask/text-mask-validator.directive';
+import {TextEmptyCheckerWorker} from './common/forms/inputs/text/default-empty-checker-worker.directive';
+import {TextMaskEmptyCheckerWorker} from './common/forms/inputs/default-text-mask/text-mask-empty-checker-worker.directive';
+import {LeafEmptyChecker} from './common/forms/empty-checker/leaf-empty-checker.directive';
+import {EmptyCheckerGroup} from './common/forms/empty-checker/group-empty-checker.directive';
 
 const ROUTES: Routes = [
   {
@@ -103,10 +103,8 @@ const ROUTES: Routes = [
     MainComponent,
     ErrorComponent,
     OurCheckboxComponent,
-    DefaultEmptyCheckerDirective,
-    DefaultTextMaskEmptyCheckerDirective,
-    DateEmptyCheckerDirective,
-    PhoneEmptyCheckerDirective,
+    TextEmptyCheckerWorker,
+    TextMaskEmptyCheckerWorker,
     DateValidatorDirective,
     DefaultTextMaskValidatorDirective,
     EnumRadioGroupComponent,
@@ -114,6 +112,8 @@ const ROUTES: Routes = [
     PhoneValidatorDirective,
     AppCheckboxRequiredValidator,
     ProfileComponent,
+    LeafEmptyChecker,
+    EmptyCheckerGroup,
   ],
   providers: [
     CookieService,
