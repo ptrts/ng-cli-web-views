@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row">
-    <div class="col-5">
+    <div class="col-6">
 
       <h1>Шаг 2</h1>
 
@@ -47,40 +47,23 @@
 
             <div formGroupName="numbers">
 
-              <div class="form-group">
-
+              <div class="d-flex">
                 <input type="text" class="form-control"
-                       placeholder="Дом*"
+                       placeholder="Дом*" size="1"
                        required maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
                        formControlName="house">
-
-              </div>
-
-              <div class="form-group">
-
-                <input type="text" class="form-control"
-                       placeholder="Корпус"
+                <input type="text" class="form-control ml-2"
+                       placeholder="Корпус" size="1"
                        maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
                        formControlName="building">
-
-              </div>
-
-              <div class="form-group">
-
-                <input type="text" class="form-control"
-                       placeholder="Строение"
+                <input type="text" class="form-control ml-2"
+                       placeholder="Строение" size="1"
                        maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
                        formControlName="subBuilding">
-
-              </div>
-
-              <div class="form-group">
-
-                <input type="text" class="form-control"
-                       placeholder="Квартира"
+                <input type="text" class="form-control ml-2"
+                       placeholder="Квартира" size="1"
                        maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
                        formControlName="flat">
-
               </div>
 
             </div>

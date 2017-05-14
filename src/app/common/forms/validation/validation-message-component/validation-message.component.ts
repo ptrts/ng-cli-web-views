@@ -63,6 +63,22 @@ export class BootstrapFormGroupDirective implements ControlsAggregator {
 }
 
 @Directive({
+  selector: '[ngForm],[formGroup],[formGroupName]',
+  providers: [
+    {
+      provide: APP_CONTROLS_AGGREGATOR,
+      useExisting: forwardRef(() => ControlContainerSpy)
+    }
+  ]
+})
+export class ControlContainerSpy implements ControlsAggregator {
+  registerControl(controlDirective: AbstractControlDirective, emptyChecker: AbstractEmptyChecker, name: string) {
+    // Перехватываем деток, желающих зарегистрироваться в бутстраповском class="form-group"
+    // Мы сами там зарегистрируемся от имени их всех
+  }
+}
+
+@Directive({
   selector: '[ngModel],[formControl],[formControlName],[formGroup],[formGroupName]'
 })
 export class ControlSpy implements OnInit {
@@ -192,11 +208,13 @@ export class ValidationMessageComponent implements OnInit {
   ],
   declarations: [
     BootstrapFormGroupDirective,
+    ControlContainerSpy,
     ControlSpy,
     ValidationMessageComponent
   ],
   exports: [
     BootstrapFormGroupDirective,
+    ControlContainerSpy,
     ControlSpy,
     ValidationMessageComponent
   ]
