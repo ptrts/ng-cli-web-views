@@ -6,9 +6,9 @@
 
       <form [formGroup]="form" autocomplete="off">
 
-        <div formGroupName="registrationAddress">
+        <div *ngFor="let addressViewModel of addressesViewModel" [formGroupName]="addressViewModel.formGroupName">
 
-          <h2>Адрес регистрациии</h2>
+          <h2>{{addressViewModel.header}}</h2>
 
           <div class="form-group">
 

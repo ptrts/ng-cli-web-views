@@ -32,6 +32,17 @@ export class RegistrationStep2Component implements OnInit, ValidationMessagesPro
 
   form: FormGroup;
 
+  addressesViewModel = [
+    {
+      header: 'Адрес регистрации',
+      formGroupName: 'registrationAddress'
+    },
+    {
+      header: 'Адрес фактического проживания',
+      formGroupName: 'livingAddress'
+    }
+  ];
+
   private validationMessages = {
     region: {
       required: 'Значение не заполнено',
@@ -158,16 +169,6 @@ export class Address {
   subBuilding = '';
   flat = '';
 }
-
-let address1 = {
-  region: 'Новосибирская обл',
-  city: 'Новосибирск г',
-  street: 'Красный проспект ул',
-  house: '15',
-  building: '',
-  subBuilding: '',
-  flat: '1',
-};
 
 export class RegistrationStep2 {
   registrationAddress = new Address;
