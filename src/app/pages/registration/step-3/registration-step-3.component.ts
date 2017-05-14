@@ -123,11 +123,9 @@ export class RegistrationStep3Component implements OnInit, ValidationMessagesPro
     let passport = this.model.passport;
     this.form = this.fb.group({
       passport: this.fb.group({
-        seriesAndNumber: this.fb.group({
-          series: passport.series,
-          number: passport.number
-        }),
-        issueDate: passport.issueDate,
+        series: passport.series,
+        number: passport.number,
+        issueDate: this.dateTextMaskService.toInputValue(passport.issueDate),
         whereIssued: passport.whereIssued
       }),
       snils: this.model.snils

@@ -97,12 +97,10 @@ export class RegistrationStep2Component implements OnInit, ValidationMessagesPro
         region: address.region,
         city: address.city,
         street: address.street,
-        numbers: this.fb.group({
-          house: address.house,
-          building: address.building,
-          subBuilding: address.subBuilding,
-          flat: address.flat,
-        })
+        house: address.house,
+        building: address.building,
+        subBuilding: address.subBuilding,
+        flat: address.flat,
     });
   }
 

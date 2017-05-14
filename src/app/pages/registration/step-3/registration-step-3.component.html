@@ -10,23 +10,20 @@
 
             <label class="form-control-label" for="series">Серия и номер*</label>
 
-            <div formGroupName="seriesAndNumber">
+            <div class="d-flex">
 
-              <div class="d-flex">
+              <input type="text" class="form-control" id="series"
+                     placeholder="0000" size="1"
+                     required minLength="4"
+                     [textMask]="seriesTextMaskConf"
+                     formControlName="series">
 
-                <input type="text" class="form-control" id="series"
-                       placeholder="0000" size="1"
-                       required minLength="4"
-                       [textMask]="seriesTextMaskConf"
-                       formControlName="series">
+              <input type="text" class="form-control ml-2" id="number"
+                     placeholder="000000" size="1"
+                     required minLength="6"
+                     [textMask]="numberTextMaskConf"
+                     formControlName="number">
 
-                <input type="text" class="form-control ml-2" id="number"
-                       placeholder="000000" size="1"
-                       required minLength="6"
-                       [textMask]="numberTextMaskConf"
-                       formControlName="number">
-
-              </div>
             </div>
 
             <app-validation-message></app-validation-message>

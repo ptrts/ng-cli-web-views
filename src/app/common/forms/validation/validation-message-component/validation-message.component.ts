@@ -40,6 +40,12 @@ export const APP_VALIDATION_MESSAGES_PROVIDER
 export const APP_CONTROLS_AGGREGATOR
   = new InjectionToken<ControlsAggregator>('APP_CONTROLS_AGGREGATOR');
 
+class ControlInfo {
+  name: string;
+  controlDirective: AbstractControlDirective;
+  emptyChecker: AbstractEmptyChecker;
+}
+
 @Directive({
   selector: '.form-group',
   providers: [
@@ -51,14 +57,14 @@ export const APP_CONTROLS_AGGREGATOR
 })
 export class BootstrapFormGroupDirective implements ControlsAggregator {
 
-  controlDirective: AbstractControlDirective;
-  emptyChecker: AbstractEmptyChecker;
-  name: string;
+  controlInfos: ControlInfo[] = [];
 
   registerControl(controlDirective: AbstractControlDirective, emptyChecker: AbstractEmptyChecker, name: string) {
-    this.controlDirective = controlDirective;
-    this.emptyChecker = emptyChecker;
-    this.name = name;
+    this.controlInfos.push({
+      name: name,
+      controlDirective: controlDirective,
+      emptyChecker: emptyChecker
+    });
   }
 }
 
@@ -111,27 +117,51 @@ export class ValidationMessageComponent implements OnInit {
 
   JSON = JSON;
 
-  controlDirective: AbstractControlDirective;
-  emptyChecker: AbstractEmptyChecker;
-  name: string;
+  show = false;
+
+  controlInfos: Array<ControlInfo>;
 
   constructor(@Inject(APP_VALIDATION_MESSAGES_PROVIDER) private validationMessagesProvider: ValidationMessagesProvider,
               private bootstrapFormGroupDirective: BootstrapFormGroupDirective) {
   }
 
   ngOnInit() {
-    this.controlDirective = this.bootstrapFormGroupDirective.controlDirective;
-    this.emptyChecker = this.bootstrapFormGroupDirective.emptyChecker;
-    this.name = this.bootstrapFormGroupDirective.name;
+
+    this.controlInfos = this.bootstrapFormGroupDirective.controlInfos;
+
+    // Привязываемся к событиям всех наших контролов
+    // По событию будем вычислять агрегированные статусы, и из них потом - флажок, показывать сообщения или не показывать
+    if (this.controlInfos) {
+
+      let that = this;
+
+      this.controlInfos.forEach(controlInfo => {
+        if (controlInfo.emptyChecker) {
+          controlInfo.emptyChecker.emptyStateChanges.subscribe(() => that.refreshShow());
+        }
+        controlInfo.controlDirective.statusChanges.subscribe(() => that.refreshShow());
+      });
+    }
   }
 
-  get show() {
-    let c = this.controlDirective;
-    return c.invalid && (
-        c.touched ||
-        c.dirty ||
-        this.emptyChecker && this.emptyChecker.notEmpty
-      );
+  refreshShow() {
+
+    let invalid = false;
+    let touched = false;
+    let dirty = false;
+
+    let notEmpty = false;
+
+    this.controlInfos.forEach(controlInfo => {
+
+      invalid = invalid || controlInfo.controlDirective.invalid;
+      touched = touched || controlInfo.controlDirective.touched;
+      dirty = dirty || controlInfo.controlDirective.dirty;
+
+      notEmpty = notEmpty || (!controlInfo.emptyChecker || controlInfo.emptyChecker.notEmpty);
+    });
+
+    this.show = invalid && (touched || dirty || notEmpty);
   }
 
   private addControlErrorsRecursively(validationErrorsByFields: {[formField: string]: ValidationErrors},
@@ -158,11 +188,14 @@ export class ValidationMessageComponent implements OnInit {
 
     let validationErrorsByFields: {[formField: string]: ValidationErrors} = {};
 
-    let control: AbstractControl = this.controlDirective.control;
+    this.controlInfos.forEach(controlInfo => {
 
-    let name = this.name;
+      let control = controlInfo.controlDirective.control;
 
-    this.addControlErrorsRecursively(validationErrorsByFields, control, name);
+      let name = controlInfo.name;
+
+      this.addControlErrorsRecursively(validationErrorsByFields, control, name);
+    });
 
     let messageArrays = Object.keys(validationErrorsByFields).map(controlName => {
 

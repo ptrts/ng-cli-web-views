@@ -45,27 +45,23 @@
 
           <div class="form-group">
 
-            <div formGroupName="numbers">
-
-              <div class="d-flex">
-                <input type="text" class="form-control"
-                       placeholder="Дом*" size="1"
-                       required maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                       formControlName="house">
-                <input type="text" class="form-control ml-2"
-                       placeholder="Корпус" size="1"
-                       maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                       formControlName="building">
-                <input type="text" class="form-control ml-2"
-                       placeholder="Строение" size="1"
-                       maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                       formControlName="subBuilding">
-                <input type="text" class="form-control ml-2"
-                       placeholder="Квартира" size="1"
-                       maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                       formControlName="flat">
-              </div>
-
+            <div class="d-flex">
+              <input type="text" class="form-control"
+                     placeholder="Дом*" size="1"
+                     required maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                     formControlName="house">
+              <input type="text" class="form-control ml-2"
+                     placeholder="Корпус" size="1"
+                     maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                     formControlName="building">
+              <input type="text" class="form-control ml-2"
+                     placeholder="Строение" size="1"
+                     maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                     formControlName="subBuilding">
+              <input type="text" class="form-control ml-2"
+                     placeholder="Квартира" size="1"
+                     maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                     formControlName="flat">
             </div>
 
             <app-validation-message></app-validation-message>
