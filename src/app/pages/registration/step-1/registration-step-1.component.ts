@@ -55,7 +55,6 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
     },
     birthDate: {
       required: 'Дата рождения не указана',
-      dateEmpty: 'Дата рождения не указана',
       dateTooEarly: `Займы предоставляются гражданам возрастом до ${this.AGE_MAX} лет`,
       dateTooLate: `Займы предоставляются гражданам старше ${this.AGE_MIN} лет`
     },

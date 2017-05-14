@@ -7,12 +7,12 @@ import {DateTextMaskService} from './date-text-mask.service';
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => DateValidatorDirective),
+      useExisting: forwardRef(() => DateValidator),
       multi: true
     }
   ]
 })
-export class DateValidatorDirective implements Validator {
+export class DateValidator implements Validator {
 
   @Input('app-min')
   min: Date;
@@ -35,7 +35,7 @@ export class DateValidatorDirective implements Validator {
       if (this.required === undefined) {
         return null;
       } else {
-        return {dateEmpty: 'Пустая дата'};
+        return {required: 'Пустая дата'};
       }
 
     } else {

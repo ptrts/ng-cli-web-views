@@ -7,12 +7,12 @@ import {PhoneTextMaskService} from './phone-text-mask.service';
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => PhoneValidatorDirective),
+      useExisting: forwardRef(() => PhoneValidator),
       multi: true
     }
   ]
 })
-export class PhoneValidatorDirective implements Validator {
+export class PhoneValidator implements Validator {
 
   @Input('required')
   required: string;

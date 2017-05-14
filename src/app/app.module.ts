@@ -11,9 +11,9 @@ import {RangeSliderComponent} from './common/components/range-slider/range-slide
 import {AppCheckboxRequiredValidator} from './common/forms/inputs/checkbox/checkbox-required-validator.directive';
 import {OurCheckboxComponent} from './common/forms/inputs/checkbox/checkbox.component';
 import {DateTextMaskService} from './common/forms/inputs/date/date-text-mask.service';
-import {DateValidatorDirective} from './common/forms/inputs/date/date-validator.directive';
+import {DateValidator} from './common/forms/inputs/date/date-validator.directive';
 import {PhoneTextMaskService} from './common/forms/inputs/phone/phone-text-mask.service';
-import {PhoneValidatorDirective} from './common/forms/inputs/phone/phone-validator.directive';
+import {PhoneValidator} from './common/forms/inputs/phone/phone-validator.directive';
 import {EnumRadioGroupComponent} from './common/forms/radio/enum-radio-group.component';
 import {ValidationMessageComponentModule} from './common/forms/validation/validation-message-component/validation-message.component';
 import {DecimalGroupsSeparatorPipe} from './common/utils/decimal-groups-separator.pipe';
@@ -32,7 +32,7 @@ import {OurServerApi} from './server/our-server-api';
 import {ProfileComponent} from './pages/profile/profile.component';
 import {ProfileCanActivateGuard} from './pages/profile/profile-can-activate.guard';
 import {DefaultTextMaskService} from './common/forms/inputs/default-text-mask/text-mask.service';
-import {DefaultTextMaskValidatorDirective} from './common/forms/inputs/default-text-mask/text-mask-validator.directive';
+import {DefaultTextMaskValidator} from './common/forms/inputs/default-text-mask/text-mask-validator.directive';
 import {TextEmptyCheckerWorker} from './common/forms/inputs/text/default-empty-checker-worker.directive';
 import {TextMaskEmptyCheckerWorker} from './common/forms/inputs/default-text-mask/text-mask-empty-checker-worker.directive';
 import {LeafEmptyChecker} from './common/forms/empty-checker/leaf-empty-checker.directive';
@@ -107,11 +107,11 @@ const ROUTES: Routes = [
     DefaultEmptyCheckerWorker,
     TextEmptyCheckerWorker,
     TextMaskEmptyCheckerWorker,
-    DateValidatorDirective,
-    DefaultTextMaskValidatorDirective,
+    DateValidator,
+    DefaultTextMaskValidator,
     EnumRadioGroupComponent,
     AccessRestrictedComponent,
-    PhoneValidatorDirective,
+    PhoneValidator,
     AppCheckboxRequiredValidator,
     ProfileComponent,
     LeafEmptyChecker,

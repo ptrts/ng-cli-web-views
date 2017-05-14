@@ -41,12 +41,12 @@ export class RegistrationStep3Component implements OnInit, ValidationMessagesPro
 
   private validationMessages = {
     series: {
-      required: 'Значение не заполнено',
-      pattern: 'Некорректное значение'
+      required: 'Серия не указана',
+      textMaskIncomplete: 'Серия заполнена не полностью',
     },
     number: {
-      required: 'Значение не заполнено',
-      pattern: 'Некорректное значение'
+      required: 'Номер не указан',
+      textMaskIncomplete: 'Номер заполнен не полностью',
     },
     issueDate: {
       required: 'Значение не заполнено',
@@ -84,6 +84,28 @@ export class RegistrationStep3Component implements OnInit, ValidationMessagesPro
     showMask: true
   };
 
+  readonly seriesTextMaskConf = {
+    mask: [
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+    ],
+    showMask: true
+  };
+
+  readonly numberTextMaskConf = {
+    mask: [
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+    ],
+    showMask: true
+  };
+
   constructor(
     private fb: FormBuilder,
     public dateTextMaskService: DateTextMaskService,
@@ -98,8 +120,16 @@ export class RegistrationStep3Component implements OnInit, ValidationMessagesPro
   }
 
   ngOnInit(): void {
+    let passport = this.model.passport;
     this.form = this.fb.group({
-      passport: this.fb.group(this.model.passport),
+      passport: this.fb.group({
+        seriesAndNumber: this.fb.group({
+          series: passport.series,
+          number: passport.number
+        }),
+        issueDate: passport.issueDate,
+        whereIssued: passport.whereIssued
+      }),
       snils: this.model.snils
     });
   }

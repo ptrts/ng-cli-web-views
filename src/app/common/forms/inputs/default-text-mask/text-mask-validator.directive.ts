@@ -7,12 +7,12 @@ import {DefaultTextMaskService} from './text-mask.service';
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => DefaultTextMaskValidatorDirective),
+      useExisting: forwardRef(() => DefaultTextMaskValidator),
       multi: true
     }
   ]
 })
-export class DefaultTextMaskValidatorDirective implements Validator {
+export class DefaultTextMaskValidator implements Validator {
 
   @Input('required')
   required: string;
@@ -30,7 +30,7 @@ export class DefaultTextMaskValidatorDirective implements Validator {
     if (this.defaultTextMaskService.isEmpty(inputValue, this.textMaskConf)) {
 
       if (this.required !== undefined) {
-        return {textMaskEmpty: 'Поле не заполнено'};
+        return {required: 'Поле не заполнено'};
       }
 
     } else {

@@ -8,25 +8,26 @@
 
           <div class="form-group">
 
-            <label class="form-control-label" for="series">Серия*</label>
+            <label class="form-control-label" for="series">Серия и номер*</label>
 
-            <input type="text" class="form-control" id="series"
-                   placeholder="0000"
-                   required minLength="4" maxlength="4" pattern="\d{4}"
-                   formControlName="series">
+            <div formGroupName="seriesAndNumber">
 
-            <app-validation-message></app-validation-message>
+              <div class="d-flex">
 
-          </div>
+                <input type="text" class="form-control" id="series"
+                       placeholder="0000" size="1"
+                       required minLength="4"
+                       [textMask]="seriesTextMaskConf"
+                       formControlName="series">
 
-          <div class="form-group">
+                <input type="text" class="form-control ml-2" id="number"
+                       placeholder="000000" size="1"
+                       required minLength="6"
+                       [textMask]="numberTextMaskConf"
+                       formControlName="number">
 
-            <label class="form-control-label" for="number">Номер*</label>
-
-            <input type="text" class="form-control" id="number"
-                   placeholder="000000"
-                   required minLength="6" maxlength="6" pattern="\d{6}"
-                   formControlName="number">
+              </div>
+            </div>
 
             <app-validation-message></app-validation-message>
 
