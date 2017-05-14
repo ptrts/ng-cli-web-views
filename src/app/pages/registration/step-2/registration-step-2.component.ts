@@ -46,20 +46,17 @@ export class RegistrationStep2Component implements OnInit, ValidationMessagesPro
       pattern: 'Некорректное значение'
     },
     house: {
-      required: 'Значение не заполнено',
-      pattern: 'Некорректное значение'
+      required: 'Не указан дом',
+      pattern: 'Дом указан неправильно'
     },
     building: {
-      required: 'Значение не заполнено',
-      pattern: 'Некорректное значение'
+      pattern: 'Корпус указан неправильно'
     },
     subBuilding: {
-      required: 'Значение не заполнено',
-      pattern: 'Некорректное значение'
+      pattern: 'Строение указано неправильно'
     },
     flat: {
-      required: 'Значение не заполнено',
-      pattern: 'Некорректное значение'
+      pattern: 'Квартира указана неправильно'
     },
     email: {
       required: 'Значение не заполнено',

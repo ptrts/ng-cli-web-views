@@ -77,10 +77,10 @@ export class LeafEmptyChecker extends AbstractEmptyChecker implements OnInit {
 
     const that = this;
 
-    this.element.addEventListener('input', () => {
+    /*this.element.addEventListener('input', () => {
       console.log('Обновление empty по событию input');
       that.extractAndPushNewEmpty();
-    });
+    });*/
 
     if (this.controlDirective) {
       this.controlDirective.valueChanges.subscribe(() => {

@@ -4,24 +4,28 @@ import {ControlContainer} from '@angular/forms';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
 
+export abstract class EmptyCheckerContainer extends AbstractEmptyChecker {
+  abstract registerChild(emptyChecker: AbstractEmptyChecker);
+}
+
 @Directive({
   selector: '[ngForm],[formGroup],[formGroupName],[formArray],[formArrayName]',
   providers: [
     {
-      provide: EmptyCheckerGroup,
+      provide: EmptyCheckerContainer,
       useExisting: forwardRef(() => EmptyCheckerGroup)
     }
   ]
 })
-export class EmptyCheckerGroup extends AbstractEmptyChecker {
+export class EmptyCheckerGroup extends EmptyCheckerContainer {
 
   private children: Array<AbstractEmptyChecker> = [];
 
   constructor(elementRef: ElementRef,
               controlContainer: ControlContainer,
-              @Optional() @SkipSelf() parentGroup: EmptyCheckerGroup) {
+              @Optional() @SkipSelf() parent: EmptyCheckerContainer) {
 
-    super(elementRef, controlContainer, parentGroup);
+    super(elementRef, controlContainer, parent);
   }
 
   ngOnInit() {

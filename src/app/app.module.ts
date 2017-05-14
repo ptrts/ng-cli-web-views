@@ -37,6 +37,7 @@ import {TextEmptyCheckerWorker} from './common/forms/inputs/text/default-empty-c
 import {TextMaskEmptyCheckerWorker} from './common/forms/inputs/default-text-mask/text-mask-empty-checker-worker.directive';
 import {LeafEmptyChecker} from './common/forms/empty-checker/leaf-empty-checker.directive';
 import {EmptyCheckerGroup} from './common/forms/empty-checker/group-empty-checker.directive';
+import {DefaultEmptyCheckerWorker} from './common/forms/empty-checker/default-empty-checker-worker.directive';
 
 const ROUTES: Routes = [
   {
@@ -103,6 +104,7 @@ const ROUTES: Routes = [
     MainComponent,
     ErrorComponent,
     OurCheckboxComponent,
+    DefaultEmptyCheckerWorker,
     TextEmptyCheckerWorker,
     TextMaskEmptyCheckerWorker,
     DateValidatorDirective,

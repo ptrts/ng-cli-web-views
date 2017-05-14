@@ -1,6 +1,6 @@
 import {ElementRef, EventEmitter} from '@angular/core';
 import {AbstractControlDirective} from '@angular/forms';
-import {EmptyCheckerGroup} from './group-empty-checker.directive';
+import {EmptyCheckerContainer} from './group-empty-checker.directive';
 
 export abstract class AbstractEmptyChecker {
 
@@ -12,7 +12,7 @@ export abstract class AbstractEmptyChecker {
 
   protected constructor(hostElementRef: ElementRef,
                         protected controlDirective: AbstractControlDirective,
-                        private parentGroup: EmptyCheckerGroup) {
+                        private parent: EmptyCheckerContainer) {
 
     this.element = hostElementRef.nativeElement;
   }
@@ -21,7 +21,9 @@ export abstract class AbstractEmptyChecker {
 
     console.log('ngOnInit(), this.controlDirective.path = ' + this.controlDirective.path);
 
-    this.parentGroup.registerChild(this);
+    if (this.parent) {
+      this.parent.registerChild(this);
+    }
   }
 
   get empty() {

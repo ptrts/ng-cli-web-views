@@ -1,7 +1,9 @@
 <div class="container">
   <div class="row">
     <div class="col-5">
+
       <h1>Шаг 2</h1>
+
       <form [formGroup]="form" autocomplete="off">
 
         <div formGroupName="registrationAddress">
@@ -41,7 +43,7 @@
 
           </div>
 
-          <div class="formGroup">
+          <div class="form-group">
 
             <div formGroupName="numbers">
 
@@ -87,24 +89,9 @@
 
           </div>
 
+        </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          <div class="form-group">
+        <div class="form-group">
 
           <input type="text" class="form-control"
                  placeholder="address@mail.ru"
@@ -114,9 +101,6 @@
           <app-validation-message></app-validation-message>
 
         </div>
-
-
-
 
         <div class="d-inline-flex mt-5 justify-content-center" [class.disbled]="form.valid">
           <button class="btn btn-success btn-lg text-center mb-3" (click)="onNextClick()">Далее</button>
