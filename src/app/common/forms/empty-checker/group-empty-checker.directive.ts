@@ -1,8 +1,7 @@
 import {Directive, ElementRef, forwardRef, Optional, SkipSelf} from '@angular/core';
-import {AbstractEmptyChecker} from './abstract-empty-checker';
 import {ControlContainer} from '@angular/forms';
-import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/merge';
+import {AbstractEmptyChecker} from './abstract-empty-checker';
 
 export abstract class EmptyCheckerContainer extends AbstractEmptyChecker {
   abstract registerChild(emptyChecker: AbstractEmptyChecker);
@@ -14,8 +13,13 @@ export abstract class EmptyCheckerContainer extends AbstractEmptyChecker {
     {
       provide: EmptyCheckerContainer,
       useExisting: forwardRef(() => EmptyCheckerGroup)
+    },
+    {
+      provide: AbstractEmptyChecker,
+      useExisting: forwardRef(() => EmptyCheckerGroup)
     }
-  ]
+  ],
+  exportAs: 'emptyChecker'
 })
 export class EmptyCheckerGroup extends EmptyCheckerContainer {
 
@@ -28,22 +32,21 @@ export class EmptyCheckerGroup extends EmptyCheckerContainer {
     super(elementRef, controlContainer, parent);
   }
 
-  ngOnInit() {
+  registerChild(emptyChecker: AbstractEmptyChecker) {
 
-    this.bindOnNewEmpty();
+    // console.log(`======================================`);
+    // console.log(`registerChild(...`);
 
-    super.ngOnInit();
-  }
+    this.children.push(emptyChecker);
 
-  private bindOnNewEmpty() {
-
-    let childObservables = this.children.map(it => it.emptyStateChanges);
-
-    let allChildrenChangesObservable = Observable.merge(childObservables);
+    // console.log(`this.controlDirective.path = ${this.controlDirective.path}`);
+    // console.log(`this.children.length = ${this.children.length}`);
 
     let that = this;
 
-    allChildrenChangesObservable.subscribe(someChildEmptyState => {
+    emptyChecker.emptyStateChanges.subscribe(someChildEmptyState => {
+
+      // console.log(`someChildEmptyState = ${someChildEmptyState}`);
 
       if (someChildEmptyState) {
         let newEmpty = that.recalculateEmptyState();
@@ -52,10 +55,6 @@ export class EmptyCheckerGroup extends EmptyCheckerContainer {
         that.onNewEmpty(false);
       }
     });
-  }
-
-  registerChild(emptyChecker: AbstractEmptyChecker) {
-    this.children.push(emptyChecker);
   }
 
   private recalculateEmptyState(): boolean {

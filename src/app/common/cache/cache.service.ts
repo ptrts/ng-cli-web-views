@@ -11,7 +11,7 @@ export class OurCacheService {
                          getObservableMethod: (...any) => Observable<T>,
                          thisArg: any, ...argArray: any[]) {
 
-    console.log('thisArg = ' + thisArg);
+    // console.log('thisArg = ' + thisArg);
 
     // Сначала пытаемся взять значение из кеша
     let cachedValue: T = this.cacheService.get(key);
@@ -19,11 +19,11 @@ export class OurCacheService {
       return Observable.of(cachedValue);
     }
 
-    console.log('thisArg = ' + thisArg);
+    // console.log('thisArg = ' + thisArg);
 
     let observableFromMethod = getObservableMethod.call(thisArg, ...argArray);
 
-    console.log('thisArg = ' + thisArg);
+    // console.log('thisArg = ' + thisArg);
 
     return observableFromMethod
       .do(valueFromObservable => {
@@ -38,16 +38,16 @@ export class OurCacheService {
     let cachedValue: T = this.cacheService.get(key);
     if (cachedValue !== null) {
 
-      console.log('Закешировано = ' + cachedValue);
+      // console.log('Закешировано = ' + cachedValue);
 
       return cachedValue;
     }
 
-    console.log('Ничего не закешировано, вызываем метод');
+    // console.log('Ничего не закешировано, вызываем метод');
 
     let valueFromMethod = getMethod.call(thisArg, ...argArray);
 
-    console.log('Метод вернул = ' + valueFromMethod);
+    // console.log('Метод вернул = ' + valueFromMethod);
 
     this.cacheService.set(key, valueFromMethod, {maxAge: maxAgeSeconds});
 

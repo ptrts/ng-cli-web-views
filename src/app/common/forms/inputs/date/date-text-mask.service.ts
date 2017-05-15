@@ -41,16 +41,16 @@ export class DateTextMaskService {
 
     let utcOffset = this.ourServerApi.getUtcOffset();
 
-    console.log('utcOffset = ' + utcOffset);
+    // console.log('utcOffset = ' + utcOffset);
 
     let theMoment = this.parseInputValue(inputValue);
 
-    console.log('theMoment = ' + theMoment.toDate());
-    console.log('currentUtcOffset = ' + theMoment.utcOffset());
+    // console.log('theMoment = ' + theMoment.toDate());
+    // console.log('currentUtcOffset = ' + theMoment.utcOffset());
 
     theMoment = theMoment.utcOffset(utcOffset, true);
 
-    console.log('theMoment = ' + theMoment.toDate());
+    // console.log('theMoment = ' + theMoment.toDate());
 
     if (theMoment.isValid()) {
       return theMoment.toDate();

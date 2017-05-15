@@ -1,4 +1,4 @@
-import {Directive, ElementRef, Inject, InjectionToken, OnInit, Optional, Self} from '@angular/core';
+import {Directive, ElementRef, forwardRef, Inject, InjectionToken, OnInit, Optional, Self} from '@angular/core';
 import {NgControl} from '@angular/forms';
 import {AbstractEmptyCheckerWorker} from './abstract-empty-checker-worker.directive';
 import {AbstractEmptyChecker} from './abstract-empty-checker';
@@ -7,7 +7,14 @@ import {EmptyCheckerGroup} from './group-empty-checker.directive';
 export const APP_EMPTY_CHECKER_WORKERS = new InjectionToken('APP_EMPTY_CHECKER_WORKERS');
 
 @Directive({
-  selector: '[ngModel],[formControl],[formControlName]'
+  selector: '[ngModel],[formControl],[formControlName]',
+  exportAs: 'emptyChecker',
+  providers: [
+    {
+      provide: AbstractEmptyChecker,
+      useExisting: forwardRef(() => LeafEmptyChecker)
+    }
+  ]
 })
 export class LeafEmptyChecker extends AbstractEmptyChecker implements OnInit {
 
@@ -26,7 +33,7 @@ export class LeafEmptyChecker extends AbstractEmptyChecker implements OnInit {
     this.chooseWorker();
     this.bindToEvents();
 
-    console.log('Обновление empty непосредственно в ngOnInit()');
+    // console.log('Обновление empty непосредственно в ngOnInit()');
     this.extractAndPushNewEmpty();
 
     super.ngOnInit();

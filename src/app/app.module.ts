@@ -24,7 +24,10 @@ import {MainComponent} from './pages/main/main.component';
 import {RegistrationStep1CanActivateGuard} from './pages/registration/step-1/registration-step-1-can-activate.guard';
 import {RegistrationStep1Component} from './pages/registration/step-1/registration-step-1.component';
 import {RegistrationStep2CanActivateGuard} from './pages/registration/step-2/registration-step-2-can-activate.guard';
-import {RegistrationStep2Component} from './pages/registration/step-2/registration-step-2.component';
+import {
+  AddressFormGroupEmptyChecker,
+  RegistrationStep2Component
+} from './pages/registration/step-2/registration-step-2.component';
 import {RegistrationStep3CanActivateGuard} from './pages/registration/step-3/registration-step-3-can-activate.guard';
 import {RegistrationStep3Component} from './pages/registration/step-3/registration-step-3.component';
 import {OurBackend} from './server/backend/our-backend';
@@ -116,6 +119,7 @@ const ROUTES: Routes = [
     ProfileComponent,
     LeafEmptyChecker,
     EmptyCheckerGroup,
+    AddressFormGroupEmptyChecker,
   ],
   providers: [
     CookieService,
@@ -134,18 +138,18 @@ const ROUTES: Routes = [
 export class AppModule {
 }
 
-console.log(`
-=========================================================================
-moment.utc([1980, 12 - 1, 31]).toDate()            = ${moment.utc([1980, 12 - 1, 31]).toDate()}
-moment.utc([1980, 12 - 1, 31]).utc().toDate()      = ${moment.utc([1980, 12 - 1, 31]).utc().toDate()}
-moment.utc([1980, 12 - 1, 31]).utc(true).toDate()  = ${moment.utc([1980, 12 - 1, 31]).utc(true).toDate()}
-moment.utc([1980, 12 - 1, 31]).utc(false).toDate() = ${moment.utc([1980, 12 - 1, 31]).utc(false).toDate()}
-
-moment([1980, 12 - 1, 31]).toDate()            = ${moment([1980, 12 - 1, 31]).toDate()}
-moment([1980, 12 - 1, 31]).utc().toDate()      = ${moment([1980, 12 - 1, 31]).utc().toDate()}
-moment([1980, 12 - 1, 31]).utc(true).toDate()  = ${moment([1980, 12 - 1, 31]).utc(true).toDate()}
-moment([1980, 12 - 1, 31]).utc(false).toDate() = ${moment([1980, 12 - 1, 31]).utc(false).toDate()}
-
-moment([1980, 12 - 1, 31]).utcOffset(3, true).toDate() = ${moment([1980, 12 - 1, 31]).utcOffset(3, true).toDate()}
-=========================================================================
-`);
+// console.log(`
+// =========================================================================
+// moment.utc([1980, 12 - 1, 31]).toDate()            = ${moment.utc([1980, 12 - 1, 31]).toDate()}
+// moment.utc([1980, 12 - 1, 31]).utc().toDate()      = ${moment.utc([1980, 12 - 1, 31]).utc().toDate()}
+// moment.utc([1980, 12 - 1, 31]).utc(true).toDate()  = ${moment.utc([1980, 12 - 1, 31]).utc(true).toDate()}
+// moment.utc([1980, 12 - 1, 31]).utc(false).toDate() = ${moment.utc([1980, 12 - 1, 31]).utc(false).toDate()}
+//
+// moment([1980, 12 - 1, 31]).toDate()            = ${moment([1980, 12 - 1, 31]).toDate()}
+// moment([1980, 12 - 1, 31]).utc().toDate()      = ${moment([1980, 12 - 1, 31]).utc().toDate()}
+// moment([1980, 12 - 1, 31]).utc(true).toDate()  = ${moment([1980, 12 - 1, 31]).utc(true).toDate()}
+// moment([1980, 12 - 1, 31]).utc(false).toDate() = ${moment([1980, 12 - 1, 31]).utc(false).toDate()}
+//
+// moment([1980, 12 - 1, 31]).utcOffset(3, true).toDate() = ${moment([1980, 12 - 1, 31]).utcOffset(3, true).toDate()}
+// =========================================================================
+// `);

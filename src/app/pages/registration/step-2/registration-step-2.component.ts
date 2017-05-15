@@ -1,5 +1,8 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {
+  AfterViewInit, Component, Directive, forwardRef, Input, OnInit, QueryList, ViewChild,
+  ViewChildren
+} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ModalService} from '../../../common/components/modal/modal.service';
 import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
@@ -10,6 +13,19 @@ import {
   ValidationMessagesProvider
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
 import {OurServerApi} from '../../../server/our-server-api';
+import {AbstractEmptyChecker} from '../../../common/forms/empty-checker/abstract-empty-checker';
+
+@Directive({
+  selector: '[addressFormGroupEmptyChecker]'
+})
+export class AddressFormGroupEmptyChecker {
+
+  @Input('formGroupName')
+  name: string;
+
+  @Input('addressFormGroupEmptyChecker')
+  inputEmptyChecker: AbstractEmptyChecker;
+}
 
 @Component({
   selector: 'app-registration-step-2',
@@ -24,7 +40,10 @@ import {OurServerApi} from '../../../server/our-server-api';
     }
   ]
 })
-export class RegistrationStep2Component implements OnInit, ValidationMessagesProvider {
+export class RegistrationStep2Component implements OnInit, AfterViewInit, ValidationMessagesProvider {
+
+  @ViewChildren(AddressFormGroupEmptyChecker)
+  addressFormGroupEmptyCheckers: QueryList<AddressFormGroupEmptyChecker>;
 
   JSON = JSON;
 
@@ -88,16 +107,19 @@ export class RegistrationStep2Component implements OnInit, ValidationMessagesPro
     return this.validationMessages[formControlName];
   }
 
-  buildAddressFormGroup(address: Address) {
-    return this.fb.group(address);
-  }
+  addressFormGroup(address: Address, required: boolean) {
 
-  addressFormGroup(address: Address) {
+    let validators = [];
+
+    if (required) {
+      validators.push(Validators.required);
+    }
+
     return this.fb.group({
-        region: address.region,
-        city: address.city,
-        street: address.street,
-        house: address.house,
+        region: [address.region, validators],
+        city: [address.city, validators],
+        street: [address.street, validators],
+        house: [address.house, validators],
         building: address.building,
         subBuilding: address.subBuilding,
         flat: address.flat,
@@ -106,10 +128,48 @@ export class RegistrationStep2Component implements OnInit, ValidationMessagesPro
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      registrationAddress: this.addressFormGroup(this.model.registrationAddress),
-      livingAddress: this.addressFormGroup(this.model.livingAddress),
+      registrationAddress: this.addressFormGroup(this.model.registrationAddress, true),
+      livingAddress: this.addressFormGroup(this.model.livingAddress, false),
       email: this.model.email
     });
+  }
+
+  ngAfterViewInit(): void {
+
+    let livingAddressFormGroup = <FormGroup>this.form.get('livingAddress');
+
+    // console.log(`====================================================================`);
+    // console.log(`this.addressFormGroupEmptyCheckers.forEach(...`);
+
+    this.addressFormGroupEmptyCheckers.forEach(addressFormGroupEmptyChecker => {
+
+      // console.log(`addressFormGroupEmptyChecker.name = ${addressFormGroupEmptyChecker.name}`);
+
+      if (addressFormGroupEmptyChecker.name === 'livingAddress') {
+        addressFormGroupEmptyChecker.inputEmptyChecker.emptyStateChanges.subscribe(allAddressFieldsEmpty => {
+
+          // console.log(`allAddressFieldsEmpty = ${allAddressFieldsEmpty}`);
+
+          let controls = livingAddressFormGroup.controls;
+
+          if (allAddressFieldsEmpty) {
+            controls.region.clearValidators();
+            controls.city.clearValidators();
+            controls.street.clearValidators();
+            controls.house.clearValidators();
+            // console.log('validators removed');
+          } else {
+            controls.region.setValidators(Validators.required);
+            controls.city.setValidators(Validators.required);
+            controls.street.setValidators(Validators.required);
+            controls.house.setValidators(Validators.required);
+            // console.log('validators set');
+          }
+
+          Object.keys(controls).forEach(key => controls[key].updateValueAndValidity({onlySelf: false, emitEvent: true}));
+        });
+      }
+   });
   }
 
   onNextClick() {

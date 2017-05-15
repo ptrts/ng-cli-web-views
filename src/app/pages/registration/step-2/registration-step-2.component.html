@@ -6,15 +6,19 @@
 
       <form [formGroup]="form" autocomplete="off">
 
-        <div *ngFor="let addressViewModel of addressesViewModel" [formGroupName]="addressViewModel.formGroupName">
+        <div *ngFor="let addressViewModel of addressesViewModel"
+             [formGroupName]="addressViewModel.formGroupName"
+             #ec="emptyChecker"
+             [addressFormGroupEmptyChecker]="ec"
+        >
 
-          <h2>{{addressViewModel.header}}</h2>
+          <p>{{addressViewModel.header}}</p>
 
           <div class="form-group">
 
             <input type="text" class="form-control"
                    placeholder="Регион*"
-                   required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+                   maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
                    formControlName="region">
 
             <app-validation-message></app-validation-message>
@@ -25,7 +29,7 @@
 
             <input type="text" class="form-control"
                    placeholder="Город*"
-                   required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+                   maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
                    formControlName="city">
 
             <app-validation-message></app-validation-message>
@@ -36,7 +40,7 @@
 
             <input type="text" class="form-control"
                    placeholder="Улица*"
-                   required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+                   maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
                    formControlName="street">
 
             <app-validation-message></app-validation-message>
@@ -48,7 +52,7 @@
             <div class="d-flex">
               <input type="text" class="form-control"
                      placeholder="Дом*" size="1"
-                     required maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                     maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
                      formControlName="house">
               <input type="text" class="form-control ml-2"
                      placeholder="Корпус" size="1"
@@ -72,7 +76,9 @@
 
         <div class="form-group">
 
-          <input type="text" class="form-control"
+          <label class="form-control-label" for="email">Адрес электронной почты*</label>
+
+          <input type="text" class="form-control" id="email"
                  placeholder="address@mail.ru"
                  required maxlength="75" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$"
                  formControlName="email">

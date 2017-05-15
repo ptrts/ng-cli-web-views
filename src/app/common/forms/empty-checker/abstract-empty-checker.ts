@@ -1,8 +1,8 @@
-import {ElementRef, EventEmitter} from '@angular/core';
+import {ElementRef, EventEmitter, OnInit} from '@angular/core';
 import {AbstractControlDirective} from '@angular/forms';
 import {EmptyCheckerContainer} from './group-empty-checker.directive';
 
-export abstract class AbstractEmptyChecker {
+export abstract class AbstractEmptyChecker implements OnInit {
 
   protected element: any;
 
@@ -19,7 +19,7 @@ export abstract class AbstractEmptyChecker {
 
   ngOnInit(): void {
 
-    console.log('ngOnInit(), this.controlDirective.path = ' + this.controlDirective.path);
+    // console.log('ngOnInit(), this.controlDirective.path = ' + this.controlDirective.path);
 
     if (this.parent) {
       this.parent.registerChild(this);
@@ -55,8 +55,8 @@ this._empty: ${this._empty}`);
         this.element.classList.add('app-not-empty');
       }
       this._empty = newEmpty;
-      console.log('this._empty = ' + this._empty);
-      console.log('');
+      // console.log('this._empty = ' + this._empty);
+      // console.log('');
 
       this.emptyStateChanges.next(this._empty);
     }

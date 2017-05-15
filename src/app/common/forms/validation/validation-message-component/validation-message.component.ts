@@ -1,6 +1,6 @@
 import {
   Component,
-  Directive,
+  Directive, ElementRef,
   forwardRef,
   Inject,
   InjectionToken,
@@ -31,7 +31,7 @@ export interface ValidationMessagesProvider {
 }
 
 export interface ControlsAggregator {
-  registerControl(controlDirective: AbstractControlDirective, emptyChecker: AbstractEmptyChecker, name: string);
+  registerControl(elementRef: ElementRef, controlDirective: AbstractControlDirective, emptyChecker: AbstractEmptyChecker, name: string);
 }
 
 export const APP_VALIDATION_MESSAGES_PROVIDER
@@ -41,6 +41,7 @@ export const APP_CONTROLS_AGGREGATOR
   = new InjectionToken<ControlsAggregator>('APP_CONTROLS_AGGREGATOR');
 
 class ControlInfo {
+  elementRef: ElementRef;
   name: string;
   controlDirective: AbstractControlDirective;
   emptyChecker: AbstractEmptyChecker;
@@ -59,8 +60,9 @@ export class BootstrapFormGroupDirective implements ControlsAggregator {
 
   controlInfos: ControlInfo[] = [];
 
-  registerControl(controlDirective: AbstractControlDirective, emptyChecker: AbstractEmptyChecker, name: string) {
+  registerControl(elementRef: ElementRef, controlDirective: AbstractControlDirective, emptyChecker: AbstractEmptyChecker, name: string) {
     this.controlInfos.push({
+      elementRef: elementRef,
       name: name,
       controlDirective: controlDirective,
       emptyChecker: emptyChecker
@@ -78,7 +80,7 @@ export class BootstrapFormGroupDirective implements ControlsAggregator {
   ]
 })
 export class ControlContainerSpy implements ControlsAggregator {
-  registerControl(controlDirective: AbstractControlDirective, emptyChecker: AbstractEmptyChecker, name: string) {
+  registerControl(elementRef: ElementRef, controlDirective: AbstractControlDirective, emptyChecker: AbstractEmptyChecker, name: string) {
     // Перехватываем деток, желающих зарегистрироваться в бутстраповском class="form-group"
     // Мы сами там зарегистрируемся от имени их всех
   }
@@ -89,7 +91,8 @@ export class ControlContainerSpy implements ControlsAggregator {
 })
 export class ControlSpy implements OnInit {
 
-  constructor(@Optional() @Self() private ngControl: NgControl,
+  constructor(private elementRef: ElementRef,
+              @Optional() @Self() private ngControl: NgControl,
               @Optional() @Self() private controlContainer: ControlContainer,
               @Optional() @Self() private emptyChecker: AbstractEmptyChecker,
               @Optional() @Inject(APP_CONTROLS_AGGREGATOR) @SkipSelf() private controlsAggregator: ControlsAggregator) {
@@ -98,9 +101,9 @@ export class ControlSpy implements OnInit {
   ngOnInit(): void {
     if (this.controlsAggregator != null) {
       if (this.ngControl) {
-        this.controlsAggregator.registerControl(this.ngControl, this.emptyChecker, this.ngControl.name);
+        this.controlsAggregator.registerControl(this. elementRef, this.ngControl, this.emptyChecker, this.ngControl.name);
       } else if (this.controlContainer) {
-        this.controlsAggregator.registerControl(this.controlContainer, this.emptyChecker, this.controlContainer.name);
+        this.controlsAggregator.registerControl(this. elementRef, this.controlContainer, this.emptyChecker, this.controlContainer.name);
       } else {
         throw new Error('Что-то не так. Должно было заинжектиться либо NgControl, либо ControlContainer');
       }
@@ -140,6 +143,7 @@ export class ValidationMessageComponent implements OnInit {
           controlInfo.emptyChecker.emptyStateChanges.subscribe(() => that.refreshShow());
         }
         controlInfo.controlDirective.statusChanges.subscribe(() => that.refreshShow());
+        controlInfo.elementRef.nativeElement.addEventListener('blur', () => that.refreshShow());
       });
     }
   }
@@ -152,7 +156,17 @@ export class ValidationMessageComponent implements OnInit {
 
     let notEmpty = false;
 
+    // console.log('this.controlInfos.forEach(controlInfo => {...');
+
     this.controlInfos.forEach(controlInfo => {
+
+      // console.log(`--------------------------------------------------`);
+      // console.log(`controlInfo.name = ${controlInfo.name}`);
+      // console.log(`controlInfo.controlDirective.invalid = ${controlInfo.controlDirective.invalid}`);
+      // console.log(`controlInfo.controlDirective.touched = ${controlInfo.controlDirective.touched}`);
+      // console.log(`controlInfo.controlDirective.dirty = ${controlInfo.controlDirective.dirty}`);
+      // console.log(`controlInfo.emptyChecker = ${controlInfo.emptyChecker}`);
+      // console.log(`controlInfo.emptyChecker.notEmpty = ${controlInfo.emptyChecker && controlInfo.emptyChecker.notEmpty}`);
 
       invalid = invalid || controlInfo.controlDirective.invalid;
       touched = touched || controlInfo.controlDirective.touched;
@@ -162,6 +176,8 @@ export class ValidationMessageComponent implements OnInit {
     });
 
     this.show = invalid && (touched || dirty || notEmpty);
+
+    // console.log(`show = ${this.show}`);
   }
 
   private addControlErrorsRecursively(validationErrorsByFields: {[formField: string]: ValidationErrors},
