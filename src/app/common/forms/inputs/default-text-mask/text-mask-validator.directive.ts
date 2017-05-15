@@ -3,7 +3,7 @@ import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angu
 import {DefaultTextMaskService} from './text-mask.service';
 
 @Directive({
-  selector: 'input[type="text"][textMask]:not([app-date]):not([app-phone])',
+  selector: 'input[type="text"][textMask]:not([appDate]):not([appPhone])',
   providers: [
     {
       provide: NG_VALIDATORS,

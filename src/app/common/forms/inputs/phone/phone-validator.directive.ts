@@ -3,7 +3,7 @@ import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angu
 import {PhoneTextMaskService} from './phone-text-mask.service';
 
 @Directive({
-  selector: 'input[type="text"][app-phone][textMask]',
+  selector: 'input[type="text"][appPhone][textMask]',
   providers: [
     {
       provide: NG_VALIDATORS,

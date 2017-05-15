@@ -51,7 +51,7 @@
 
           <input type="text" class="form-control" id="birthDate"
                  required
-                 app-date [app-min]="BIRTH_DATE_MIN" [app-max]="BIRTH_DATE_MAX"
+                 appDate [appMin]="BIRTH_DATE_MIN" [appMax]="BIRTH_DATE_MAX"
                  [textMask]="dateTextMaskService.conf"
                  formControlName="birthDate">
 
@@ -100,7 +100,7 @@
             <input type="text" class="form-control ml-2 flex-width-rest" id="phoneNumber"
                    size="1"
                    required minlength="10"
-                   app-phone
+                   appPhone
                    [textMask]="phoneTextMaskService.conf"
                    formControlName="phoneNumber">
 

@@ -3,7 +3,7 @@ import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angu
 import {DateTextMaskService} from './date-text-mask.service';
 
 @Directive({
-  selector: 'input[type="text"][app-date][textMask]',
+  selector: 'input[type="text"][appDate][textMask]',
   providers: [
     {
       provide: NG_VALIDATORS,
@@ -14,10 +14,10 @@ import {DateTextMaskService} from './date-text-mask.service';
 })
 export class DateValidator implements Validator {
 
-  @Input('app-min')
+  @Input('appMin')
   min: Date;
 
-  @Input('app-max')
+  @Input('appMax')
   max: Date;
 
   @Input('required')
