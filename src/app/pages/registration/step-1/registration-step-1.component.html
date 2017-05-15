@@ -89,28 +89,58 @@
 
         </div>
 
-        <div class="form-group">
+        <div class="d-flex">
 
-          <label class="form-control-label" for="phoneNumber">Телефон*</label>
+          <div class="form-group flex-width-rest">
 
-          <div class="d-flex">
+            <label class="form-control-label" for="phoneNumber">Телефон*</label>
 
-            <span class="align-self-center">+7</span>
+            <div class="d-flex">
 
-            <input type="text" class="form-control ml-2 flex-width-rest" id="phoneNumber"
-                   size="1"
-                   required minlength="10"
-                   appPhone
-                   [textMask]="phoneTextMaskService.conf"
-                   formControlName="phoneNumber">
+              <span class="align-self-center">+7</span>
 
-            <button class="btn btn-success ml-2">Подтвердить</button>
+              <input type="text" class="form-control ml-2 flex-width-rest" id="phoneNumber"
+                     size="1"
+                     required minlength="10"
+                     appPhone
+                     [textMask]="phoneTextMaskService.conf"
+                     formControlName="phoneNumber">
+
+            </div>
+
+            <app-validation-message></app-validation-message>
 
           </div>
 
-          <app-validation-message></app-validation-message>
+          <div class="form-group ml-2" [class.hidden-xs-up]="!verificationCodeAlive" style="width: 90px">
+
+            <label class="form-control-label" for="verificationCode">Код (<b>{{verificationCodeSeconds}}</b>)*</label>
+
+            <input type="text" class="form-control" id="verificationCode"
+                   size="1"
+                   required minlength="4"
+                   [textMask]="verificationCodeTextMaskConfig"
+                   formControlName="verificationCode">
+
+            <app-validation-message></app-validation-message>
+
+          </div>
 
         </div>
+
+        <p class="alert alert-success" [class.hidden-xs-up]="!verificationCodeAlive">
+          Код подтверждения был выслан вам в SMS.
+          Введите его в соответствующее поле.
+        </p>
+
+        <p class="alert alert-success" [class.hidden-xs-up]="showVerifyButton">
+          Вы сможете запросить новый код через <b>{{verifyButtonSeconds}}</b> секунд.
+        </p>
+
+        <button class="btn btn-success" [class.hidden-xs-up]="!showVerifyButton" (click)="verifyOnClick()">
+          <span *ngIf="verificationCodeAlive">Запросить новый код</span>
+          <span *ngIf="!verificationCodeAlive">Подтвердить номер телефона</span>
+        </button>
 
         <div class="form-group">
 
@@ -142,9 +172,7 @@
 
         </div>
 
-        <div class="d-inline-flex mt-5 justify-content-center" [class.disabled]="form.valid">
-          <button class="btn btn-success btn-lg text-center mb-3" (click)="onNextClick()">Далее</button>
-        </div>
+        <button class="btn btn-success btn-lg text-center d-block my-5" (click)="onNextClick()">Далее</button>
 
       </form>
 

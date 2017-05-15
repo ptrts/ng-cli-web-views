@@ -4,6 +4,6 @@ import {SessionStatus} from '../session-status/session-status';
 
 @Injectable()
 export class OurBackend {
-  sessionStatus: SessionStatus = SessionStatus.REGISTRATION_STEP_1;
+  sessionStatus: SessionStatus = SessionStatus.NOT_REGISTERED;
   utcOffset = 3;
 }

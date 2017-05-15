@@ -1,16 +1,21 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
 import * as moment from 'moment';
+import 'rxjs/add/operator/take';
+import 'rxjs/add/observable/interval';
 import {ModalService} from '../../../common/components/modal/modal.service';
 import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
 import {PhoneTextMaskService} from '../../../common/forms/inputs/phone/phone-text-mask.service';
+
 import {
   APP_VALIDATION_MESSAGES_PROVIDER,
   ValidationMessages,
   ValidationMessagesProvider
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
 import {OurServerApi} from '../../../server/our-server-api';
-import {Router} from '@angular/router';
+import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-registration-step-1',
@@ -72,6 +77,26 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
     }
   };
 
+  readonly verificationCodeTextMaskConfig = {
+    mask: [
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+    ],
+    showMask: true
+  };
+
+  verificationCodeAlive = false;
+
+  verificationCodeSeconds: number;
+
+  verificationCodeTimerSubscription: Subscription;
+
+  showVerifyButton = true;
+
+  verifyButtonSeconds: number;
+
   constructor(
     private fb: FormBuilder,
     public dateTextMaskService: DateTextMaskService,
@@ -94,6 +119,51 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
     this.form.patchValue({
       birthDate: this.dateTextMaskService.toInputValue(this.model.birthDate),
       phoneNumber: this.phoneTextMaskService.toInputValue(this.model.phoneNumber)
+    });
+  }
+
+  verifyOnClick() {
+
+    let phoneNumberControl: FormControl = <FormControl>this.form.get('phoneNumber');
+    let verificationCodeControl: FormControl = <FormControl>this.form.get('verificationCode');
+
+    if (!phoneNumberControl.valid) {
+      this.modalService.warning('Необходимо ввести корректный номер телефона');
+      return;
+    }
+
+    if (this.verificationCodeTimerSubscription) {
+      this.verificationCodeTimerSubscription.unsubscribe();
+    }
+
+    let phone = this.phoneTextMaskService.fromInputValue(phoneNumberControl.value);
+
+    let that = this;
+
+    this.ourServerApi.sendPhoneNumberVerificationCode(phone).take(1).subscribe(() => {
+
+      verificationCodeControl.setValue('');
+
+      that.verificationCodeAlive = true;
+      that.verificationCodeSeconds = 10;
+
+      that.verificationCodeTimerSubscription = Observable.interval(1000).take(that.verificationCodeSeconds).subscribe(
+        () => that.verificationCodeSeconds--,
+        null,
+        () => {
+          that.verificationCodeAlive = false;
+          verificationCodeControl.setValue('');
+        }
+      );
+
+      that.showVerifyButton = false;
+      that.verifyButtonSeconds = 5;
+
+      Observable.interval(1000).take(that.verifyButtonSeconds).subscribe(
+        () => that.verifyButtonSeconds--,
+        null,
+        () => that.showVerifyButton = true
+      );
     });
   }
 
@@ -165,6 +235,8 @@ export class RegistrationStep1 {
   sex = '';
 
   phoneNumber = '';
+
+  verificationCode = '';
 
   consentToEverything = false;
 

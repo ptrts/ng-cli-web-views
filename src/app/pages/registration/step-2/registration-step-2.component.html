@@ -72,22 +72,52 @@
 
         </div>
 
-        <div class="form-group">
+        <div class="d-flex">
 
-          <label class="form-control-label" for="email">Адрес электронной почты*</label>
+          <div class="form-group flex-width-rest">
 
-          <input type="text" class="form-control" id="email"
-                 placeholder="address@mail.ru"
-                 required maxlength="75" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$"
-                 formControlName="email">
+            <label class="form-control-label" for="email">Адрес электронной почты*</label>
 
-          <app-validation-message></app-validation-message>
+            <input type="text" class="form-control" id="email"
+                   placeholder="address@mail.ru"
+                   required maxlength="75" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$"
+                   formControlName="email">
+
+            <app-validation-message></app-validation-message>
+
+          </div>
+
+          <div class="form-group ml-2" [class.hidden-xs-up]="!verificationCodeAlive" style="width: 90px">
+
+            <label class="form-control-label" for="verificationCode">Код (<b>{{verificationCodeSeconds}}</b>)*</label>
+
+            <input type="text" class="form-control" id="verificationCode"
+                   size="1"
+                   required minlength="4"
+                   [textMask]="verificationCodeTextMaskConfig"
+                   formControlName="verificationCode">
+
+            <app-validation-message></app-validation-message>
+
+          </div>
 
         </div>
 
-        <div class="d-inline-flex mt-5 justify-content-center" [class.disabled]="form.valid">
-          <button class="btn btn-success btn-lg text-center mb-3" (click)="onNextClick()">Далее</button>
-        </div>
+        <p class="alert alert-success" [class.hidden-xs-up]="!verificationCodeAlive">
+          Код подтверждения был выслан вам по электронной почте.
+          Введите его в соответствующее поле.
+        </p>
+
+        <p class="alert alert-success" [class.hidden-xs-up]="showVerifyButton">
+          Вы сможете запросить новый код через <b>{{verifyButtonSeconds}}</b> секунд.
+        </p>
+
+        <button class="btn btn-success d-block" [class.hidden-xs-up]="!showVerifyButton" (click)="verifyOnClick()">
+          <span *ngIf="verificationCodeAlive">Запросить новый код</span>
+          <span *ngIf="!verificationCodeAlive">Подтвердить адрес электронной почты</span>
+        </button>
+
+        <button class="btn btn-success btn-lg text-center d-block my-5" (click)="onNextClick()">Далее</button>
 
       </form>
 

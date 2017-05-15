@@ -1,6 +1,18 @@
 import {AfterViewInit, Component, Directive, forwardRef, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {AbstractControl, ControlContainer, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  ControlContainer,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
 import {Router} from '@angular/router';
+import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/take';
+import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
 import {ModalService} from '../../../common/components/modal/modal.service';
 import {AbstractEmptyChecker} from '../../../common/forms/empty-checker/abstract-empty-checker';
 import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
@@ -11,6 +23,7 @@ import {
   ValidationMessagesProvider
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
 import {OurServerApi} from '../../../server/our-server-api';
+import {DefaultTextMaskService} from '../../../common/forms/inputs/default-text-mask/text-mask.service';
 
 @Directive({
   selector: '[addressFormGroup]'
@@ -89,10 +102,30 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
 
   private livingAddressRequired = false;
 
+  readonly verificationCodeTextMaskConfig = {
+    mask: [
+      /\d/,
+      /\d/,
+      /\d/,
+      /\d/,
+    ],
+    showMask: true
+  };
+
+  verificationCodeAlive = false;
+
+  verificationCodeSeconds: number;
+
+  verificationCodeTimerSubscription: Subscription;
+
+  showVerifyButton = true;
+
+  verifyButtonSeconds: number;
+
   constructor(
     private fb: FormBuilder,
     public dateTextMaskService: DateTextMaskService,
-    public phoneTextMaskService: PhoneTextMaskService,
+    private defaultTextMaskService: DefaultTextMaskService,
     private modalService: ModalService,
     private ourServerApi: OurServerApi,
     private router: Router
@@ -132,7 +165,8 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
       livingAddress: this.addressFormGroup(this.model.livingAddress, control => {
         return that.ourRequiredValidatorFn(control);
       }),
-      email: this.model.email
+      email: this.model.email,
+      verificationCode: this.model.verificationCode,
     });
   }
 
@@ -162,6 +196,51 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
         });
       }
    });
+  }
+
+  verifyOnClick() {
+
+    let emailControl: FormControl = <FormControl>this.form.get('email');
+    let verificationCodeControl: FormControl = <FormControl>this.form.get('verificationCode');
+
+    if (!emailControl.valid) {
+      this.modalService.warning('Необходимо ввести корректный адрес электронной почты');
+      return;
+    }
+
+    if (this.verificationCodeTimerSubscription) {
+      this.verificationCodeTimerSubscription.unsubscribe();
+    }
+
+    let email = emailControl.value;
+
+    let that = this;
+
+    this.ourServerApi.sendPhoneNumberVerificationCode(email).take(1).subscribe(() => {
+
+      verificationCodeControl.setValue('');
+
+      that.verificationCodeAlive = true;
+      that.verificationCodeSeconds = 10;
+
+      that.verificationCodeTimerSubscription = Observable.interval(1000).take(that.verificationCodeSeconds).subscribe(
+        () => that.verificationCodeSeconds--,
+        null,
+        () => {
+          that.verificationCodeAlive = false;
+          verificationCodeControl.setValue('');
+        }
+      );
+
+      that.showVerifyButton = false;
+      that.verifyButtonSeconds = 5;
+
+      Observable.interval(1000).take(that.verifyButtonSeconds).subscribe(
+        () => that.verifyButtonSeconds--,
+        null,
+        () => that.showVerifyButton = true
+      );
+    });
   }
 
   onNextClick() {
@@ -224,4 +303,5 @@ export class RegistrationStep2 {
   registrationAddress = new Address;
   livingAddress = new Address;
   email = '';
+  verificationCode = '';
 }

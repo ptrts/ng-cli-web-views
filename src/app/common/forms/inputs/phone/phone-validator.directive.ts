@@ -27,7 +27,7 @@ export class PhoneValidator implements Validator {
     if (this.phoneTextMaskService.isEmpty(inputValue)) {
 
       if (this.required !== undefined) {
-        return {phoneEmpty: 'Телефон должен быть заполнен'};
+        return {phoneEmpty: 'Номер телефона должен быть заполнен'};
       }
 
     } else {

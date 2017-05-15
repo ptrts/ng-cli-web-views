@@ -80,4 +80,8 @@ export class OurServerApi {
         this.cacheService.set('sessionStatus', SessionStatus.LOGGED_IN, {maxAge: 0.5});
       });
   }
+
+  sendPhoneNumberVerificationCode(phoneNumber: string): Observable<boolean> {
+    return Observable.of(true).delay(500);
+  }
 }
