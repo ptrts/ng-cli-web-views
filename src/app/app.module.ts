@@ -25,7 +25,7 @@ import {RegistrationStep1CanActivateGuard} from './pages/registration/step-1/reg
 import {RegistrationStep1Component} from './pages/registration/step-1/registration-step-1.component';
 import {RegistrationStep2CanActivateGuard} from './pages/registration/step-2/registration-step-2-can-activate.guard';
 import {
-  AddressFormGroupEmptyChecker,
+  AddressFormGroup,
   RegistrationStep2Component
 } from './pages/registration/step-2/registration-step-2.component';
 import {RegistrationStep3CanActivateGuard} from './pages/registration/step-3/registration-step-3-can-activate.guard';
@@ -119,7 +119,7 @@ const ROUTES: Routes = [
     ProfileComponent,
     LeafEmptyChecker,
     EmptyCheckerGroup,
-    AddressFormGroupEmptyChecker,
+    AddressFormGroup,
   ],
   providers: [
     CookieService,

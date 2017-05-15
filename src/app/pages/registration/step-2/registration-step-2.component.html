@@ -8,9 +8,7 @@
 
         <div *ngFor="let addressViewModel of addressesViewModel"
              [formGroupName]="addressViewModel.formGroupName"
-             #ec="emptyChecker"
-             [addressFormGroupEmptyChecker]="ec"
-        >
+             addressFormGroup>
 
           <p>{{addressViewModel.header}}</p>
 

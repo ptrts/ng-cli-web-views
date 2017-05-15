@@ -1,10 +1,8 @@
-import {
-  AfterViewInit, Component, Directive, forwardRef, Input, OnInit, QueryList, ViewChild,
-  ViewChildren
-} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AfterViewInit, Component, Directive, forwardRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {ControlContainer, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ModalService} from '../../../common/components/modal/modal.service';
+import {AbstractEmptyChecker} from '../../../common/forms/empty-checker/abstract-empty-checker';
 import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
 import {PhoneTextMaskService} from '../../../common/forms/inputs/phone/phone-text-mask.service';
 import {
@@ -13,18 +11,13 @@ import {
   ValidationMessagesProvider
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
 import {OurServerApi} from '../../../server/our-server-api';
-import {AbstractEmptyChecker} from '../../../common/forms/empty-checker/abstract-empty-checker';
 
 @Directive({
-  selector: '[addressFormGroupEmptyChecker]'
+  selector: '[addressFormGroup]'
 })
-export class AddressFormGroupEmptyChecker {
-
-  @Input('formGroupName')
-  name: string;
-
-  @Input('addressFormGroupEmptyChecker')
-  inputEmptyChecker: AbstractEmptyChecker;
+export class AddressFormGroup {
+  constructor(public emptyChecker: AbstractEmptyChecker, public controlContainer: ControlContainer) {
+  }
 }
 
 @Component({
@@ -42,8 +35,8 @@ export class AddressFormGroupEmptyChecker {
 })
 export class RegistrationStep2Component implements OnInit, AfterViewInit, ValidationMessagesProvider {
 
-  @ViewChildren(AddressFormGroupEmptyChecker)
-  addressFormGroupEmptyCheckers: QueryList<AddressFormGroupEmptyChecker>;
+  @ViewChildren(AddressFormGroup)
+  addressFormGroupEmptyCheckers: QueryList<AddressFormGroup>;
 
   JSON = JSON;
 
@@ -145,8 +138,8 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
 
       // console.log(`addressFormGroupEmptyChecker.name = ${addressFormGroupEmptyChecker.name}`);
 
-      if (addressFormGroupEmptyChecker.name === 'livingAddress') {
-        addressFormGroupEmptyChecker.inputEmptyChecker.emptyStateChanges.subscribe(allAddressFieldsEmpty => {
+      if (addressFormGroupEmptyChecker.controlContainer.name === 'livingAddress') {
+        addressFormGroupEmptyChecker.emptyChecker.emptyStateChanges.subscribe(allAddressFieldsEmpty => {
 
           // console.log(`allAddressFieldsEmpty = ${allAddressFieldsEmpty}`);
 
