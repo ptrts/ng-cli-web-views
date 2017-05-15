@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Directive, forwardRef, OnInit, QueryList, ViewChildren} from '@angular/core';
-import {ControlContainer, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, ControlContainer, FormBuilder, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {ModalService} from '../../../common/components/modal/modal.service';
 import {AbstractEmptyChecker} from '../../../common/forms/empty-checker/abstract-empty-checker';
@@ -87,6 +87,8 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
     }
   };
 
+  private livingAddressRequired = false;
+
   constructor(
     private fb: FormBuilder,
     public dateTextMaskService: DateTextMaskService,
@@ -100,29 +102,36 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
     return this.validationMessages[formControlName];
   }
 
-  addressFormGroup(address: Address, required: boolean) {
-
-    let validators = [];
-
-    if (required) {
-      validators.push(Validators.required);
-    }
+  addressFormGroup(address: Address, requiredValidatorFn: ValidatorFn) {
 
     return this.fb.group({
-        region: [address.region, validators],
-        city: [address.city, validators],
-        street: [address.street, validators],
-        house: [address.house, validators],
+        region: [address.region, requiredValidatorFn],
+        city: [address.city, requiredValidatorFn],
+        street: [address.street, requiredValidatorFn],
+        house: [address.house, requiredValidatorFn],
         building: address.building,
         subBuilding: address.subBuilding,
         flat: address.flat,
     });
   }
 
+  private ourRequiredValidatorFn(control: AbstractControl) {
+    if (this.livingAddressRequired) {
+      return Validators.required(control);
+    } else {
+      return null;
+    }
+  }
+
   ngOnInit(): void {
+
+    let that = this;
+
     this.form = this.fb.group({
-      registrationAddress: this.addressFormGroup(this.model.registrationAddress, true),
-      livingAddress: this.addressFormGroup(this.model.livingAddress, false),
+      registrationAddress: this.addressFormGroup(this.model.registrationAddress, Validators.required),
+      livingAddress: this.addressFormGroup(this.model.livingAddress, control => {
+        return that.ourRequiredValidatorFn(control);
+      }),
       email: this.model.email
     });
   }
@@ -134,6 +143,8 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
     // console.log(`====================================================================`);
     // console.log(`this.addressFormGroupEmptyCheckers.forEach(...`);
 
+    let that = this;
+
     this.addressFormGroupEmptyCheckers.forEach(addressFormGroupEmptyChecker => {
 
       // console.log(`addressFormGroupEmptyChecker.name = ${addressFormGroupEmptyChecker.name}`);
@@ -143,21 +154,9 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
 
           // console.log(`allAddressFieldsEmpty = ${allAddressFieldsEmpty}`);
 
-          let controls = livingAddressFormGroup.controls;
+          that.livingAddressRequired = !allAddressFieldsEmpty;
 
-          if (allAddressFieldsEmpty) {
-            controls.region.clearValidators();
-            controls.city.clearValidators();
-            controls.street.clearValidators();
-            controls.house.clearValidators();
-            // console.log('validators removed');
-          } else {
-            controls.region.setValidators(Validators.required);
-            controls.city.setValidators(Validators.required);
-            controls.street.setValidators(Validators.required);
-            controls.house.setValidators(Validators.required);
-            // console.log('validators set');
-          }
+          let controls = livingAddressFormGroup.controls;
 
           Object.keys(controls).forEach(key => controls[key].updateValueAndValidity({onlySelf: false, emitEvent: true}));
         });
