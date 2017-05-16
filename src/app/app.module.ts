@@ -22,7 +22,10 @@ import {ErrorComponent} from './pages/error/error.component';
 import {HomeComponent} from './pages/home/home.component';
 import {MainComponent} from './pages/main/main.component';
 import {RegistrationStep1CanActivateGuard} from './pages/registration/step-1/registration-step-1-can-activate.guard';
-import {RegistrationStep1Component} from './pages/registration/step-1/registration-step-1.component';
+import {
+  RegistrationStep1Component,
+  VerificationCodeDirective
+} from './pages/registration/step-1/registration-step-1.component';
 import {RegistrationStep2CanActivateGuard} from './pages/registration/step-2/registration-step-2-can-activate.guard';
 import {
   AddressFormGroup,
@@ -128,6 +131,7 @@ const ROUTES: Routes = [
     EmptyCheckerGroup,
     AddressFormGroup,
     LoginComponent,
+    VerificationCodeDirective
   ],
   providers: [
     CookieService,

@@ -130,6 +130,8 @@ export class ValidationMessageComponent implements OnInit {
 
   ngOnInit() {
 
+    // console.log('ValidationMessageComponent.ngOnInit');
+
     this.controlInfos = this.bootstrapFormGroupDirective.controlInfos;
 
     // Привязываемся к событиям всех наших контролов
@@ -139,6 +141,9 @@ export class ValidationMessageComponent implements OnInit {
       let that = this;
 
       this.controlInfos.forEach(controlInfo => {
+
+        // console.log(`controlInfo.name = ${controlInfo.name}`);
+
         if (controlInfo.emptyChecker) {
           controlInfo.emptyChecker.emptyStateChanges.subscribe(() => that.refreshShow());
         }

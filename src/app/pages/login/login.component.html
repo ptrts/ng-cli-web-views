@@ -1,3 +1,47 @@
-<p>
-  login works!
-</p>
+<div class="row">
+  <div class="col-5">
+
+    <h1>Вход в личный кабинет</h1>
+
+    <form [formGroup]="form" autocomplete="off">
+
+      <div class="form-group flex-width-rest">
+
+        <label class="form-control-label" for="phoneNumber">Телефон*</label>
+
+        <div class="input-group">
+
+          <div class="input-group-addon">+7</div>
+
+          <input type="text" class="form-control" id="phoneNumber"
+                 size="1"
+                 required minlength="10"
+                 appPhone
+                 [textMask]="phoneTextMaskService.conf"
+                 formControlName="phoneNumber">
+
+        </div>
+
+        <app-validation-message></app-validation-message>
+
+      </div>
+
+      <div class="form-group">
+
+        <label class="form-control-label" for="password">Пароль*</label>
+
+        <input type="password" class="form-control" id="password"
+               placeholder="Пароль"
+               required
+               formControlName="password">
+
+        <app-validation-message></app-validation-message>
+
+      </div>
+
+      <button class="btn btn-success btn-lg btn-block text-center d-block my-5" (click)="loginOnClick()">Вход</button>
+
+    </form>
+
+  </div>
+</div>

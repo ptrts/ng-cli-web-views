@@ -11,6 +11,7 @@ import {RegistrationStep2} from '../pages/registration/step-2/registration-step-
 import {RegistrationStep3} from '../pages/registration/step-3/registration-step-3.component';
 import {OurBackend} from './backend/our-backend';
 import {SessionStatus} from './session-status/session-status';
+import {PhoneNumberPassword} from '../pages/login/login.component';
 
 @Injectable()
 export class OurServerApi {
@@ -83,5 +84,17 @@ export class OurServerApi {
 
   sendPhoneNumberVerificationCode(phoneNumber: string): Observable<boolean> {
     return Observable.of(true).delay(500);
+  }
+
+  submitLogin(model: PhoneNumberPassword): Observable<boolean> {
+    if (model.password === '123456') {
+      return Observable.of(true).delay(500)
+        .do(() => {
+          this.ourBackend.sessionStatus = SessionStatus.LOGGED_IN;
+          this.cacheService.set('sessionStatus', SessionStatus.LOGGED_IN, {maxAge: 0.5});
+        });
+    } else {
+      return Observable.throw('Неверная комбинация номера телефона и пароля').delay(2000);
+    }
   }
 }

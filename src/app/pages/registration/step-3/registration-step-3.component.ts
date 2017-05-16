@@ -131,12 +131,14 @@ export class RegistrationStep3Component implements OnInit, ValidationMessagesPro
 
   onNextClick() {
 
-    this.form.markAsTouched();
-
     if (this.form.invalid) {
 
       Object.keys(this.form.controls)
-        .forEach(formControlName => this.form.controls[formControlName].markAsTouched(), this);
+        .forEach(formControlName => {
+          let control = this.form.controls[formControlName];
+          control.markAsTouched();
+          control.updateValueAndValidity({onlySelf: false, emitEvent: true});
+        }, this);
 
       this.modalService.warning(`
         При заполнении формы были допущены ошибки. 

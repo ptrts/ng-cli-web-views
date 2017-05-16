@@ -16,14 +16,13 @@ import {Subscription} from 'rxjs/Subscription';
 import {ModalService} from '../../../common/components/modal/modal.service';
 import {AbstractEmptyChecker} from '../../../common/forms/empty-checker/abstract-empty-checker';
 import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
-import {PhoneTextMaskService} from '../../../common/forms/inputs/phone/phone-text-mask.service';
+import {DefaultTextMaskService} from '../../../common/forms/inputs/default-text-mask/text-mask.service';
 import {
   APP_VALIDATION_MESSAGES_PROVIDER,
   ValidationMessages,
   ValidationMessagesProvider
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
 import {OurServerApi} from '../../../server/our-server-api';
-import {DefaultTextMaskService} from '../../../common/forms/inputs/default-text-mask/text-mask.service';
 
 @Directive({
   selector: '[addressFormGroup]'
@@ -242,12 +241,14 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
 
   onNextClick() {
 
-    this.form.markAsTouched();
-
     if (this.form.invalid) {
 
       Object.keys(this.form.controls)
-        .forEach(formControlName => this.form.controls[formControlName].markAsTouched(), this);
+        .forEach(formControlName => {
+          let control = this.form.controls[formControlName];
+          control.markAsTouched();
+          control.updateValueAndValidity({onlySelf: false, emitEvent: true});
+        }, this);
 
       this.modalService.warning(`
         При заполнении формы были допущены ошибки. 

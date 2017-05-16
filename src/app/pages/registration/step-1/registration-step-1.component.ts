@@ -1,9 +1,11 @@
-import {Component, forwardRef, OnInit} from '@angular/core';
+import {ApplicationRef, Component, Directive, ElementRef, forwardRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
-import 'rxjs/add/operator/take';
 import 'rxjs/add/observable/interval';
+import 'rxjs/add/operator/take';
+import {Observable} from 'rxjs/Observable';
+import {Subscription} from 'rxjs/Subscription';
 import {ModalService} from '../../../common/components/modal/modal.service';
 import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
 import {PhoneTextMaskService} from '../../../common/forms/inputs/phone/phone-text-mask.service';
@@ -14,8 +16,14 @@ import {
   ValidationMessagesProvider
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
 import {OurServerApi} from '../../../server/our-server-api';
-import {Observable} from 'rxjs/Observable';
-import {Subscription} from 'rxjs/Subscription';
+
+@Directive({
+  selector: 'input[id="verificationCode"]'
+})
+export class VerificationCodeDirective {
+  constructor(public elementRef: ElementRef) {
+  }
+}
 
 @Component({
   selector: 'app-registration-step-1',
@@ -30,6 +38,9 @@ import {Subscription} from 'rxjs/Subscription';
 export class RegistrationStep1Component implements OnInit, ValidationMessagesProvider {
 
   JSON = JSON;
+
+  @ViewChild(VerificationCodeDirective)
+  verificationCodeDirective: VerificationCodeDirective;
 
   readonly AGE_MIN = 18;
 
@@ -100,7 +111,8 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
     public phoneTextMaskService: PhoneTextMaskService,
     private modalService: ModalService,
     private ourServerApi: OurServerApi,
-    private router: Router
+    private router: Router,
+    private applicationRef: ApplicationRef
   ) {}
 
   getMessages(formControlName: string): ValidationMessages {
@@ -161,17 +173,25 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
         null,
         () => that.showVerifyButton = true
       );
+
+      this.applicationRef.tick();
+
+      let element = this.verificationCodeDirective.elementRef.nativeElement;
+      element.focus();
+      element.setSelectionRange(0, 0);
     });
   }
 
   onNextClick() {
 
-    this.form.markAsTouched();
-
     if (this.form.invalid) {
 
       Object.keys(this.form.controls)
-        .forEach(formControlName => this.form.controls[formControlName].markAsTouched(), this);
+        .forEach(formControlName => {
+          let control = this.form.controls[formControlName];
+          control.markAsTouched();
+          control.updateValueAndValidity({onlySelf: false, emitEvent: true});
+        }, this);
 
       this.modalService.warning(`
         При заполнении формы были допущены ошибки. 
