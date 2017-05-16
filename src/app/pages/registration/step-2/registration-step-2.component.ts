@@ -36,9 +36,6 @@ export class AddressFormGroup {
 @Component({
   selector: 'app-registration-step-2',
   templateUrl: './registration-step-2.component.html',
-  styleUrls: [
-    './registration-step-2.component.css'
-  ],
   providers: [
     {
       provide: APP_VALIDATION_MESSAGES_PROVIDER,

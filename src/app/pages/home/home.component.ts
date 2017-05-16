@@ -65,7 +65,7 @@ export class HomeComponent {
               this.router.navigate(['profile']);
               break;
             case SessionStatus.LOGGED_OUT:
-              this.router.navigate(['error']);
+              this.router.navigate(['login']);
           }
         }
       );

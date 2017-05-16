@@ -20,9 +20,6 @@ import {Subscription} from 'rxjs/Subscription';
 @Component({
   selector: 'app-registration-step-1',
   templateUrl: './registration-step-1.component.html',
-  styleUrls: [
-    './registration-step-1.component.css'
-  ],
   providers: [
     {
       provide: APP_VALIDATION_MESSAGES_PROVIDER,

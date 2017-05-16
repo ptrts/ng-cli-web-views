@@ -15,9 +15,6 @@ import {Router} from '@angular/router';
 @Component({
   selector: 'app-registration-step-3',
   templateUrl: './registration-step-3.component.html',
-  styleUrls: [
-    './registration-step-3.component.css'
-  ],
   providers: [
     {
       provide: APP_VALIDATION_MESSAGES_PROVIDER,

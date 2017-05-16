@@ -41,11 +41,18 @@ import {TextMaskEmptyCheckerWorker} from './common/forms/inputs/default-text-mas
 import {LeafEmptyChecker} from './common/forms/empty-checker/leaf-empty-checker.directive';
 import {EmptyCheckerGroup} from './common/forms/empty-checker/group-empty-checker.directive';
 import {DefaultEmptyCheckerWorker} from './common/forms/empty-checker/default-empty-checker-worker.directive';
+import { LoginComponent } from './pages/login/login.component';
+import {LoginCanActivateGuard} from './pages/login/login-can-activate.guard';
 
 const ROUTES: Routes = [
   {
     path: 'home',
     component: HomeComponent
+  },
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [LoginCanActivateGuard]
   },
   {
     path: 'reg1',
@@ -120,6 +127,7 @@ const ROUTES: Routes = [
     LeafEmptyChecker,
     EmptyCheckerGroup,
     AddressFormGroup,
+    LoginComponent,
   ],
   providers: [
     CookieService,
@@ -132,6 +140,7 @@ const ROUTES: Routes = [
     RegistrationStep2CanActivateGuard,
     RegistrationStep3CanActivateGuard,
     ProfileCanActivateGuard,
+    LoginCanActivateGuard,
   ],
   bootstrap: [MainComponent]
 })

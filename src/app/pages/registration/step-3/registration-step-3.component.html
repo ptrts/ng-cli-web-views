@@ -1,91 +1,89 @@
-<div class="container">
-  <div class="row">
-    <div class="col-5">
-      <h1>Шаг 3</h1>
-      <form [formGroup]="form" autocomplete="off">
+<div class="row">
+  <div class="col-5">
+    <h1>Шаг 3</h1>
+    <form [formGroup]="form" autocomplete="off">
 
-        <div formGroupName="passport">
-
-          <div class="form-group">
-
-            <label class="form-control-label" for="series">Серия и номер*</label>
-
-            <div class="d-flex">
-
-              <input type="text" class="form-control" id="series"
-                     placeholder="0000" size="1"
-                     required minLength="4"
-                     [textMask]="seriesTextMaskConf"
-                     formControlName="series">
-
-              <input type="text" class="form-control ml-2" id="number"
-                     placeholder="000000" size="1"
-                     required minLength="6"
-                     [textMask]="numberTextMaskConf"
-                     formControlName="number">
-
-            </div>
-
-            <app-validation-message></app-validation-message>
-
-          </div>
-
-          <div class="form-group">
-
-            <label class="form-control-label" for="issueDate">Дата выдачи*</label>
-
-            <input type="text" class="form-control" id="issueDate"
-                   required
-                   appDate [appMin]="ISSUE_DATE_MIN" [appMax]="ISSUE_DATE_MAX"
-                   [textMask]="dateTextMaskService.conf"
-                   formControlName="issueDate">
-
-            <app-validation-message></app-validation-message>
-
-          </div>
-
-          <div class="form-group">
-
-            <label class="form-control-label" for="whereIssued">Место выдачи паспорта*</label>
-
-            <input type="text" class="form-control" id="whereIssued"
-                   placeholder="Место выдачи"
-                   required minLength="3" maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-                   formControlName="whereIssued">
-
-            <app-validation-message></app-validation-message>
-
-          </div>
-
-        </div>
+      <div formGroupName="passport">
 
         <div class="form-group">
 
-          <label class="form-control-label" for="snils">Номер СНИЛС*</label>
+          <label class="form-control-label" for="series">Серия и номер*</label>
 
-          <input type="text" class="form-control" id="snils"
-                 required minLength="14"
-                 [textMask]="snilsTextMaskConf"
-                 formControlName="snils">
+          <div class="d-flex">
+
+            <input type="text" class="form-control" id="series"
+                   placeholder="0000" size="1"
+                   required minLength="4"
+                   [textMask]="seriesTextMaskConf"
+                   formControlName="series">
+
+            <input type="text" class="form-control ml-2" id="number"
+                   placeholder="000000" size="1"
+                   required minLength="6"
+                   [textMask]="numberTextMaskConf"
+                   formControlName="number">
+
+          </div>
 
           <app-validation-message></app-validation-message>
 
         </div>
 
-        <button class="btn btn-success btn-lg text-center d-block my-5" (click)="onNextClick()">Далее</button>
+        <div class="form-group">
 
-      </form>
+          <label class="form-control-label" for="issueDate">Дата выдачи*</label>
 
-    </div>
+          <input type="text" class="form-control" id="issueDate"
+                 required
+                 appDate [appMin]="ISSUE_DATE_MIN" [appMax]="ISSUE_DATE_MAX"
+                 [textMask]="dateTextMaskService.conf"
+                 formControlName="issueDate">
 
-    <!--<div class="col-5 align-self-center">
-      <p>
-        Статус формы: {{form.status}}
-      </p>
+          <app-validation-message></app-validation-message>
 
-      <p>
-        Значение формы: {{JSON.stringify(form.value)}}
-      </p>
-    </div>-->
+        </div>
+
+        <div class="form-group">
+
+          <label class="form-control-label" for="whereIssued">Место выдачи паспорта*</label>
+
+          <input type="text" class="form-control" id="whereIssued"
+                 placeholder="Место выдачи"
+                 required minLength="3" maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+                 formControlName="whereIssued">
+
+          <app-validation-message></app-validation-message>
+
+        </div>
+
+      </div>
+
+      <div class="form-group">
+
+        <label class="form-control-label" for="snils">Номер СНИЛС*</label>
+
+        <input type="text" class="form-control" id="snils"
+               required minLength="14"
+               [textMask]="snilsTextMaskConf"
+               formControlName="snils">
+
+        <app-validation-message></app-validation-message>
+
+      </div>
+
+      <button class="btn btn-success btn-lg text-center d-block my-5" (click)="onNextClick()">Далее</button>
+
+    </form>
+
   </div>
+
+  <!--<div class="col-5 align-self-center">
+    <p>
+      Статус формы: {{form.status}}
+    </p>
+
+    <p>
+      Значение формы: {{JSON.stringify(form.value)}}
+    </p>
+  </div>-->
 </div>

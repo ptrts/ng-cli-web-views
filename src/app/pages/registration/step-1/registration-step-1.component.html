@@ -1,195 +1,193 @@
-<div class="container">
-  <div class="row">
-    <div class="col-5">
-      <h1>Шаг 1</h1>
-      <form [formGroup]="form" autocomplete="off">
+<div class="row">
+  <div class="col-5">
+    <h1>Шаг 1</h1>
+    <form [formGroup]="form" autocomplete="off">
 
-        <div class="form-group">
+      <div class="form-group">
 
-          <label class="form-control-label" for="lastName">Фамилия*</label>
+        <label class="form-control-label" for="lastName">Фамилия*</label>
 
-          <input type="text" class="form-control" id="lastName"
-                 placeholder="Фамилия"
-                 required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-                 formControlName="lastName">
+        <input type="text" class="form-control" id="lastName"
+               placeholder="Фамилия"
+               required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+               formControlName="lastName">
 
-          <app-validation-message></app-validation-message>
+        <app-validation-message></app-validation-message>
 
+      </div>
+
+      <div class="form-group">
+
+        <label class="form-control-label" for="firstName">Имя*</label>
+
+        <input
+          type="text" class="form-control" id="firstName"
+          placeholder="Имя"
+          required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+          formControlName="firstName">
+
+        <app-validation-message></app-validation-message>
+
+      </div>
+
+      <div class="form-group">
+
+        <label class="form-control-label" for="middleName">Отчество</label>
+
+        <input
+          type="text" class="form-control" id="middleName"
+          placeholder="Отчество"
+          maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+          formControlName="middleName">
+
+        <app-validation-message></app-validation-message>
+
+      </div>
+
+      <div class="form-group">
+
+        <label class="form-control-label" for="birthDate">Дата рождения*</label>
+
+        <input type="text" class="form-control" id="birthDate"
+               required
+               appDate [appMin]="BIRTH_DATE_MIN" [appMax]="BIRTH_DATE_MAX"
+               [textMask]="dateTextMaskService.conf"
+               formControlName="birthDate">
+
+        <app-validation-message></app-validation-message>
+
+      </div>
+
+      <div class="form-group">
+
+        <label class="form-control-label">Пол*</label>
+
+        <br>
+
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input type="radio" class="form-check-input" id="sexMale"
+                   required
+                   name="sex" value="MALE"
+                   formControlName="sex">
+            Мужской
+          </label>
         </div>
 
-        <div class="form-group">
-
-          <label class="form-control-label" for="firstName">Имя*</label>
-
-          <input
-            type="text" class="form-control" id="firstName"
-            placeholder="Имя"
-            required maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-            formControlName="firstName">
-
-          <app-validation-message></app-validation-message>
-
+        <div class="form-check form-check-inline">
+          <label class="form-check-label">
+            <input type="radio" class="form-check-input" id="sexFemale"
+                   required
+                   name="sex" value="FEMALE"
+                   formControlName="sex">
+            Женский
+          </label>
         </div>
 
-        <div class="form-group">
+        <app-validation-message></app-validation-message>
 
-          <label class="form-control-label" for="middleName">Отчество</label>
+      </div>
 
-          <input
-            type="text" class="form-control" id="middleName"
-            placeholder="Отчество"
-            maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-            formControlName="middleName">
+      <div class="d-flex">
 
-          <app-validation-message></app-validation-message>
+        <div class="form-group flex-width-rest">
 
-        </div>
+          <label class="form-control-label" for="phoneNumber">Телефон*</label>
 
-        <div class="form-group">
+          <div class="d-flex">
 
-          <label class="form-control-label" for="birthDate">Дата рождения*</label>
+            <span class="align-self-center">+7</span>
 
-          <input type="text" class="form-control" id="birthDate"
-                 required
-                 appDate [appMin]="BIRTH_DATE_MIN" [appMax]="BIRTH_DATE_MAX"
-                 [textMask]="dateTextMaskService.conf"
-                 formControlName="birthDate">
-
-          <app-validation-message></app-validation-message>
-
-        </div>
-
-        <div class="form-group">
-
-          <label class="form-control-label">Пол*</label>
-
-          <br>
-
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input type="radio" class="form-check-input" id="sexMale"
-                     required
-                     name="sex" value="MALE"
-                     formControlName="sex">
-              Мужской
-            </label>
-          </div>
-
-          <div class="form-check form-check-inline">
-            <label class="form-check-label">
-              <input type="radio" class="form-check-input" id="sexFemale"
-                     required
-                     name="sex" value="FEMALE"
-                     formControlName="sex">
-              Женский
-            </label>
-          </div>
-
-          <app-validation-message></app-validation-message>
-
-        </div>
-
-        <div class="d-flex">
-
-          <div class="form-group flex-width-rest">
-
-            <label class="form-control-label" for="phoneNumber">Телефон*</label>
-
-            <div class="d-flex">
-
-              <span class="align-self-center">+7</span>
-
-              <input type="text" class="form-control ml-2 flex-width-rest" id="phoneNumber"
-                     size="1"
-                     required minlength="10"
-                     appPhone
-                     [textMask]="phoneTextMaskService.conf"
-                     formControlName="phoneNumber">
-
-            </div>
-
-            <app-validation-message></app-validation-message>
-
-          </div>
-
-          <div class="form-group ml-2" [class.hidden-xs-up]="!verificationCodeAlive" style="width: 90px">
-
-            <label class="form-control-label" for="verificationCode">Код (<b>{{verificationCodeSeconds}}</b>)*</label>
-
-            <input type="text" class="form-control" id="verificationCode"
+            <input type="text" class="form-control ml-2 flex-width-rest" id="phoneNumber"
                    size="1"
-                   required minlength="4"
-                   [textMask]="verificationCodeTextMaskConfig"
-                   formControlName="verificationCode">
+                   required minlength="10"
+                   appPhone
+                   [textMask]="phoneTextMaskService.conf"
+                   formControlName="phoneNumber">
 
-            <app-validation-message></app-validation-message>
-
-          </div>
-
-        </div>
-
-        <p class="alert alert-danger" [class.hidden-xs-up]="verificationCodeAlive">
-          Номер телефона не подтвержден
-        </p>
-
-        <p class="alert alert-success" [class.hidden-xs-up]="!verificationCodeAlive">
-          Код подтверждения был выслан вам в SMS.
-          Введите его в соответствующее поле.
-        </p>
-
-        <p class="alert alert-success" [class.hidden-xs-up]="showVerifyButton">
-          Вы сможете запросить новый код через <b>{{verifyButtonSeconds}}</b> секунд.
-        </p>
-
-        <button class="btn btn-success" [class.hidden-xs-up]="!showVerifyButton" (click)="verifyOnClick()">
-          <span *ngIf="verificationCodeAlive">Запросить новый код</span>
-          <span *ngIf="!verificationCodeAlive">Подтвердить номер телефона</span>
-        </button>
-
-        <div class="form-group">
-
-          <div class="d-flex mt-4">
-            <app-checkbox formControlName="consentToEverything" required></app-checkbox>
-            <div class="flex-width-rest ml-2 text-justify">
-              Подтверждаю свое согласие с Правилами предоставления
-              и обслуживания микрозаймов, предоставляю согласие с
-              Договором принятия на обслуживание, согласие на обработку
-              персональных данных и согласие на раскрытие информации,
-              содержащейся в основной части кредитной истории.
-            </div>
           </div>
 
           <app-validation-message></app-validation-message>
 
         </div>
 
-        <div class="form-group">
+        <div class="form-group ml-2" [class.hidden-xs-up]="!verificationCodeAlive" style="width: 90px">
 
-          <div class="d-flex mt-4">
-            <app-checkbox formControlName="consentToReceivingInfo" required></app-checkbox>
-            <div class="flex-width-rest ml-2 text-justify">
-              Подтверждаю свое согласие на получение информации
-            </div>
-          </div>
+          <label class="form-control-label" for="verificationCode">Код (<b>{{verificationCodeSeconds}}</b>)*</label>
+
+          <input type="text" class="form-control" id="verificationCode"
+                 size="1"
+                 required minlength="4"
+                 [textMask]="verificationCodeTextMaskConfig"
+                 formControlName="verificationCode">
 
           <app-validation-message></app-validation-message>
 
         </div>
 
-        <button class="btn btn-success btn-lg text-center d-block my-5" (click)="onNextClick()">Далее</button>
+      </div>
 
-      </form>
-
-    </div>
-
-    <!--<div class="col-5 align-self-center">
-      <p>
-        Статус формы: {{form.status}}
+      <p class="alert alert-danger" [class.hidden-xs-up]="verificationCodeAlive">
+        Номер телефона не подтвержден
       </p>
 
-      <p>
-        Значение формы: {{JSON.stringify(form.value)}}
+      <p class="alert alert-success" [class.hidden-xs-up]="!verificationCodeAlive">
+        Код подтверждения был выслан вам в SMS.
+        Введите его в соответствующее поле.
       </p>
-    </div>-->
+
+      <p class="alert alert-success" [class.hidden-xs-up]="showVerifyButton">
+        Вы сможете запросить новый код через <b>{{verifyButtonSeconds}}</b> секунд.
+      </p>
+
+      <button class="btn btn-success" [class.hidden-xs-up]="!showVerifyButton" (click)="verifyOnClick()">
+        <span *ngIf="verificationCodeAlive">Запросить новый код</span>
+        <span *ngIf="!verificationCodeAlive">Подтвердить номер телефона</span>
+      </button>
+
+      <div class="form-group">
+
+        <div class="d-flex mt-4">
+          <app-checkbox formControlName="consentToEverything" required></app-checkbox>
+          <div class="flex-width-rest ml-2 text-justify">
+            Подтверждаю свое согласие с Правилами предоставления
+            и обслуживания микрозаймов, предоставляю согласие с
+            Договором принятия на обслуживание, согласие на обработку
+            персональных данных и согласие на раскрытие информации,
+            содержащейся в основной части кредитной истории.
+          </div>
+        </div>
+
+        <app-validation-message></app-validation-message>
+
+      </div>
+
+      <div class="form-group">
+
+        <div class="d-flex mt-4">
+          <app-checkbox formControlName="consentToReceivingInfo" required></app-checkbox>
+          <div class="flex-width-rest ml-2 text-justify">
+            Подтверждаю свое согласие на получение информации
+          </div>
+        </div>
+
+        <app-validation-message></app-validation-message>
+
+      </div>
+
+      <button class="btn btn-success btn-lg text-center d-block my-5" (click)="onNextClick()">Далее</button>
+
+    </form>
+
   </div>
+
+  <!--<div class="col-5 align-self-center">
+    <p>
+      Статус формы: {{form.status}}
+    </p>
+
+    <p>
+      Значение формы: {{JSON.stringify(form.value)}}
+    </p>
+  </div>-->
 </div>

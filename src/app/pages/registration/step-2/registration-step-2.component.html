@@ -1,140 +1,138 @@
-<div class="container">
-  <div class="row">
-    <div class="col-6">
+<div class="row">
+  <div class="col-6">
 
-      <h1>Шаг 2</h1>
+    <h1>Шаг 2</h1>
 
-      <form [formGroup]="form" autocomplete="off">
+    <form [formGroup]="form" autocomplete="off">
 
-        <div *ngFor="let addressViewModel of addressesViewModel"
-             [formGroupName]="addressViewModel.formGroupName"
-             addressFormGroup>
+      <div *ngFor="let addressViewModel of addressesViewModel"
+           [formGroupName]="addressViewModel.formGroupName"
+           addressFormGroup>
 
-          <p>{{addressViewModel.header}}</p>
+        <p>{{addressViewModel.header}}</p>
 
-          <div class="form-group">
+        <div class="form-group">
 
-            <input type="text" class="form-control"
-                   placeholder="Регион*"
-                   maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-                   formControlName="region">
+          <input type="text" class="form-control"
+                 placeholder="Регион*"
+                 maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+                 formControlName="region">
 
-            <app-validation-message></app-validation-message>
-
-          </div>
-
-          <div class="form-group">
-
-            <input type="text" class="form-control"
-                   placeholder="Город*"
-                   maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-                   formControlName="city">
-
-            <app-validation-message></app-validation-message>
-
-          </div>
-
-          <div class="form-group">
-
-            <input type="text" class="form-control"
-                   placeholder="Улица*"
-                   maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
-                   formControlName="street">
-
-            <app-validation-message></app-validation-message>
-
-          </div>
-
-          <div class="form-group">
-
-            <div class="d-flex">
-              <input type="text" class="form-control"
-                     placeholder="Дом*" size="1"
-                     maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                     formControlName="house">
-              <input type="text" class="form-control ml-2"
-                     placeholder="Корпус" size="1"
-                     maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                     formControlName="building">
-              <input type="text" class="form-control ml-2"
-                     placeholder="Строение" size="1"
-                     maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                     formControlName="subBuilding">
-              <input type="text" class="form-control ml-2"
-                     placeholder="Квартира" size="1"
-                     maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
-                     formControlName="flat">
-            </div>
-
-            <app-validation-message></app-validation-message>
-
-          </div>
+          <app-validation-message></app-validation-message>
 
         </div>
 
-        <div class="d-flex">
+        <div class="form-group">
 
-          <div class="form-group flex-width-rest">
+          <input type="text" class="form-control"
+                 placeholder="Город*"
+                 maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+                 formControlName="city">
 
-            <label class="form-control-label" for="email">Адрес электронной почты*</label>
-
-            <input type="text" class="form-control" id="email"
-                   placeholder="address@mail.ru"
-                   required maxlength="75" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$"
-                   formControlName="email">
-
-            <app-validation-message></app-validation-message>
-
-          </div>
-
-          <div class="form-group ml-2" [class.hidden-xs-up]="!verificationCodeAlive" style="width: 90px">
-
-            <label class="form-control-label" for="verificationCode">Код (<b>{{verificationCodeSeconds}}</b>)*</label>
-
-            <input type="text" class="form-control" id="verificationCode"
-                   size="1"
-                   required minlength="4"
-                   [textMask]="verificationCodeTextMaskConfig"
-                   formControlName="verificationCode">
-
-            <app-validation-message></app-validation-message>
-
-          </div>
+          <app-validation-message></app-validation-message>
 
         </div>
 
-        <p class="alert alert-danger" [class.hidden-xs-up]="verificationCodeAlive">
-          Адрес электронной почты не подтвержден
-        </p>
+        <div class="form-group">
 
-        <p class="alert alert-success" [class.hidden-xs-up]="!verificationCodeAlive">
-          Код подтверждения был выслан вам по электронной почте.
-          Введите его в соответствующее поле.
-        </p>
+          <input type="text" class="form-control"
+                 placeholder="Улица*"
+                 maxlength="75" pattern="[а-яА-ЯёЁ\s\-]*"
+                 formControlName="street">
 
-        <p class="alert alert-success" [class.hidden-xs-up]="showVerifyButton">
-          Вы сможете запросить новый код через <b>{{verifyButtonSeconds}}</b> секунд.
-        </p>
+          <app-validation-message></app-validation-message>
 
-        <button class="btn btn-success d-block" [class.hidden-xs-up]="!showVerifyButton" (click)="verifyOnClick()">
-          <span *ngIf="verificationCodeAlive">Запросить новый код</span>
-          <span *ngIf="!verificationCodeAlive">Подтвердить адрес электронной почты</span>
-        </button>
+        </div>
 
-        <button class="btn btn-success btn-lg text-center d-block my-5" (click)="onNextClick()">Далее</button>
+        <div class="form-group">
 
-      </form>
+          <div class="d-flex">
+            <input type="text" class="form-control"
+                   placeholder="Дом*" size="1"
+                   maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                   formControlName="house">
+            <input type="text" class="form-control ml-2"
+                   placeholder="Корпус" size="1"
+                   maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                   formControlName="building">
+            <input type="text" class="form-control ml-2"
+                   placeholder="Строение" size="1"
+                   maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                   formControlName="subBuilding">
+            <input type="text" class="form-control ml-2"
+                   placeholder="Квартира" size="1"
+                   maxlength="5" pattern="[\dа-яА-ЯёЁ\s\-]*"
+                   formControlName="flat">
+          </div>
 
-    </div>
+          <app-validation-message></app-validation-message>
 
-    <!--<div class="col-5 align-self-center">
-      <p>
-        Статус формы: {{form.status}}
+        </div>
+
+      </div>
+
+      <div class="d-flex">
+
+        <div class="form-group flex-width-rest">
+
+          <label class="form-control-label" for="email">Адрес электронной почты*</label>
+
+          <input type="text" class="form-control" id="email"
+                 placeholder="address@mail.ru"
+                 required maxlength="75" pattern="^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$"
+                 formControlName="email">
+
+          <app-validation-message></app-validation-message>
+
+        </div>
+
+        <div class="form-group ml-2" [class.hidden-xs-up]="!verificationCodeAlive" style="width: 90px">
+
+          <label class="form-control-label" for="verificationCode">Код (<b>{{verificationCodeSeconds}}</b>)*</label>
+
+          <input type="text" class="form-control" id="verificationCode"
+                 size="1"
+                 required minlength="4"
+                 [textMask]="verificationCodeTextMaskConfig"
+                 formControlName="verificationCode">
+
+          <app-validation-message></app-validation-message>
+
+        </div>
+
+      </div>
+
+      <p class="alert alert-danger" [class.hidden-xs-up]="verificationCodeAlive">
+        Адрес электронной почты не подтвержден
       </p>
 
-      <p>
-        Значение формы: {{JSON.stringify(form.value)}}
+      <p class="alert alert-success" [class.hidden-xs-up]="!verificationCodeAlive">
+        Код подтверждения был выслан вам по электронной почте.
+        Введите его в соответствующее поле.
       </p>
-    </div>-->
+
+      <p class="alert alert-success" [class.hidden-xs-up]="showVerifyButton">
+        Вы сможете запросить новый код через <b>{{verifyButtonSeconds}}</b> секунд.
+      </p>
+
+      <button class="btn btn-success d-block" [class.hidden-xs-up]="!showVerifyButton" (click)="verifyOnClick()">
+        <span *ngIf="verificationCodeAlive">Запросить новый код</span>
+        <span *ngIf="!verificationCodeAlive">Подтвердить адрес электронной почты</span>
+      </button>
+
+      <button class="btn btn-success btn-lg text-center d-block my-5" (click)="onNextClick()">Далее</button>
+
+    </form>
+
   </div>
+
+  <!--<div class="col-5 align-self-center">
+    <p>
+      Статус формы: {{form.status}}
+    </p>
+
+    <p>
+      Значение формы: {{JSON.stringify(form.value)}}
+    </p>
+  </div>-->
 </div>

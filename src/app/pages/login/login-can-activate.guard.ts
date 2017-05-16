@@ -6,7 +6,7 @@ import {OurServerApi} from '../../server/our-server-api';
 import {SessionStatus} from '../../server/session-status/session-status';
 
 @Injectable()
-export class ProfileCanActivateGuard implements CanActivate {
+export class LoginCanActivateGuard implements CanActivate {
 
   constructor(private ourServerApi: OurServerApi, private router: Router) {
   }
@@ -18,16 +18,19 @@ export class ProfileCanActivateGuard implements CanActivate {
     return this.ourServerApi.getSessionStatus().map(
       (sessionStatus: SessionStatus) => {
 
+        let sessionStatusStr = SessionStatus[sessionStatus];
+
         switch (sessionStatus) {
           case SessionStatus.LOGGED_IN:
-            return true;
+            this.router.navigate(['profile']);
+            return false;
           case SessionStatus.NOT_REGISTERED:
+          case SessionStatus.REGISTRATION_STEP_1:
+          case SessionStatus.REGISTRATION_STEP_2:
           case SessionStatus.LOGGED_OUT:
-            this.router.navigate(['login']);
-            return false;
+            return true;
           default:
-            this.router.navigate(['restricted']);
-            return false;
+            throw new Error(`Непредусмотренное состояние сессии ${sessionStatusStr}`);
         }
       }
     );
