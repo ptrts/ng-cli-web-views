@@ -20,7 +20,6 @@ import {PhoneTextMaskService} from './common/forms/inputs/phone/phone-text-mask.
 import {PhoneValidator} from './common/forms/inputs/phone/phone-validator.directive';
 import {TextEmptyCheckerWorker} from './common/forms/inputs/text/default-empty-checker-worker.directive';
 import {ValidationMessageComponentModule} from './common/forms/validation/validation-message-component/validation-message.component';
-import {ErrorComponent} from './pages/error/error.component';
 import {LoginCanActivateGuard} from './pages/login/login-can-activate.guard';
 import {LoginComponent} from './pages/login/login.component';
 import {MainComponent} from './pages/main/main.component';
@@ -39,6 +38,7 @@ import {OurBackend} from './server/backend/our-backend';
 import {OurServerApi} from './server/our-server-api';
 import {AccessRestrictedModule} from './pages/access-denied/access-restricted.module';
 import {HomeModule} from './pages/home/home.module';
+import {ErrorModule} from './pages/error/error.module';
 
 const ROUTES: Routes = [
   HomeModule.ROUTE,
@@ -67,10 +67,7 @@ const ROUTES: Routes = [
     component: ProfileComponent,
     canActivate: [ProfileCanActivateGuard]
   },
-  {
-    path: 'error',
-    component: ErrorComponent
-  },
+  ErrorModule.ROUTE,
   AccessRestrictedModule.ROUTE,
   {
     path: '',
@@ -79,7 +76,7 @@ const ROUTES: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'error'
+    redirectTo: ErrorModule.ROUTE.path
   }
 ];
 
@@ -94,14 +91,14 @@ const ROUTES: Routes = [
     CacheModule,
     ModalModule,
     AccessRestrictedModule,
-    HomeModule
+    HomeModule,
+    ErrorModule,
   ],
   declarations: [
     RegistrationStep1Component,
     RegistrationStep2Component,
     RegistrationStep3Component,
     MainComponent,
-    ErrorComponent,
     OurCheckboxComponent,
     DefaultEmptyCheckerWorker,
     TextEmptyCheckerWorker,
