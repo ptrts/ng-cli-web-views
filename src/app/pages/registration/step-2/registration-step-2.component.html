@@ -103,6 +103,10 @@
 
         </div>
 
+        <p class="alert alert-danger" [class.hidden-xs-up]="verificationCodeAlive">
+          Адрес электронной почты не подтвержден
+        </p>
+
         <p class="alert alert-success" [class.hidden-xs-up]="!verificationCodeAlive">
           Код подтверждения был выслан вам по электронной почте.
           Введите его в соответствующее поле.
