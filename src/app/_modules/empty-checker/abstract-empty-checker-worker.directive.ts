@@ -4,7 +4,7 @@ export abstract class AbstractEmptyCheckerWorker {
   // они были приоритетнее тех, которые мы себе определили как стандартные:
   //    DefaultEmptyCheckerWorker - 1
   //    TextEmptyCheckerWorker - 2
-  //    TextMaskEmptyCheckerWorker - 3
+  //    DefaultTextMaskEmptyCheckerWorker - 3
   readonly priority: number = 10;
 
   abstract extractEmptyState(): boolean;

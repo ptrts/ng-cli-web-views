@@ -7,12 +7,12 @@ import {DateTextMaskService} from './date-text-mask.service';
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => DateValidator),
+      useExisting: forwardRef(() => DateTextMaskValidator),
       multi: true
     }
   ]
 })
-export class DateValidator implements Validator {
+export class DateTextMaskValidator implements Validator {
 
   @Input('appMin')
   min: Date;

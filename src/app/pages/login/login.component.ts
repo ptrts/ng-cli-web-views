@@ -1,6 +1,5 @@
 import {Component, forwardRef, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {PhoneTextMaskService} from '../../common/forms/inputs/phone/phone-text-mask.service';
 import {
   APP_VALIDATION_MESSAGES_PROVIDER,
   ValidationMessages,
@@ -9,6 +8,7 @@ import {
 import {OurServerApi} from '../../server/our-server-api';
 import {Router} from '@angular/router';
 import {ModalService} from '../../common/components/modal/modal.service';
+import {PhoneTextMaskService} from '../../_modules/phone-text-mask/phone-text-mask.service';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +27,7 @@ export class LoginComponent implements OnInit, ValidationMessagesProvider {
   private validationMessages = {
     password: {
       required: 'Пароль не указан',
+      pattern: 'Пароль содержит русские символы'
     }
   };
 

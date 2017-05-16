@@ -1,4 +1,7 @@
-import {AfterViewInit, Component, Directive, forwardRef, OnInit, QueryList, ViewChildren} from '@angular/core';
+import {
+  AfterViewInit, ApplicationRef, Component, Directive, ElementRef, forwardRef, OnInit, QueryList, ViewChild,
+  ViewChildren
+} from '@angular/core';
 import {
   AbstractControl,
   ControlContainer,
@@ -14,9 +17,7 @@ import 'rxjs/add/operator/take';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {ModalService} from '../../../common/components/modal/modal.service';
-import {AbstractEmptyChecker} from '../../../common/forms/empty-checker/abstract-empty-checker';
-import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
-import {DefaultTextMaskService} from '../../../common/forms/inputs/default-text-mask/text-mask.service';
+import {AbstractEmptyChecker} from '../../../_modules/empty-checker/abstract-empty-checker';
 import {
   APP_VALIDATION_MESSAGES_PROVIDER,
   ValidationMessages,
@@ -45,7 +46,10 @@ export class AddressFormGroup {
 export class RegistrationStep2Component implements OnInit, AfterViewInit, ValidationMessagesProvider {
 
   @ViewChildren(AddressFormGroup)
-  addressFormGroupEmptyCheckers: QueryList<AddressFormGroup>;
+  addressFormGroups: QueryList<AddressFormGroup>;
+
+  @ViewChild('verificationCode')
+  verificationCodeElementRef: ElementRef;
 
   JSON = JSON;
 
@@ -120,11 +124,10 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
 
   constructor(
     private fb: FormBuilder,
-    public dateTextMaskService: DateTextMaskService,
-    private defaultTextMaskService: DefaultTextMaskService,
     private modalService: ModalService,
     private ourServerApi: OurServerApi,
-    private router: Router
+    private router: Router,
+    private applicationRef: ApplicationRef
   ) {}
 
   getMessages(formControlName: string): ValidationMessages {
@@ -171,16 +174,16 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
     let livingAddressFormGroup = <FormGroup>this.form.get('livingAddress');
 
     // console.log(`====================================================================`);
-    // console.log(`this.addressFormGroupEmptyCheckers.forEach(...`);
+    // console.log(`this.addressFormGroups.forEach(...`);
 
     let that = this;
 
-    this.addressFormGroupEmptyCheckers.forEach(addressFormGroupEmptyChecker => {
+    this.addressFormGroups.forEach(addressFormGroup => {
 
-      // console.log(`addressFormGroupEmptyChecker.name = ${addressFormGroupEmptyChecker.name}`);
+      // console.log(`addressFormGroup.name = ${addressFormGroup.name}`);
 
-      if (addressFormGroupEmptyChecker.controlContainer.name === 'livingAddress') {
-        addressFormGroupEmptyChecker.emptyChecker.emptyStateChanges.subscribe(allAddressFieldsEmpty => {
+      if (addressFormGroup.controlContainer.name === 'livingAddress') {
+        addressFormGroup.emptyChecker.emptyStateChanges.subscribe(allAddressFieldsEmpty => {
 
           // console.log(`allAddressFieldsEmpty = ${allAddressFieldsEmpty}`);
 
@@ -236,10 +239,16 @@ export class RegistrationStep2Component implements OnInit, AfterViewInit, Valida
         null,
         () => that.showVerifyButton = true
       );
+
+      this.applicationRef.tick();
+
+      let element = this.verificationCodeElementRef.nativeElement;
+      element.focus();
+      element.setSelectionRange(0, 0);
     });
   }
 
-  onNextClick() {
+  nextOnClick() {
 
     if (this.form.invalid) {
 

@@ -1,6 +1,6 @@
 import {Directive, forwardRef, Input} from '@angular/core';
 import {AbstractControl, NG_VALIDATORS, ValidationErrors, Validator} from '@angular/forms';
-import {DefaultTextMaskService} from './text-mask.service';
+import {DefaultTextMaskService} from './default-text-mask.service';
 
 @Directive({
   selector: 'input[type="text"][textMask]:not([appDate]):not([appPhone])',

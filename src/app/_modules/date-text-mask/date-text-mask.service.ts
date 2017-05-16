@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {createAutoCorrectedDatePipe} from 'text-mask-addons/dist/textMaskAddons';
 import {conformToMask} from 'angular2-text-mask';
 import * as moment from 'moment';
-import {OurServerApi} from '../../../../server/our-server-api';
+import {OurServerApi} from '../../server/our-server-api';
 
 const MOMENT_FORMAT = 'DD.MM.YYYY';
 

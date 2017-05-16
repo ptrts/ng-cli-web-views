@@ -94,7 +94,8 @@
                  size="1"
                  required minlength="4"
                  [textMask]="verificationCodeTextMaskConfig"
-                 formControlName="verificationCode">
+                 formControlName="verificationCode"
+                 #verificationCode>
 
           <app-validation-message></app-validation-message>
 
@@ -120,7 +121,7 @@
         <span *ngIf="!verificationCodeAlive">Подтвердить адрес электронной почты</span>
       </button>
 
-      <button class="btn btn-success btn-lg text-center d-block my-5" (click)="loginOnClick()">Далее</button>
+      <button class="btn btn-success btn-lg text-center d-block my-5" (click)="nextOnClick()">Далее</button>
 
     </form>
 

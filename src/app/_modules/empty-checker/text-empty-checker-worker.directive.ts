@@ -1,6 +1,6 @@
 import {Directive, ElementRef, forwardRef} from '@angular/core';
-import {AbstractEmptyCheckerWorker} from '../../empty-checker/abstract-empty-checker-worker.directive';
-import {APP_EMPTY_CHECKER_WORKERS} from '../../empty-checker/leaf-empty-checker.directive';
+import {AbstractEmptyCheckerWorker} from './abstract-empty-checker-worker.directive';
+import {APP_EMPTY_CHECKER_WORKERS} from './leaf-empty-checker.directive';
 
 @Directive({
   selector: 'input[type="text"]',

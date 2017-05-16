@@ -15,7 +15,7 @@ import {Route} from '@angular/router';
   ]
 })
 export class ErrorModule {
-  static ROUTE: Route = {
+  static readonly ROUTE: Route = {
     path: 'error',
     component: ErrorComponent
   };

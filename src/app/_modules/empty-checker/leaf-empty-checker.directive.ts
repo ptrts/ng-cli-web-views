@@ -2,7 +2,7 @@ import {Directive, ElementRef, forwardRef, Inject, InjectionToken, OnInit, Optio
 import {NgControl} from '@angular/forms';
 import {AbstractEmptyCheckerWorker} from './abstract-empty-checker-worker.directive';
 import {AbstractEmptyChecker} from './abstract-empty-checker';
-import {EmptyCheckerGroup} from './group-empty-checker.directive';
+import {GroupEmptyChecker} from './group-empty-checker.directive';
 
 export const APP_EMPTY_CHECKER_WORKERS = new InjectionToken('APP_EMPTY_CHECKER_WORKERS');
 
@@ -22,7 +22,7 @@ export class LeafEmptyChecker extends AbstractEmptyChecker implements OnInit {
 
   constructor(elementRef: ElementRef,
               ngControl: NgControl,
-              @Optional() parentGroup: EmptyCheckerGroup,
+              @Optional() parentGroup: GroupEmptyChecker,
               @Inject(APP_EMPTY_CHECKER_WORKERS) @Self() private emptyCheckers: AbstractEmptyCheckerWorker[]) {
 
     super(elementRef, ngControl, parentGroup);

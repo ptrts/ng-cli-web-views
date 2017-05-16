@@ -2,8 +2,6 @@ import {Component, forwardRef, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import * as moment from 'moment';
 import {ModalService} from '../../../common/components/modal/modal.service';
-import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
-import {PhoneTextMaskService} from '../../../common/forms/inputs/phone/phone-text-mask.service';
 import {
   APP_VALIDATION_MESSAGES_PROVIDER,
   ValidationMessages,
@@ -11,6 +9,7 @@ import {
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
 import {OurServerApi} from '../../../server/our-server-api';
 import {Router} from '@angular/router';
+import {DateTextMaskService} from '../../../_modules/date-text-mask/date-text-mask.service';
 
 @Component({
   selector: 'app-registration-step-3',
@@ -106,7 +105,6 @@ export class RegistrationStep3Component implements OnInit, ValidationMessagesPro
   constructor(
     private fb: FormBuilder,
     public dateTextMaskService: DateTextMaskService,
-    public phoneTextMaskService: PhoneTextMaskService,
     private modalService: ModalService,
     private ourServerApi: OurServerApi,
     private router: Router

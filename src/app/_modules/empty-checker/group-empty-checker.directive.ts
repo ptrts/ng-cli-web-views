@@ -12,16 +12,16 @@ export abstract class EmptyCheckerContainer extends AbstractEmptyChecker {
   providers: [
     {
       provide: EmptyCheckerContainer,
-      useExisting: forwardRef(() => EmptyCheckerGroup)
+      useExisting: forwardRef(() => GroupEmptyChecker)
     },
     {
       provide: AbstractEmptyChecker,
-      useExisting: forwardRef(() => EmptyCheckerGroup)
+      useExisting: forwardRef(() => GroupEmptyChecker)
     }
   ],
   exportAs: 'emptyChecker'
 })
-export class EmptyCheckerGroup extends EmptyCheckerContainer {
+export class GroupEmptyChecker extends EmptyCheckerContainer {
 
   private children: Array<AbstractEmptyChecker> = [];
 

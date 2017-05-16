@@ -1,4 +1,4 @@
-import {ApplicationRef, Component, Directive, ElementRef, forwardRef, OnInit, ViewChild} from '@angular/core';
+import {ApplicationRef, Component, ElementRef, forwardRef, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import * as moment from 'moment';
@@ -6,9 +6,9 @@ import 'rxjs/add/observable/interval';
 import 'rxjs/add/operator/take';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
+import {DateTextMaskService} from '../../../_modules/date-text-mask/date-text-mask.service';
+import {PhoneTextMaskService} from '../../../_modules/phone-text-mask/phone-text-mask.service';
 import {ModalService} from '../../../common/components/modal/modal.service';
-import {DateTextMaskService} from '../../../common/forms/inputs/date/date-text-mask.service';
-import {PhoneTextMaskService} from '../../../common/forms/inputs/phone/phone-text-mask.service';
 
 import {
   APP_VALIDATION_MESSAGES_PROVIDER,
@@ -16,14 +16,6 @@ import {
   ValidationMessagesProvider
 } from '../../../common/forms/validation/validation-message-component/validation-message.component';
 import {OurServerApi} from '../../../server/our-server-api';
-
-@Directive({
-  selector: 'input[id="verificationCode"]'
-})
-export class VerificationCodeDirective {
-  constructor(public elementRef: ElementRef) {
-  }
-}
 
 @Component({
   selector: 'app-registration-step-1',
@@ -39,8 +31,8 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
 
   JSON = JSON;
 
-  @ViewChild(VerificationCodeDirective)
-  verificationCodeDirective: VerificationCodeDirective;
+  @ViewChild('verificationCode')
+  verificationCodeElementRef: ElementRef;
 
   readonly AGE_MIN = 18;
 
@@ -176,7 +168,7 @@ export class RegistrationStep1Component implements OnInit, ValidationMessagesPro
 
       this.applicationRef.tick();
 
-      let element = this.verificationCodeDirective.elementRef.nativeElement;
+      let element = this.verificationCodeElementRef.nativeElement;
       element.focus();
       element.setSelectionRange(0, 0);
     });

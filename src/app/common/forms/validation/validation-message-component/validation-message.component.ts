@@ -20,7 +20,7 @@ import {
   ValidationErrors
 } from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
-import {AbstractEmptyChecker} from '../../empty-checker/abstract-empty-checker';
+import {AbstractEmptyChecker} from '../../../../_modules/empty-checker/abstract-empty-checker';
 
 export interface ValidationMessages {
   [key: string]: string;
