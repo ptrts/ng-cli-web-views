@@ -1,4 +1,4 @@
-import {EnumUtils} from '../../../utils/enum-utils';
+import {EnumUtils} from '../../../common/utils/enum-utils';
 import {EnumValueModel} from './enum-value-model';
 
 export class EnumValueModelUtils {

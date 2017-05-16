@@ -1,7 +1,7 @@
 import {Component, forwardRef, Input, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {EnumValueModel} from './button/enum-value-model';
-import {EnumValueModelUtils} from './button/enum-value-model-utils';
+import {EnumValueModel} from './enum-value-model';
+import {EnumValueModelUtils} from './enum-value-model-utils';
 
 @Component({
   selector: 'app-enum-radio-group',

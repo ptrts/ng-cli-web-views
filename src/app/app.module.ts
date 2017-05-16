@@ -4,54 +4,44 @@ import {BrowserModule} from '@angular/platform-browser';
 import {RouterModule, Routes} from '@angular/router';
 import {CookieService} from 'angular2-cookie/core';
 import {TextMaskModule} from 'angular2-text-mask';
-import * as moment from 'moment';
 import {CacheModule} from './common/cache/cache.module';
 import {ModalModule} from './common/components/modal/modal.module';
-import {RangeSliderComponent} from './common/components/range-slider/range-slider.component';
+import {DefaultEmptyCheckerWorker} from './common/forms/empty-checker/default-empty-checker-worker.directive';
+import {EmptyCheckerGroup} from './common/forms/empty-checker/group-empty-checker.directive';
+import {LeafEmptyChecker} from './common/forms/empty-checker/leaf-empty-checker.directive';
 import {AppCheckboxRequiredValidator} from './common/forms/inputs/checkbox/checkbox-required-validator.directive';
 import {OurCheckboxComponent} from './common/forms/inputs/checkbox/checkbox.component';
 import {DateTextMaskService} from './common/forms/inputs/date/date-text-mask.service';
 import {DateValidator} from './common/forms/inputs/date/date-validator.directive';
+import {TextMaskEmptyCheckerWorker} from './common/forms/inputs/default-text-mask/text-mask-empty-checker-worker.directive';
+import {DefaultTextMaskValidator} from './common/forms/inputs/default-text-mask/text-mask-validator.directive';
+import {DefaultTextMaskService} from './common/forms/inputs/default-text-mask/text-mask.service';
 import {PhoneTextMaskService} from './common/forms/inputs/phone/phone-text-mask.service';
 import {PhoneValidator} from './common/forms/inputs/phone/phone-validator.directive';
-import {EnumRadioGroupComponent} from './common/forms/radio/enum-radio-group.component';
+import {TextEmptyCheckerWorker} from './common/forms/inputs/text/default-empty-checker-worker.directive';
 import {ValidationMessageComponentModule} from './common/forms/validation/validation-message-component/validation-message.component';
-import {DecimalGroupsSeparatorPipe} from './common/utils/decimal-groups-separator.pipe';
-import {AccessRestrictedComponent} from './pages/access-denied/access-restricted.component';
 import {ErrorComponent} from './pages/error/error.component';
-import {HomeComponent} from './pages/home/home.component';
+import {LoginCanActivateGuard} from './pages/login/login-can-activate.guard';
+import {LoginComponent} from './pages/login/login.component';
 import {MainComponent} from './pages/main/main.component';
+import {ProfileCanActivateGuard} from './pages/profile/profile-can-activate.guard';
+import {ProfileComponent} from './pages/profile/profile.component';
 import {RegistrationStep1CanActivateGuard} from './pages/registration/step-1/registration-step-1-can-activate.guard';
 import {
   RegistrationStep1Component,
   VerificationCodeDirective
 } from './pages/registration/step-1/registration-step-1.component';
 import {RegistrationStep2CanActivateGuard} from './pages/registration/step-2/registration-step-2-can-activate.guard';
-import {
-  AddressFormGroup,
-  RegistrationStep2Component
-} from './pages/registration/step-2/registration-step-2.component';
+import {AddressFormGroup, RegistrationStep2Component} from './pages/registration/step-2/registration-step-2.component';
 import {RegistrationStep3CanActivateGuard} from './pages/registration/step-3/registration-step-3-can-activate.guard';
 import {RegistrationStep3Component} from './pages/registration/step-3/registration-step-3.component';
 import {OurBackend} from './server/backend/our-backend';
 import {OurServerApi} from './server/our-server-api';
-import {ProfileComponent} from './pages/profile/profile.component';
-import {ProfileCanActivateGuard} from './pages/profile/profile-can-activate.guard';
-import {DefaultTextMaskService} from './common/forms/inputs/default-text-mask/text-mask.service';
-import {DefaultTextMaskValidator} from './common/forms/inputs/default-text-mask/text-mask-validator.directive';
-import {TextEmptyCheckerWorker} from './common/forms/inputs/text/default-empty-checker-worker.directive';
-import {TextMaskEmptyCheckerWorker} from './common/forms/inputs/default-text-mask/text-mask-empty-checker-worker.directive';
-import {LeafEmptyChecker} from './common/forms/empty-checker/leaf-empty-checker.directive';
-import {EmptyCheckerGroup} from './common/forms/empty-checker/group-empty-checker.directive';
-import {DefaultEmptyCheckerWorker} from './common/forms/empty-checker/default-empty-checker-worker.directive';
-import { LoginComponent } from './pages/login/login.component';
-import {LoginCanActivateGuard} from './pages/login/login-can-activate.guard';
+import {AccessRestrictedModule} from './pages/access-denied/access-restricted.module';
+import {HomeModule} from './pages/home/home.module';
 
 const ROUTES: Routes = [
-  {
-    path: 'home',
-    component: HomeComponent
-  },
+  HomeModule.ROUTE,
   {
     path: 'login',
     component: LoginComponent,
@@ -81,14 +71,11 @@ const ROUTES: Routes = [
     path: 'error',
     component: ErrorComponent
   },
-  {
-    path: 'restricted',
-    component: AccessRestrictedComponent
-  },
+  AccessRestrictedModule.ROUTE,
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'home'
+    redirectTo: HomeModule.ROUTE.path
   },
   {
     path: '**',
@@ -106,11 +93,10 @@ const ROUTES: Routes = [
     ValidationMessageComponentModule,
     CacheModule,
     ModalModule,
+    AccessRestrictedModule,
+    HomeModule
   ],
   declarations: [
-    HomeComponent,
-    RangeSliderComponent,
-    DecimalGroupsSeparatorPipe,
     RegistrationStep1Component,
     RegistrationStep2Component,
     RegistrationStep3Component,
@@ -122,8 +108,6 @@ const ROUTES: Routes = [
     TextMaskEmptyCheckerWorker,
     DateValidator,
     DefaultTextMaskValidator,
-    EnumRadioGroupComponent,
-    AccessRestrictedComponent,
     PhoneValidator,
     AppCheckboxRequiredValidator,
     ProfileComponent,
@@ -150,19 +134,3 @@ const ROUTES: Routes = [
 })
 export class AppModule {
 }
-
-// console.log(`
-// =========================================================================
-// moment.utc([1980, 12 - 1, 31]).toDate()            = ${moment.utc([1980, 12 - 1, 31]).toDate()}
-// moment.utc([1980, 12 - 1, 31]).utc().toDate()      = ${moment.utc([1980, 12 - 1, 31]).utc().toDate()}
-// moment.utc([1980, 12 - 1, 31]).utc(true).toDate()  = ${moment.utc([1980, 12 - 1, 31]).utc(true).toDate()}
-// moment.utc([1980, 12 - 1, 31]).utc(false).toDate() = ${moment.utc([1980, 12 - 1, 31]).utc(false).toDate()}
-//
-// moment([1980, 12 - 1, 31]).toDate()            = ${moment([1980, 12 - 1, 31]).toDate()}
-// moment([1980, 12 - 1, 31]).utc().toDate()      = ${moment([1980, 12 - 1, 31]).utc().toDate()}
-// moment([1980, 12 - 1, 31]).utc(true).toDate()  = ${moment([1980, 12 - 1, 31]).utc(true).toDate()}
-// moment([1980, 12 - 1, 31]).utc(false).toDate() = ${moment([1980, 12 - 1, 31]).utc(false).toDate()}
-//
-// moment([1980, 12 - 1, 31]).utcOffset(3, true).toDate() = ${moment([1980, 12 - 1, 31]).utcOffset(3, true).toDate()}
-// =========================================================================
-// `);
