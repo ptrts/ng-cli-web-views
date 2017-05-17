@@ -20,9 +20,4 @@ export const ACCESS_RESTRICTED_ROUTE: Route = {
   ]
 })
 export class AccessRestrictedModule {
-
-  static readonly ROUTE: Route = {
-    path: 'restricted',
-    component: AccessRestrictedComponent
-  };
 }

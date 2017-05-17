@@ -4,6 +4,12 @@ import {ProfileComponent} from './profile.component';
 import {ProfileCanActivateGuard} from './profile-can-activate.guard';
 import {Route} from '@angular/router';
 
+export const PROFILE_ROUTE: Route = {
+  path: 'profile',
+  component: ProfileComponent,
+  canActivate: [ProfileCanActivateGuard]
+};
+
 @NgModule({
   imports: [
     CommonModule
@@ -16,9 +22,4 @@ import {Route} from '@angular/router';
   ]
 })
 export class ProfileModule {
-  static readonly ROUTE: Route = {
-    path: 'profile',
-    component: ProfileComponent,
-    canActivate: [ProfileCanActivateGuard]
-  };
 }

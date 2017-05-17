@@ -9,6 +9,12 @@ import {RegistrationStep3CanActivateGuard} from './registration-step-3-can-activ
 import {ValidationMessageComponentModule} from '../../../common/forms/validation/validation-message-component/validation-message.component';
 import {EmptyCheckerModule} from '../../../_modules/empty-checker/empty-checker.module';
 
+export const REGISTRATION_STEP_3_ROUTE: Route = {
+  path: 'reg3',
+  component: RegistrationStep3Component,
+  canActivate: [RegistrationStep3CanActivateGuard]
+};
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,10 +35,4 @@ import {EmptyCheckerModule} from '../../../_modules/empty-checker/empty-checker.
   ]
 })
 export class RegistrationStep3Module {
-
-  static readonly ROUTE: Route = {
-    path: 'reg3',
-    component: RegistrationStep3Component,
-    canActivate: [RegistrationStep3CanActivateGuard]
-  };
 }

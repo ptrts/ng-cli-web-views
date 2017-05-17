@@ -4,35 +4,44 @@ import {RouterModule, Routes} from '@angular/router';
 import {CookieService} from 'angular2-cookie/core';
 import {CacheModule} from '../../common/cache/cache.module';
 import {ModalModule} from '../../common/components/modal/modal.module';
-import {AccessRestrictedModule} from '../../pages/access-denied/access-restricted.module';
-import {ErrorModule} from '../../pages/error/error.module';
-import {HomeModule} from '../../pages/home/home.module';
-import {LoginModule} from '../../pages/login/login.module';
-import {ProfileModule} from '../../pages/profile/profile.module';
-import {RegistrationStep1Module} from '../../pages/registration/step-1/registration-step-1.module';
-import {RegistrationStep2Module} from '../../pages/registration/step-2/registration-step-2.module';
-import {RegistrationStep3Module} from '../../pages/registration/step-3/registration-step-3.module';
+import {ACCESS_RESTRICTED_ROUTE, AccessRestrictedModule} from '../../pages/access-denied/access-restricted.module';
+import {ERROR_ROUTE, ErrorModule} from '../../pages/error/error.module';
+import {HOME_ROUTE, HomeModule} from '../../pages/home/home.module';
+import {LOGIN_ROUTE, LoginModule} from '../../pages/login/login.module';
+import {PROFILE_ROUTE, ProfileModule} from '../../pages/profile/profile.module';
+import {
+  REGISTRATION_STEP_1_ROUTE,
+  RegistrationStep1Module
+} from '../../pages/registration/step-1/registration-step-1.module';
+import {
+  REGISTRATION_STEP_2_ROUTE,
+  RegistrationStep2Module
+} from '../../pages/registration/step-2/registration-step-2.module';
+import {
+  REGISTRATION_STEP_3_ROUTE,
+  RegistrationStep3Module
+} from '../../pages/registration/step-3/registration-step-3.module';
 import {OurBackend} from '../../server/backend/our-backend';
 import {OurServerApi} from '../../server/our-server-api';
 import {MainComponent} from './main.component';
 
 const ROUTES: Routes = [
-  HomeModule.ROUTE,
-  LoginModule.ROUTE,
-  RegistrationStep1Module.ROUTE,
-  RegistrationStep2Module.ROUTE,
-  RegistrationStep3Module.ROUTE,
-  ProfileModule.ROUTE,
-  ErrorModule.ROUTE,
-  AccessRestrictedModule.ROUTE,
+  HOME_ROUTE,
+  LOGIN_ROUTE,
+  REGISTRATION_STEP_1_ROUTE,
+  REGISTRATION_STEP_2_ROUTE,
+  REGISTRATION_STEP_3_ROUTE,
+  PROFILE_ROUTE,
+  ERROR_ROUTE,
+  ACCESS_RESTRICTED_ROUTE,
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: HomeModule.ROUTE.path
+    redirectTo: HOME_ROUTE.path
   },
   {
     path: '**',
-    redirectTo: ErrorModule.ROUTE.path
+    redirectTo: ERROR_ROUTE.path
   }
 ];
 

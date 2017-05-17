@@ -3,6 +3,11 @@ import { CommonModule } from '@angular/common';
 import {ErrorComponent} from './error.component';
 import {Route} from '@angular/router';
 
+export const ERROR_ROUTE: Route = {
+  path: 'error',
+  component: ErrorComponent
+};
+
 @NgModule({
   imports: [
     CommonModule
@@ -15,8 +20,4 @@ import {Route} from '@angular/router';
   ]
 })
 export class ErrorModule {
-  static readonly ROUTE: Route = {
-    path: 'error',
-    component: ErrorComponent
-  };
 }

@@ -11,6 +11,12 @@ import {CheckboxModule} from '../../../_modules/checkbox/checkbox.module';
 import {EmptyCheckerModule} from '../../../_modules/empty-checker/empty-checker.module';
 import {PhoneTextMaskModule} from '../../../_modules/phone-text-mask/phone-text-mask.module';
 
+export const REGISTRATION_STEP_1_ROUTE: Route = {
+  path: 'reg1',
+  component: RegistrationStep1Component,
+  canActivate: [RegistrationStep1CanActivateGuard]
+};
+
 @NgModule({
   imports: [
     CommonModule,
@@ -33,10 +39,4 @@ import {PhoneTextMaskModule} from '../../../_modules/phone-text-mask/phone-text-
   ]
 })
 export class RegistrationStep1Module {
-
-  static readonly ROUTE: Route = {
-    path: 'reg1',
-    component: RegistrationStep1Component,
-    canActivate: [RegistrationStep1CanActivateGuard]
-  };
 }

@@ -9,6 +9,12 @@ import {DefaultTextMaskModule} from '../../_modules/default-text-mask/default-te
 import {EmptyCheckerModule} from '../../_modules/empty-checker/empty-checker.module';
 import {PhoneTextMaskModule} from '../../_modules/phone-text-mask/phone-text-mask.module';
 
+export const LOGIN_ROUTE: Route = {
+  path: 'login',
+  component: LoginComponent,
+  canActivate: [LoginCanActivateGuard]
+};
+
 @NgModule({
   imports: [
     CommonModule,
@@ -29,10 +35,4 @@ import {PhoneTextMaskModule} from '../../_modules/phone-text-mask/phone-text-mas
   ]
 })
 export class LoginModule {
-
- static readonly ROUTE: Route = {
-    path: 'login',
-    component: LoginComponent,
-    canActivate: [LoginCanActivateGuard]
-  };
 }

@@ -7,6 +7,11 @@ import {AppCommonsModule} from '../../common/module/app-commons.module';
 import {DebugModule} from '../../debug/debug.module';
 import {FormsModule} from '@angular/forms';
 
+export const HOME_ROUTE: Route = {
+  path: 'home',
+  component: HomeComponent
+};
+
 @NgModule({
   imports: [
     CommonModule,
@@ -23,9 +28,4 @@ import {FormsModule} from '@angular/forms';
   ]
 })
 export class HomeModule {
-
-  static readonly ROUTE: Route = {
-    path: 'home',
-    component: HomeComponent
-  };
 }
