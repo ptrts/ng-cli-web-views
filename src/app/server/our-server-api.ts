@@ -5,13 +5,13 @@ import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/do';
 import {Observable} from 'rxjs/Observable';
-import {OurCacheService} from '../common/cache/cache.service';
-import {RegistrationStep1} from '../pages/registration/step-1/registration-step-1.component';
-import {RegistrationStep2} from '../pages/registration/step-2/registration-step-2.component';
-import {RegistrationStep3} from '../pages/registration/step-3/registration-step-3.component';
+import {OurCacheService} from '../modules/global-services/cache/cache.service';
+import {RegistrationStep1} from '../modules/pages/registration/step-1/registration-step-1.component';
+import {RegistrationStep2} from '../modules/pages/registration/step-2/registration-step-2.component';
+import {RegistrationStep3} from '../modules/pages/registration/step-3/registration-step-3.component';
 import {OurBackend} from './backend/our-backend';
 import {SessionStatus} from './session-status/session-status';
-import {PhoneNumberPassword} from '../pages/login/login.component';
+import {PhoneNumberPassword} from '../modules/pages/login/login.component';
 
 @Injectable()
 export class OurServerApi {
